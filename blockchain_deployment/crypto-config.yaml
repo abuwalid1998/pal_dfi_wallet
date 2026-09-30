@@ -1,0 +1,26 @@
+# PAL-DFI Cryptographic PKI Generator Configuration
+# Consortium Topology: PMA Orderer (Raft) + NUVTE Academic Peer + Verifier Org
+
+OrdererOrgs:
+  - Name: PMAOrderer
+    Domain: pma.gov.ps
+    EnableNodeOUs: true
+    Specs:
+      - Hostname: orderer
+
+PeerOrgs:
+  - Name: NuvteOrg
+    Domain: nuvte.edu.ps
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 2 # RegistrarAdmin, AcademicDean
+
+  - Name: VerifierOrg
+    Domain: verifier.paldfi.ps
+    EnableNodeOUs: true
+    Template:
+      Count: 1
+    Users:
+      Count: 1 # ComplianceAuditor

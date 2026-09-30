@@ -1,0 +1,143 @@
+# ==============================================================================
+# PAL-DFI Sovereign Wallet & Blockchain Consortium .gitignore
+# Prevents sharing of secrets, private keys, MSP keystores, credentials & runtime data.
+# ==============================================================================
+
+# ------------------------------------------------------------------------------
+# 1. CRYPTOGRAPHIC SECRETS, PRIVATE KEYS & MSP KEYSTORES
+# ------------------------------------------------------------------------------
+# Private keys & keystores
+*priv_sk
+*_sk
+*.key
+*.pem
+*.p12
+*.pfx
+*.pkcs12
+*.jks
+*.keystore
+*.der
+id_rsa*
+id_ed25519*
+*.seed
+*.sec
+
+# Hyperledger Fabric MSP Keystores & Identity Wallets
+**/keystore/
+**/msp/keystore/
+**/adminPrivateKey/
+**/explorer-wallet/
+**/wallet/
+**/crypto-config/
+**/vendor/
+
+# Android / iOS signing keys & credentials
+android/key.properties
+android/app/key.properties
+android/local.properties
+ios/Flutter/Generated.xcconfig
+ios/Flutter/AppFrameworkInfo.plist
+**/google-services.json
+**/GoogleService-Info.plist
+
+# ------------------------------------------------------------------------------
+# 2. ENVIRONMENT VARIABLES & SENSITIVE CONFIGURATIONS
+# ------------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+*.env
+secrets.json
+secrets.yaml
+credentials.json
+service-account*.json
+config.local.json
+
+# ------------------------------------------------------------------------------
+# 3. RUNTIME LOCAL STATE, DATABASES & LOGS
+# ------------------------------------------------------------------------------
+# REST Gateway runtime registry
+blockchain_gateway/gateway_registry.json
+
+# Database & Postgres files
+*.db
+*.sqlite
+*.sqlite3
+pgdata/
+postgres_data/
+data/postgres/
+
+# Logs & monitoring
+*.log
+logs/
+explorer_logs/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ------------------------------------------------------------------------------
+# 4. BIOMETRIC FACE RECOGNITION DATASETS & ARTIFACTS
+# ------------------------------------------------------------------------------
+face_recognition_service/uploaded_faces/
+face_recognition_service/data/
+face_recognition_service/models/*.dat
+face_recognition_service/models/*.bin
+*.npy
+*.npz
+
+# ------------------------------------------------------------------------------
+# 5. PYTHON & VIRTUAL ENVIRONMENTS
+# ------------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+env/
+venv/
+.venv/
+ENV/
+.pytest_cache/
+.coverage
+htmlcov/
+
+# ------------------------------------------------------------------------------
+# 6. FLUTTER & DART BUILD ARTIFACTS
+# ------------------------------------------------------------------------------
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+**/doc/api/
+**/ios/Flutter/.last_build_id
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Symbolication & Obfuscation
+app.*.symbols
+app.*.map.json
+
+# ------------------------------------------------------------------------------
+# 7. IDE & OPERATING SYSTEM SPECIFIC FILES
+# ------------------------------------------------------------------------------
+# IntelliJ / Android Studio
+.idea/
+*.iml
+*.ipr
+*.iws
+
+# Visual Studio Code
+.vscode/
+
+# System-generated & compaction logs
+.system_generated/
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db

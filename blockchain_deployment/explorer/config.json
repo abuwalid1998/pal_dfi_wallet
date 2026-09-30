@@ -1,0 +1,9 @@
+{
+  "network-configs": {
+    "nuvte-network": {
+      "name": "NUVTE PAL-DFI Academic Consortium",
+      "profile": "./connection-profile.json"
+    }
+  },
+  "license": "Apache-2.0"
+}

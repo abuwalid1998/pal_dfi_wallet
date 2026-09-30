@@ -1,0 +1,148 @@
+# PAL-DFI Channel & Genesis Configuration (Hyperledger Fabric 2.5)
+---
+Organizations:
+  - &PMAOrderer
+    Name: PMAOrderer
+    ID: PMAOrdererMSP
+    MSPDir: organizations/ordererOrganizations/pma.gov.ps/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('PMAOrdererMSP.member')"
+      Writers:
+        Type: Signature
+        Rule: "OR('PMAOrdererMSP.member')"
+      Admins:
+        Type: Signature
+        Rule: "OR('PMAOrdererMSP.admin')"
+    OrdererEndpoints:
+      - orderer.pma.gov.ps:7050
+
+  - &NuvteOrg
+    Name: NuvteOrg
+    ID: NuvteMSP
+    MSPDir: organizations/peerOrganizations/nuvte.edu.ps/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('NuvteMSP.admin', 'NuvteMSP.peer', 'NuvteMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('NuvteMSP.admin', 'NuvteMSP.client')"
+      Admins:
+        Type: Signature
+        Rule: "OR('NuvteMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('NuvteMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.nuvte.edu.ps
+        Port: 7051
+
+  - &VerifierOrg
+    Name: VerifierOrg
+    ID: VerifierMSP
+    MSPDir: organizations/peerOrganizations/verifier.paldfi.ps/msp
+    Policies:
+      Readers:
+        Type: Signature
+        Rule: "OR('VerifierMSP.admin', 'VerifierMSP.peer', 'VerifierMSP.client')"
+      Writers:
+        Type: Signature
+        Rule: "OR('VerifierMSP.admin')"
+      Admins:
+        Type: Signature
+        Rule: "OR('VerifierMSP.admin')"
+      Endorsement:
+        Type: Signature
+        Rule: "OR('VerifierMSP.peer')"
+    AnchorPeers:
+      - Host: peer0.verifier.paldfi.ps
+        Port: 9051
+
+Capabilities:
+  Channel: &ChannelCapabilities
+    V2_0: true
+  Orderer: &OrdererCapabilities
+    V2_0: true
+  Application: &ApplicationCapabilities
+    V2_5: true
+
+Application: &ApplicationDefaults
+  Organizations:
+  Policies:
+    LifecycleEndorsement:
+      Type: ImplicitMeta
+      Rule: "ANY Endorsement"
+    Endorsement:
+      Type: ImplicitMeta
+      Rule: "ANY Endorsement"
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ApplicationCapabilities
+
+Orderer: &OrdererDefaults
+  OrdererType: etcdraft
+  Addresses:
+    - orderer.pma.gov.ps:7050
+  BatchTimeout: 2s
+  BatchSize:
+    MaxMessageCount: 100
+    AbsoluteMaxBytes: 99 MB
+    PreferredMaxBytes: 2048 KB
+  EtcdRaft:
+    Consenters:
+      - Host: orderer.pma.gov.ps
+        Port: 7050
+        ClientTLSCert: organizations/ordererOrganizations/pma.gov.ps/orderers/orderer.pma.gov.ps/tls/server.crt
+        ServerTLSCert: organizations/ordererOrganizations/pma.gov.ps/orderers/orderer.pma.gov.ps/tls/server.crt
+  Organizations:
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+    BlockValidation:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+
+Channel: &ChannelDefaults
+  Policies:
+    Readers:
+      Type: ImplicitMeta
+      Rule: "ANY Readers"
+    Writers:
+      Type: ImplicitMeta
+      Rule: "ANY Writers"
+    Admins:
+      Type: ImplicitMeta
+      Rule: "MAJORITY Admins"
+  Capabilities:
+    <<: *ChannelCapabilities
+
+Profiles:
+  TwoOrgsApplicationGenesis:
+    <<: *ChannelDefaults
+    Orderer:
+      <<: *OrdererDefaults
+      Organizations:
+        - *PMAOrderer
+      Capabilities: *OrdererCapabilities
+    Application:
+      <<: *ApplicationDefaults
+      Organizations:
+        - *NuvteOrg
+      Capabilities: *ApplicationCapabilities
