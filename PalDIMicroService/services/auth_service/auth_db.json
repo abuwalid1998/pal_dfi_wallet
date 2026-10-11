@@ -1,0 +1,56 @@
+{
+  "student": {
+    "userId": "usr_stu_1082",
+    "nationalId": "908172635",
+    "studentId": "STU-1082",
+    "fullNameEn": "Ahmad M. Al-Khalili",
+    "fullNameAr": "أحمد محمود الخليلي",
+    "role": "Student",
+    "roleTitleEn": "Undergraduate Student • Class of 2024",
+    "roleTitleAr": "طالب بكالوريوس • دفعة 2024",
+    "organization": "Nablus University for Vocational and Technical Education (NUVTE)",
+    "orgId": "nuvte.edu.ps",
+    "did": "did:paldfi:citizen:908172635",
+    "claims": [
+      "NationalID_Verified",
+      "Enrolled_Student",
+      "PMA_IDPlus_Level3"
+    ]
+  },
+  "registrar": {
+    "userId": "usr_reg_041",
+    "nationalId": "801293847",
+    "employeeId": "EMP-REG-041",
+    "fullNameEn": "Dr. Tariq S. Al-Masri",
+    "fullNameAr": "د. طارق سعيد المصري",
+    "role": "Registrar",
+    "roleTitleEn": "Dean of Admissions & University Registrar",
+    "roleTitleAr": "عميد القبول والتسجيل",
+    "organization": "NUVTE",
+    "orgId": "nuvte.edu.ps",
+    "did": "did:paldfi:issuer:nuvte",
+    "claims": [
+      "University_Management",
+      "Authorized_Signer_VC2.0",
+      "Fabric_Peer_Admin"
+    ]
+  },
+  "verifier": {
+    "userId": "usr_bop_992",
+    "nationalId": "704829103",
+    "employeeId": "BOP-AUDIT-992",
+    "fullNameEn": "Lina F. Nablus",
+    "fullNameAr": "لينا فيصل نابلسي",
+    "role": "Verifier",
+    "roleTitleEn": "Senior Credit Officer • Bank of Palestine",
+    "roleTitleAr": "مسؤول ائتمان أول • بنك فلسطين",
+    "organization": "Bank of Palestine (BOP)",
+    "orgId": "bankofpalestine.ps",
+    "did": "did:paldfi:verifier:bankofpalestine",
+    "claims": [
+      "Financial_Institution_Verifier",
+      "PMA_Licensed_Entity",
+      "OpenID4VP_Client"
+    ]
+  }
+}

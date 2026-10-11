@@ -1,0 +1,45 @@
+{
+  "name": "paldfi_academic_contract",
+  "version": "2.4",
+  "sequence": 1,
+  "channel": "pal-sovereign-channel",
+  "language": "golang",
+  "description": "Sovereign Academic Degree, Diploma & 5-Department Clearance Smart Contract",
+  "endorsementPolicy": "AND('NUVTEMSP.peer', 'BOPMSP.peer')",
+  "creatorMSP": "NUVTEMSP",
+  "packageId": "paldfi_academic_contract_2.4:f224adcb9a4c20bcb70724f79b69d951167ebb70769e2b8a6102a3169ea98a02",
+  "zeroPiiCompliance": true,
+  "deployedAt": "2026-10-11T10:31:06.744Z",
+  "schema": [
+    {
+      "name": "documentHash",
+      "type": "SHA-256 Digest",
+      "required": true
+    },
+    {
+      "name": "credentialType",
+      "type": "String",
+      "required": true
+    },
+    {
+      "name": "issuerDID",
+      "type": "W3C DID",
+      "required": true
+    },
+    {
+      "name": "statusBitIndex",
+      "type": "Integer",
+      "required": true
+    },
+    {
+      "name": "revocationStatus",
+      "type": "Boolean",
+      "required": true
+    },
+    {
+      "name": "zkpRootDigest",
+      "type": "Hash",
+      "required": true
+    }
+  ]
+}

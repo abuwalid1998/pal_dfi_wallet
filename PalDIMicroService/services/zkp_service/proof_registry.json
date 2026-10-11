@@ -1,0 +1,38 @@
+[
+  {
+    "proofId": "zkp_1791710880878_6e3534dc",
+    "timestamp": "2026-10-11T09:28:00Z",
+    "holderDid": "did:paldfi:citizen:908172635",
+    "credentialType": "StudentIdentityCredential",
+    "revealedClaims": {
+      "Active_Enrolled_Student": true,
+      "Clean_Financial_Clearance": true
+    },
+    "zeroPiiEnforced": true,
+    "status": "VERIFIED_VALID"
+  },
+  {
+    "proofId": "zkp_1791710953254_25e12373",
+    "timestamp": "2026-10-11T09:29:13Z",
+    "holderDid": "did:paldfi:citizen:908172635",
+    "credentialType": "StudentIdentityCredential",
+    "revealedClaims": {
+      "Active_Enrolled_Student": true,
+      "Clean_Financial_Clearance": true
+    },
+    "zeroPiiEnforced": true,
+    "status": "VERIFIED_VALID"
+  },
+  {
+    "proofId": "zkp_1791711009591_c54d59dd",
+    "timestamp": "2026-10-11T09:30:09Z",
+    "holderDid": "did:paldfi:citizen:908172635",
+    "credentialType": "StudentIdentityCredential",
+    "revealedClaims": {
+      "Financial_Clearance": true,
+      "Active_Student": true
+    },
+    "zeroPiiEnforced": true,
+    "status": "VERIFIED_VALID"
+  }
+]

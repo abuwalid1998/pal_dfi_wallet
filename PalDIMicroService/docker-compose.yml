@@ -1,0 +1,103 @@
+version: '3.8'
+
+services:
+  # 1. API Gateway (Port 8000) - Unified Ingress
+  api-gateway:
+    build:
+      context: ./services/api_gateway
+    container_name: paldfi_api_gateway
+    ports:
+      - "8000:8000"
+    environment:
+      - GATEWAY_PORT=8000
+      - AUTH_SERVICE_URL=http://auth-service:8001
+      - BIOMETRICS_SERVICE_URL=http://biometrics-service:8002
+      - CREDENTIAL_SERVICE_URL=http://credential-service:8003
+      - ZKP_SERVICE_URL=http://zkp-service:8004
+      - FABRIC_GATEWAY_URL=http://fabric-gateway:8005
+      - AUDIT_SERVICE_URL=http://audit-service:8006
+    depends_on:
+      - auth-service
+      - biometrics-service
+      - credential-service
+      - zkp-service
+      - fabric-gateway
+      - audit-service
+    networks:
+      - paldfi-net
+
+  # 2. Auth & PMA ID+ Identity Service (Port 8001)
+  auth-service:
+    build:
+      context: ./services/auth_service
+    container_name: paldfi_auth_service
+    ports:
+      - "8001:8001"
+    environment:
+      - AUTH_SERVICE_PORT=8001
+    networks:
+      - paldfi-net
+
+  # 3. Biometrics & AI Vector Service (Port 8002)
+  biometrics-service:
+    build:
+      context: ./services/biometrics_service
+    container_name: paldfi_biometrics_service
+    ports:
+      - "8002:8002"
+    environment:
+      - BIOMETRICS_SERVICE_PORT=8002
+    networks:
+      - paldfi-net
+
+  # 4. W3C Credential Lifecycle Service (Port 8003)
+  credential-service:
+    build:
+      context: ./services/credential_service
+    container_name: paldfi_credential_service
+    ports:
+      - "8003:8003"
+    environment:
+      - CREDENTIAL_SERVICE_PORT=8003
+    networks:
+      - paldfi-net
+
+  # 5. Zero-Knowledge Proof & Privacy Engine (Port 8004)
+  zkp-service:
+    build:
+      context: ./services/zkp_service
+    container_name: paldfi_zkp_service
+    ports:
+      - "8004:8004"
+    environment:
+      - ZKP_SERVICE_PORT=8004
+    networks:
+      - paldfi-net
+
+  # 6. Hyperledger Fabric Gateway Service (Port 8005)
+  fabric-gateway:
+    build:
+      context: ./services/fabric_gateway
+    container_name: paldfi_fabric_gateway
+    ports:
+      - "8005:8005"
+    environment:
+      - FABRIC_GATEWAY_PORT=8005
+    networks:
+      - paldfi-net
+
+  # 7. Audit & Regulatory Telemetry Service (Port 8006)
+  audit-service:
+    build:
+      context: ./services/audit_service
+    container_name: paldfi_audit_service
+    ports:
+      - "8006:8006"
+    environment:
+      - AUDIT_SERVICE_PORT=8006
+    networks:
+      - paldfi-net
+
+networks:
+  paldfi-net:
+    driver: bridge

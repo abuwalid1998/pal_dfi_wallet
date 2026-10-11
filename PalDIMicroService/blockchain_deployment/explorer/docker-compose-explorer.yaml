@@ -1,0 +1,56 @@
+networks:
+  paldfi_net:
+    external: true
+    name: paldfi_net
+
+volumes:
+  pgdata:
+  explorer-wallet:
+
+services:
+  explorer-db:
+    image: hyperledger/explorer-db:latest
+    container_name: explorer-db
+    hostname: explorer-db
+    environment:
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWORD=password
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -h 127.0.0.1 -p 5432 -U hppoc -d fabricexplorer"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    networks:
+      - paldfi_net
+
+  explorer:
+    image: hyperledger/explorer:latest
+    container_name: explorer.nuvte.edu.ps
+    hostname: explorer.nuvte.edu.ps
+    depends_on:
+      explorer-db:
+        condition: service_healthy
+    environment:
+      - DATABASE_HOST=explorer-db
+      - DATABASE_PORT=5432
+      - DATABASE_DATABASE=fabricexplorer
+      - DATABASE_USERNAME=hppoc
+      - DATABASE_PASSWORD=password
+      - LOG_LEVEL_APP=debug
+      - LOG_LEVEL_DB=info
+      - LOG_LEVEL_CONSOLE=info
+      - PORT=8080
+      - DISCOVERY_AS_LOCALHOST=false
+    ports:
+      - "8090:8080"
+    volumes:
+      - ./config.json:/opt/explorer/app/platform/fabric/config.json
+      - ./connection-profile.json:/opt/explorer/app/platform/fabric/connection-profile.json
+      - ./connection-profile.json:/opt/explorer/app/platform/fabric/connection-profile/connection-profile.json
+      - ../organizations:/opt/explorer/organizations
+      - explorer-wallet:/opt/explorer/wallet
+    networks:
+      - paldfi_net

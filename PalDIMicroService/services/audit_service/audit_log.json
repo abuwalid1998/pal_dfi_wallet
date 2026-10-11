@@ -1,0 +1,10 @@
+[
+  {
+    "auditId": "aud_init_001",
+    "timestamp": "2026-09-01T08:00:00Z",
+    "eventType": "SYSTEM_BOOTSTRAP",
+    "actor": "PMA_REGULATORY_SANDBOX_CONTROLLER",
+    "details": "PAL-DFI microservices consortium cluster initialized under PMA Directive 2024/09.",
+    "zeroPiiCompliant": true
+  }
+]

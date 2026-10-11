@@ -1,0 +1,19 @@
+{
+  "name": "paldfi_land_registry_contract",
+  "version": "1.0",
+  "sequence": 1,
+  "channel": "pal-sovereign-channel",
+  "language": "golang",
+  "description": "Sovereign Land Title & Municipal Property Deed Registry Smart Contract",
+  "endorsementPolicy": "AND('GOVCIVILMSP.peer', 'PMAMSP.peer')",
+  "creatorMSP": "GOVCIVILMSP",
+  "zeroPiiCompliance": true,
+  "createdAt": "2026-10-11T12:30:00Z",
+  "schema": [
+    { "field": "parcelIdHash", "type": "SHA-256 Digest", "required": true },
+    { "field": "zoneCode", "type": "String", "required": true },
+    { "field": "titleDeedHash", "type": "Hash", "required": true },
+    { "field": "municipalPermitBit", "type": "Integer", "required": true },
+    { "field": "ownerBlindedZkpProof", "type": "Hash", "required": true }
+  ]
+}

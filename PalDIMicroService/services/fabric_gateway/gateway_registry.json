@@ -1,0 +1,42 @@
+{
+  "channel": "nuvte-academic-channel",
+  "contract": "paldfi_academic_contract",
+  "bitstring": {
+    "0": {
+      "status": "0",
+      "meaning": "Active",
+      "docId": "urn:uuid:test-doc",
+      "txId": "0xb3e9ec414937a8d0c4ec0dad1d6d415e"
+    },
+    "1": {
+      "status": "0",
+      "meaning": "Active",
+      "docId": "urn:uuid:vc-nuvte-grad-1082",
+      "txId": "0x44ce1...02"
+    },
+    "2": {
+      "status": "0",
+      "meaning": "Active",
+      "docId": "urn:uuid:vc-nuvte-clear-1082",
+      "txId": "0x9812a...03"
+    }
+  },
+  "transactions": [
+    {
+      "txId": "0xb3e9ec414937a8d0c4ec0dad1d6d415e",
+      "blockNumber": 1042,
+      "timestamp": "2026-10-11T09:29:25Z",
+      "channel": "nuvte-academic-channel",
+      "contract": "paldfi_academic_contract",
+      "sha256Fingerprint": "a1b2c3d4e5f6...",
+      "bitIndex": "0",
+      "docId": "urn:uuid:test-doc",
+      "endorsers": [
+        "peer0.nuvte.edu.ps",
+        "peer0.pma.gov.ps",
+        "peer0.bankofpalestine.ps"
+      ],
+      "zeroPiiVerified": true
+    }
+  ]
+}

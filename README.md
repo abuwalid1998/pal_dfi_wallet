@@ -44,6 +44,8 @@ The university issues cryptographically signed W3C Verifiable Credentials 2.0:
 
 ## 🏗️ Architecture & Security Model
 
+> 📖 **Full System Architecture Document**: For an in-depth breakdown comparing the current implementation against the target enterprise microservices architecture with detailed Mermaid diagrams, service specifications, and migration roadmap, see [ARCHITECTURE.md](file:///c:/Users/HP/.gemini/antigravity-ide/scratch/pal_dfi_wallet/ARCHITECTURE.md).
+
 ```
    ┌───────────────────────┐          ┌───────────────────────────┐
    │ University Management │          │   Student Mobile Wallet   │

@@ -2227,7 +2227,617 @@ body.lang-ar .card-issuer-info {
   justify-content: flex-end;
 }
 
-/* SIMULATION 1: BLOCKCHAIN CREATION */
+/* ==========================================================================
+   BLOCKCHAIN MONITORING DASHBOARD & CONSORTIUM TOPOLOGY
+   ========================================================================== */
+
+/* Consortium Peer Topology HUD */
+.consortium-hud-container {
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5), inset 0 0 20px rgba(14, 165, 233, 0.05);
+}
+
+.consortium-hud-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  padding-bottom: 18px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 20px;
+}
+
+.consortium-hud-title-block {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+}
+
+.pulse-indicator-ring {
+  position: relative;
+  width: 22px;
+  height: 22px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.pulse-core {
+  width: 10px;
+  height: 10px;
+  background: #22C55E;
+  border-radius: 50%;
+  box-shadow: 0 0 12px #22C55E;
+}
+
+.pulse-indicator-ring::after {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  border: 2px solid rgba(34, 197, 94, 0.6);
+  animation: rippleRing 2s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+
+@keyframes rippleRing {
+  0% { transform: scale(0.6); opacity: 1; }
+  100% { transform: scale(1.8); opacity: 0; }
+}
+
+.badge-status-online {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 3px 10px;
+  border-radius: 20px;
+  background: rgba(34, 197, 94, 0.15);
+  border: 1px solid rgba(34, 197, 94, 0.4);
+  color: #4ADE80;
+}
+
+.consortium-hud-actions {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* 3 Consortium Node Health Cards */
+.consortium-nodes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+
+.node-health-card {
+  background: rgba(7, 19, 32, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: var(--radius-md);
+  padding: 16px 18px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.node-health-card:hover {
+  transform: translateY(-3px);
+  border-color: rgba(56, 189, 248, 0.5);
+  box-shadow: 0 8px 30px rgba(14, 165, 233, 0.15);
+}
+
+.node-health-card.pulsing-active {
+  border-color: var(--color-fin-gold);
+  box-shadow: 0 0 30px rgba(214, 168, 79, 0.4);
+  animation: nodeCardFlash 0.9s ease;
+}
+
+@keyframes nodeCardFlash {
+  0% { transform: scale(1); background: rgba(214, 168, 79, 0.15); }
+  50% { transform: scale(1.02); background: rgba(214, 168, 79, 0.25); }
+  100% { transform: scale(1); background: rgba(7, 19, 32, 0.85); }
+}
+
+.node-card-top {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+.node-icon-badge {
+  width: 44px;
+  height: 44px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  flex-shrink: 0;
+}
+
+.node-icon-badge.orderer {
+  background: rgba(214, 168, 79, 0.18);
+  border: 1px solid var(--color-fin-gold);
+  color: var(--color-fin-gold);
+}
+
+.node-icon-badge.endorser {
+  background: rgba(14, 165, 233, 0.18);
+  border: 1px solid #38BDF8;
+  color: #38BDF8;
+}
+
+.node-icon-badge.validator {
+  background: rgba(16, 185, 129, 0.18);
+  border: 1px solid #10B981;
+  color: #10B981;
+}
+
+.node-id-block {
+  flex: 1;
+  min-width: 0;
+}
+
+.node-role-tag {
+  font-size: 0.68rem;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: #94A3B8;
+  font-weight: 700;
+  margin-bottom: 2px;
+}
+
+.node-name {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #FFFFFF;
+  margin: 0;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  font-family: monospace;
+}
+
+.node-org {
+  font-size: 0.72rem;
+  color: #7DD3FC;
+  margin-top: 2px;
+}
+
+.node-ping-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgba(0, 0, 0, 0.5);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 4px 8px;
+  border-radius: 20px;
+  font-size: 0.74rem;
+  font-family: monospace;
+  font-weight: 700;
+  color: #E2E8F0;
+  white-space: nowrap;
+}
+
+.ping-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #22C55E;
+  box-shadow: 0 0 6px #22C55E;
+}
+
+.ping-dot.yellow {
+  background: #EAB308;
+  box-shadow: 0 0 6px #EAB308;
+}
+
+.node-specs-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px 12px;
+  padding: 10px 12px;
+  background: rgba(3, 10, 18, 0.6);
+  border-radius: 8px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 12px;
+}
+
+.node-spec-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.spec-label {
+  font-size: 0.68rem;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.spec-val {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  font-family: monospace;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.spec-val.text-green { color: #4ADE80; }
+.spec-val.text-cyan { color: #38BDF8; }
+.spec-val.text-gold { color: #FDE047; }
+
+.node-status-bar {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.node-status-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.4s ease;
+}
+
+.node-status-fill.green {
+  background: linear-gradient(90deg, #10B981, #34D399);
+  box-shadow: 0 0 8px rgba(16, 185, 129, 0.6);
+}
+
+/* NETWORK TELEMETRY KPI STRIP */
+.blockchain-kpi-strip {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.bc-kpi-card {
+  background: rgba(11, 31, 51, 0.75);
+  border: 1px solid rgba(56, 189, 248, 0.2);
+  border-radius: var(--radius-md);
+  padding: 18px 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  transition: transform 0.25s ease, border-color 0.25s ease;
+}
+
+.bc-kpi-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(56, 189, 248, 0.45);
+}
+
+.kpi-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.35rem;
+  flex-shrink: 0;
+}
+
+.kpi-icon.gold {
+  background: rgba(214, 168, 79, 0.16);
+  border: 1px solid var(--color-fin-gold);
+  color: var(--color-fin-gold);
+}
+
+.kpi-icon.green {
+  background: rgba(16, 185, 129, 0.16);
+  border: 1px solid #10B981;
+  color: #10B981;
+}
+
+.kpi-icon.blue {
+  background: rgba(35, 166, 240, 0.16);
+  border: 1px solid #23A6F0;
+  color: #23A6F0;
+}
+
+.kpi-icon.cyan {
+  background: rgba(56, 189, 248, 0.16);
+  border: 1px solid #38BDF8;
+  color: #38BDF8;
+}
+
+.kpi-info {
+  flex: 1;
+}
+
+.kpi-value {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #FFFFFF;
+  letter-spacing: -0.5px;
+  font-family: monospace;
+}
+
+.kpi-title {
+  font-size: 0.75rem;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  font-weight: 600;
+  margin-top: 2px;
+}
+
+/* LIVE ACTIVITY CANVAS & CONSENSUS PIPELINE FLOW */
+.activity-canvas-panel {
+  border: 1px solid rgba(56, 189, 248, 0.25);
+}
+
+.canvas-wrapper {
+  margin-bottom: 18px;
+}
+
+.live-pulse-badge {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: #38BDF8;
+  background: rgba(14, 165, 233, 0.12);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  padding: 3px 10px;
+  border-radius: 12px;
+}
+
+.live-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: #38BDF8;
+  box-shadow: 0 0 8px #38BDF8;
+  animation: blink 1.2s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+/* Endorsement Flow Steps */
+.endorsement-flow-steps {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  background: rgba(3, 10, 18, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 12px 16px;
+  flex-wrap: wrap;
+}
+
+.flow-step {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(7, 19, 32, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  transition: all 0.25s ease;
+  flex: 1;
+  min-width: 140px;
+}
+
+.flow-step .step-num {
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.1);
+  color: #94A3B8;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition: all 0.25s ease;
+}
+
+.flow-step .step-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.flow-step .step-label {
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: #CBD5E1;
+  white-space: nowrap;
+}
+
+.flow-step .step-sub {
+  font-size: 0.68rem;
+  color: #64748B;
+  font-family: monospace;
+  white-space: nowrap;
+}
+
+.flow-arrow {
+  color: #475569;
+  font-size: 0.75rem;
+}
+
+.flow-step.active {
+  background: rgba(214, 168, 79, 0.15);
+  border-color: var(--color-fin-gold);
+  box-shadow: 0 0 16px rgba(214, 168, 79, 0.25);
+}
+
+.flow-step.active .step-num {
+  background: var(--color-fin-gold);
+  color: #040A10;
+  box-shadow: 0 0 8px var(--color-fin-gold);
+}
+
+.flow-step.active .step-label {
+  color: #FDE047;
+}
+
+.flow-step.completed {
+  background: rgba(16, 185, 129, 0.15);
+  border-color: #10B981;
+}
+
+.flow-step.completed .step-num {
+  background: #10B981;
+  color: #FFFFFF;
+}
+
+.flow-step.completed .step-label {
+  color: #4ADE80;
+}
+
+/* SEARCH & FILTER BAR FOR BLOCKS */
+.block-search-container {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.search-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.search-input-wrapper .search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #64748B;
+  font-size: 0.85rem;
+}
+
+.block-search-input {
+  width: 100%;
+  padding: 10px 14px 10px 38px;
+  background: rgba(3, 10, 18, 0.85);
+  border: 1px solid rgba(56, 189, 248, 0.3);
+  border-radius: 8px;
+  color: #FFFFFF;
+  font-size: 0.82rem;
+  outline: none;
+  transition: all 0.2s ease;
+}
+
+.block-search-input:focus {
+  border-color: var(--color-fin-gold);
+  box-shadow: 0 0 14px rgba(214, 168, 79, 0.25);
+}
+
+.block-filters-bar {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+}
+
+.filter-pill {
+  background: rgba(7, 19, 32, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: #94A3B8;
+  font-size: 0.74rem;
+  font-weight: 600;
+  padding: 4px 12px;
+  border-radius: 20px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.filter-pill:hover {
+  color: #FFFFFF;
+  border-color: #38BDF8;
+}
+
+.filter-pill.active {
+  background: rgba(14, 165, 233, 0.2);
+  border-color: #38BDF8;
+  color: #38BDF8;
+  box-shadow: 0 0 10px rgba(56, 189, 248, 0.25);
+}
+
+/* CONSENSUS LIVE TERMINAL */
+.consensus-terminal-box {
+  background: #02060C;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.terminal-bar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: #050E1A;
+  padding: 6px 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.term-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+.term-dot.red { background: #EF4444; }
+.term-dot.yellow { background: #F59E0B; }
+.term-dot.green { background: #10B981; }
+
+.term-title {
+  font-size: 0.72rem;
+  font-family: monospace;
+  color: #94A3B8;
+  margin-left: 6px;
+  flex: 1;
+}
+
+.term-live-tag {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #4ADE80;
+  background: rgba(34, 197, 94, 0.15);
+  padding: 2px 6px;
+  border-radius: 4px;
+}
+
+.terminal-logs {
+  padding: 10px 14px;
+  font-family: 'Fira Code', Consolas, Monaco, monospace;
+  font-size: 0.72rem;
+  color: #7DD3FC;
+  max-height: 110px;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  line-height: 1.4;
+}
+
+.term-log-line {
+  display: flex;
+  gap: 8px;
+  word-break: break-all;
+}
+
+.term-log-time { color: #64748B; flex-shrink: 0; }
+.term-log-tag { color: #FDE047; font-weight: 700; flex-shrink: 0; }
+.term-log-msg { color: #BAE6FD; }
+
+/* SIMULATION 1: BLOCKCHAIN CREATION & EXPLORER */
 .sim-container {
   display: grid;
   grid-template-columns: 1fr 1fr;
@@ -2284,7 +2894,7 @@ body.lang-ar .card-issuer-info {
 .chain-feed {
   display: flex;
   flex-direction: column;
-  gap: 14px;
+  gap: 12px;
   max-height: 380px;
   overflow-y: auto;
   padding-right: 6px;
@@ -2296,12 +2906,17 @@ body.lang-ar .card-issuer-info {
   border-radius: var(--radius-md);
   padding: 14px 18px;
   transition: var(--transition-smooth);
-  animation: slideBlockIn 0.4s ease-out;
+  animation: slideBlockIn 0.35s ease-out;
 }
 
 @keyframes slideBlockIn {
-  from { opacity: 0; transform: translateX(20px); }
-  to { opacity: 1; transform: translateX(0); }
+  from { opacity: 0; transform: translateY(-10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.block-card:hover {
+  border-color: #38BDF8;
+  box-shadow: 0 4px 20px rgba(56, 189, 248, 0.15);
 }
 
 .block-card.latest {
@@ -2319,8 +2934,11 @@ body.lang-ar .card-issuer-info {
 .block-num {
   font-family: monospace;
   font-weight: 700;
-  font-size: 0.85rem;
+  font-size: 0.88rem;
   color: var(--color-fin-gold);
+  display: flex;
+  align-items: center;
+  gap: 6px;
 }
 
 .block-time {
@@ -2333,14 +2951,143 @@ body.lang-ar .card-issuer-info {
   font-size: 0.72rem;
   color: #7DD3FC;
   word-break: break-all;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 4px 8px;
+  border-radius: 4px;
+  margin: 4px 0 8px 0;
 }
 
 .block-meta {
   display: flex;
   justify-content: space-between;
-  margin-top: 8px;
+  align-items: center;
   font-size: 0.75rem;
   color: var(--color-text-muted);
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.block-inspect-btn {
+  background: transparent;
+  border: 1px solid rgba(56, 189, 248, 0.4);
+  color: #38BDF8;
+  font-size: 0.72rem;
+  font-weight: 600;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.block-inspect-btn:hover {
+  background: #38BDF8;
+  color: #040A10;
+}
+
+/* BLOCK INSPECTOR MODAL DETAILS */
+.inspector-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px;
+  margin-bottom: 16px;
+}
+
+.inspector-spec-box {
+  background: rgba(7, 19, 32, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  padding: 10px 14px;
+}
+
+.inspector-spec-box .insp-label {
+  font-size: 0.68rem;
+  color: #64748B;
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
+}
+
+.inspector-spec-box .insp-val {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  font-family: monospace;
+  word-break: break-all;
+}
+
+.endorsement-matrix {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+.endorsement-sig-card {
+  background: rgba(3, 10, 18, 0.8);
+  border: 1px solid rgba(34, 197, 94, 0.3);
+  border-radius: 6px;
+  padding: 8px 10px;
+  font-size: 0.74rem;
+}
+
+.endorsement-sig-card .sig-org {
+  font-weight: 700;
+  color: #4ADE80;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.endorsement-sig-card .sig-hash {
+  font-family: monospace;
+  font-size: 0.68rem;
+  color: #94A3B8;
+  margin-top: 2px;
+  word-break: break-all;
+}
+
+/* RTL Support for Monitoring Dashboard */
+body.lang-ar .consortium-hud-title-block {
+  text-align: right;
+}
+body.lang-ar .search-input-wrapper .search-icon {
+  left: auto;
+  right: 14px;
+}
+body.lang-ar .block-search-input {
+  padding: 10px 38px 10px 14px;
+}
+body.lang-ar .flow-arrow i {
+  transform: rotate(180deg);
+}
+
+@media (max-width: 992px) {
+  .consortium-nodes-grid {
+    grid-template-columns: 1fr;
+  }
+  .blockchain-kpi-strip {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .endorsement-matrix {
+    grid-template-columns: 1fr;
+  }
+  .inspector-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 768px) {
+  .blockchain-kpi-strip {
+    grid-template-columns: 1fr;
+  }
+  .sim-container {
+    grid-template-columns: 1fr;
+  }
+  .endorsement-flow-steps {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .flow-arrow {
+    display: none;
+  }
 }
 
 /* SIMULATION 2: AUTHENTICATION REQUEST & ZKP FLOW */

@@ -1,0 +1,142 @@
+{
+  "name": "nuvte-network",
+  "version": "1.0.0",
+  "license": "Apache-2.0",
+  "client": {
+    "tlsEnable": true,
+    "adminCredential": {
+      "id": "admin",
+      "password": "password"
+    },
+    "enableAuthentication": true,
+    "organization": "NuvteMSP",
+    "connection": {
+      "timeout": {
+        "peer": {
+          "endorser": "300"
+        },
+        "orderer": "300"
+      }
+    }
+  },
+  "channels": {
+    "nuvte-academic-channel": {
+      "orderers": [
+        "orderer.pma.gov.ps"
+      ],
+      "peers": {
+        "peer0.nuvte.edu.ps": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer0.bzu.edu.ps": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer0.alquds.edu.ps": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        },
+        "peer0.mohe.pna.ps": {
+          "endorsingPeer": true,
+          "chaincodeQuery": true,
+          "ledgerQuery": true,
+          "eventSource": true
+        }
+      }
+    }
+  },
+  "organizations": {
+    "NuvteMSP": {
+      "mspid": "NuvteMSP",
+      "adminPrivateKey": {
+        "path": "/opt/explorer/organizations/peerOrganizations/nuvte.edu.ps/users/Admin@nuvte.edu.ps/msp/keystore/priv_sk"
+      },
+      "signedCert": {
+        "path": "/opt/explorer/organizations/peerOrganizations/nuvte.edu.ps/users/Admin@nuvte.edu.ps/msp/signcerts/Admin@nuvte.edu.ps-cert.pem"
+      },
+      "peers": [
+        "peer0.nuvte.edu.ps"
+      ]
+    },
+    "BZUMSP": {
+      "mspid": "BZUMSP",
+      "peers": [
+        "peer0.bzu.edu.ps"
+      ]
+    },
+    "AQUMSP": {
+      "mspid": "AQUMSP",
+      "peers": [
+        "peer0.alquds.edu.ps"
+      ]
+    },
+    "MOHEMSP": {
+      "mspid": "MOHEMSP",
+      "peers": [
+        "peer0.mohe.pna.ps"
+      ]
+    },
+    "BOPMSP": {
+      "mspid": "BOPMSP",
+      "peers": [
+        "peer0.bop.ps"
+      ]
+    }
+  },
+  "peers": {
+    "peer0.nuvte.edu.ps": {
+      "tlsCACerts": {
+        "path": "/opt/explorer/organizations/peerOrganizations/nuvte.edu.ps/peers/peer0.nuvte.edu.ps/tls/ca.crt"
+      },
+      "url": "grpcs://peer0.nuvte.edu.ps:7051",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.nuvte.edu.ps"
+      }
+    },
+    "peer0.bzu.edu.ps": {
+      "tlsCACerts": {
+        "path": "/opt/explorer/organizations/peerOrganizations/nuvte.edu.ps/peers/peer0.nuvte.edu.ps/tls/ca.crt"
+      },
+      "url": "grpcs://peer0.nuvte.edu.ps:7051",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.nuvte.edu.ps"
+      }
+    },
+    "peer0.alquds.edu.ps": {
+      "tlsCACerts": {
+        "path": "/opt/explorer/organizations/peerOrganizations/nuvte.edu.ps/peers/peer0.nuvte.edu.ps/tls/ca.crt"
+      },
+      "url": "grpcs://peer0.nuvte.edu.ps:7051",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.nuvte.edu.ps"
+      }
+    },
+    "peer0.mohe.pna.ps": {
+      "tlsCACerts": {
+        "path": "/opt/explorer/organizations/peerOrganizations/nuvte.edu.ps/peers/peer0.nuvte.edu.ps/tls/ca.crt"
+      },
+      "url": "grpcs://peer0.nuvte.edu.ps:7051",
+      "grpcOptions": {
+        "ssl-target-name-override": "peer0.nuvte.edu.ps"
+      }
+    }
+  },
+  "orderers": {
+    "orderer.pma.gov.ps": {
+      "tlsCACerts": {
+        "path": "/opt/explorer/organizations/ordererOrganizations/pma.gov.ps/orderers/orderer.pma.gov.ps/tls/ca.crt"
+      },
+      "url": "grpcs://orderer.pma.gov.ps:7050",
+      "grpcOptions": {
+        "ssl-target-name-override": "orderer.pma.gov.ps"
+      }
+    }
+  }
+}

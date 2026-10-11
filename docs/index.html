@@ -43,6 +43,7 @@
         <li><a href="#architecture" class="nav-link" data-i18n="nav_architecture">Architecture</a></li>
         <li><a href="#sectors" class="nav-link" data-i18n="nav_sectors">5 Sectors & Cases</a></li>
         <li><a href="#simulator-blockchain" class="nav-link" data-i18n="nav_blockchain">Blockchain Studio</a></li>
+        <li><a href="chaincodes.html" class="nav-link" data-i18n="nav_chaincodes"><i class="fas fa-file-code" style="color: #FDE047; margin-right: 4px;"></i> Smart Contract Studio</a></li>
         <li><a href="#simulator-auth" class="nav-link" data-i18n="nav_auth_sim">Biometric Auth Sim</a></li>
       </ul>
 
@@ -808,23 +809,262 @@
     </div>
   </section>
 
-  <!-- SIMULATOR 1: BLOCKCHAIN CREATION -->
+  <!-- SIMULATOR 1 & BLOCKCHAIN MONITORING DASHBOARD -->
   <section id="simulator-blockchain" class="section">
     <div class="container">
       <div class="section-header">
         <span class="tag-badge gold">
-          <i class="fas fa-cubes"></i> Interactive Simulation 1
+          <i class="fas fa-network-wired"></i> <span data-i18n="bc_badge_label">Consortium Ledger Telemetry & Dashboard</span>
         </span>
         <h2 class="section-title gradient-text" data-i18n="sim1_title" style="font-size: 2.2rem; margin-top: 10px;">
-          ⚡ Blockchain Creation & Credential Studio
+          ⚡ Sovereign Consortium Blockchain & Node Monitoring Dashboard
         </h2>
         <p class="section-subtitle" data-i18n="sim1_subtitle">
-          Issue a sovereign Verifiable Credential and anchor its cryptographic root into the decentralized ledger
+          Live Peer & Consortium Node Health, Cryptographic Block Explorer, Consensus Telemetry, and Zero-PII Credential Anchoring
         </p>
       </div>
 
+      <!-- CONSORTIUM TOPOLOGY & PEER HEALTH HUD -->
+      <div class="glass-panel consortium-hud-container" style="margin-bottom: 24px; padding: 22px 24px;">
+        <div class="consortium-hud-header">
+          <div class="consortium-hud-title-block">
+            <div class="pulse-indicator-ring">
+              <span class="pulse-core"></span>
+            </div>
+            <div>
+              <h3 style="font-size: 1.15rem; color: #FFFFFF; margin: 0; display: flex; align-items: center; gap: 8px; flex-wrap: wrap;">
+                <span>Consortium Network Health:</span>
+                <span class="badge-status-online" data-i18n="bc_health_status">100% Operational (3/3 Nodes Synced)</span>
+              </h3>
+              <span style="font-size: 0.78rem; color: #7DD3FC;">Hyperledger Fabric v2.5 LTS • Channel: <code>pal-sovereign-channel</code> • Raft Consensus</span>
+            </div>
+          </div>
+          <div class="consortium-hud-actions">
+            <button id="btnPingConsortium" class="btn btn-sm btn-outline" style="padding: 7px 14px; font-size: 0.8rem;">
+              <i class="fas fa-satellite-dish"></i> <span data-i18n="bc_btn_ping">Ping Consortium Nodes</span>
+            </button>
+            <button id="btnPulseConsensus" class="btn btn-sm btn-gold" style="padding: 7px 14px; font-size: 0.8rem;">
+              <i class="fas fa-bolt"></i> <span data-i18n="bc_btn_pulse">Simulate Consensus Pulse</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 3 Consortium Node Cards -->
+        <div class="consortium-nodes-grid">
+          <!-- Node 1: PMA Raft Orderer -->
+          <div class="node-health-card" id="nodePmaCard">
+            <div class="node-card-top">
+              <div class="node-icon-badge orderer">
+                <i class="fas fa-crown"></i>
+              </div>
+              <div class="node-id-block">
+                <div class="node-role-tag" data-i18n="bc_node_pma_role">Consortium Consensus Leader</div>
+                <h4 class="node-name">orderer.pma.gov.ps:7050</h4>
+                <div class="node-org">Palestine Monetary Authority (PMA)</div>
+              </div>
+              <div class="node-ping-badge" id="pmaPingBadge">
+                <span class="ping-dot green"></span>
+                <span id="pmaPingVal">8.4 ms</span>
+              </div>
+            </div>
+            <div class="node-specs-grid">
+              <div class="node-spec-item">
+                <span class="spec-label">Consensus Protocol</span>
+                <span class="spec-val">Raft 3-Node Clustered</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Leader Status</span>
+                <span class="spec-val text-green">Leader (Term #41)</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Transport Security</span>
+                <span class="spec-val">Mutual TLS 1.3 (ECDSA)</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Orderer Uptime</span>
+                <span class="spec-val">99.998% (42d 11h)</span>
+              </div>
+            </div>
+            <div class="node-status-bar">
+              <div class="node-status-fill green" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <!-- Node 2: NUVTE Endorser Peer -->
+          <div class="node-health-card" id="nodeNuvteCard">
+            <div class="node-card-top">
+              <div class="node-icon-badge endorser">
+                <i class="fas fa-graduation-cap"></i>
+              </div>
+              <div class="node-id-block">
+                <div class="node-role-tag" data-i18n="bc_node_nuvte_role">Academic Endorsing Peer</div>
+                <h4 class="node-name">peer0.nuvte.edu.ps:7051</h4>
+                <div class="node-org">Nat. Univ. of Vocational & Tech Education</div>
+              </div>
+              <div class="node-ping-badge" id="nuvtePingBadge">
+                <span class="ping-dot green"></span>
+                <span id="nuvtePingVal">11.8 ms</span>
+              </div>
+            </div>
+            <div class="node-specs-grid">
+              <div class="node-spec-item">
+                <span class="spec-label">Smart Chaincode</span>
+                <span class="spec-val">paldfi_academic_contract:v2.4</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Ledger State DB</span>
+                <span class="spec-val text-cyan">CouchDB v3.3 (Indexed)</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Endorsement Height</span>
+                <span class="spec-val" id="nuvteHeightVal">#10,842</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Endorsed Blocks</span>
+                <span class="spec-val text-gold">14,892 Txs</span>
+              </div>
+            </div>
+            <div class="node-status-bar">
+              <div class="node-status-fill green" style="width: 100%;"></div>
+            </div>
+          </div>
+
+          <!-- Node 3: Bank of Palestine Verifier Peer -->
+          <div class="node-health-card" id="nodeBopCard">
+            <div class="node-card-top">
+              <div class="node-icon-badge validator">
+                <i class="fas fa-building-columns"></i>
+              </div>
+              <div class="node-id-block">
+                <div class="node-role-tag" data-i18n="bc_node_bop_role">Validating & Revocation Peer</div>
+                <h4 class="node-name">peer0.bankofpalestine.ps:7051</h4>
+                <div class="node-org">Bank of Palestine (BOP)</div>
+              </div>
+              <div class="node-ping-badge" id="bopPingBadge">
+                <span class="ping-dot green"></span>
+                <span id="bopPingVal">15.2 ms</span>
+              </div>
+            </div>
+            <div class="node-specs-grid">
+              <div class="node-spec-item">
+                <span class="spec-label">Revocation Engine</span>
+                <span class="spec-val text-gold">BitstringStatusList2021</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Active Channel</span>
+                <span class="spec-val">pal-sovereign-channel</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Validation Queue</span>
+                <span class="spec-val text-green">0 Pending (Real-Time)</span>
+              </div>
+              <div class="node-spec-item">
+                <span class="spec-label">Validated Presentations</span>
+                <span class="spec-val text-cyan">33,327 Checks</span>
+              </div>
+            </div>
+            <div class="node-status-bar">
+              <div class="node-status-fill green" style="width: 100%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- NETWORK TELEMETRY KPI STRIP -->
+      <div class="blockchain-kpi-strip">
+        <div class="bc-kpi-card">
+          <div class="kpi-icon gold"><i class="fas fa-cubes"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpiBlockHeight">#10,842</div>
+            <div class="kpi-title" data-i18n="bc_kpi_height">Ledger Block Height</div>
+          </div>
+        </div>
+        <div class="bc-kpi-card">
+          <div class="kpi-icon green"><i class="fas fa-shield-halved"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpiAnchoredCount">48,219</div>
+            <div class="kpi-title" data-i18n="bc_kpi_anchored">Zero-PII Hashes Anchored</div>
+          </div>
+        </div>
+        <div class="bc-kpi-card">
+          <div class="kpi-icon blue"><i class="fas fa-gauge-high"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpiTps">3,540 TPS</div>
+            <div class="kpi-title" data-i18n="bc_kpi_tps">Consensus Throughput (TPS)</div>
+          </div>
+        </div>
+        <div class="bc-kpi-card">
+          <div class="kpi-icon cyan"><i class="fas fa-stopwatch"></i></div>
+          <div class="kpi-info">
+            <div class="kpi-value" id="kpiAvgLatency">11.8 ms</div>
+            <div class="kpi-title" data-i18n="bc_kpi_latency">Avg Endorsement Latency</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- LIVE ACTIVITY CANVAS & CONSENSUS PIPELINE FLOW -->
+      <div class="glass-panel activity-canvas-panel" style="margin-bottom: 24px; padding: 18px 24px;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 10px;">
+          <div style="display: flex; align-items: center; gap: 10px;">
+            <i class="fas fa-chart-line" style="color: #38BDF8;"></i>
+            <h4 style="margin: 0; font-size: 0.95rem; color: #FFFFFF;" data-i18n="bc_flow_title">Live Consensus Pipeline & Telemetry Waveform</h4>
+          </div>
+          <div class="live-pulse-badge">
+            <span class="live-dot"></span> <span>TELEMETRY ACTIVE (100ms)</span>
+          </div>
+        </div>
+
+        <div class="canvas-wrapper">
+          <canvas id="blockchainActivityCanvas" height="85" style="width: 100%; border-radius: 8px; background: rgba(3, 10, 18, 0.7); border: 1px solid rgba(56, 189, 248, 0.15);"></canvas>
+        </div>
+
+        <!-- Endorsement Pipeline Stages -->
+        <div class="endorsement-flow-steps" id="endorsementFlowSteps">
+          <div class="flow-step" id="stepClient">
+            <div class="step-num">1</div>
+            <div class="step-content">
+              <span class="step-label" data-i18n="bc_step_client">Local Enclave Sign</span>
+              <span class="step-sub">ECDSA secp256k1</span>
+            </div>
+          </div>
+          <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="flow-step" id="stepNuvte">
+            <div class="step-num">2</div>
+            <div class="step-content">
+              <span class="step-label" data-i18n="bc_step_nuvte">NUVTE Endorse</span>
+              <span class="step-sub">Chaincode Exec</span>
+            </div>
+          </div>
+          <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="flow-step" id="stepBop">
+            <div class="step-num">3</div>
+            <div class="step-content">
+              <span class="step-label" data-i18n="bc_step_bop">BOP Validate</span>
+              <span class="step-sub">StatusList Bit Check</span>
+            </div>
+          </div>
+          <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="flow-step" id="stepPma">
+            <div class="step-num">4</div>
+            <div class="step-content">
+              <span class="step-label" data-i18n="bc_step_pma">PMA Raft Order</span>
+              <span class="step-sub">Leader Cut Batch</span>
+            </div>
+          </div>
+          <div class="flow-arrow"><i class="fas fa-chevron-right"></i></div>
+          <div class="flow-step" id="stepCommit">
+            <div class="step-num">5</div>
+            <div class="step-content">
+              <span class="step-label" data-i18n="bc_step_commit">Ledger Commit</span>
+              <span class="step-sub">State DB Append</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- MAIN STUDIO: CREDENTIAL ISSUANCE + BLOCK EXPLORER -->
       <div class="sim-container">
-        <!-- Form Column -->
+        <!-- Form Column (Issuance Studio) -->
         <div class="glass-panel sim-card">
           <h3 style="color: #FFFFFF; font-size: 1.25rem; margin-bottom: 20px; display: flex; align-items: center; gap: 10px;">
             <i class="fas fa-pen-nib" style="color: var(--color-fin-gold);"></i>
@@ -876,52 +1116,45 @@
         <!-- Live Blockchain Explorer Feed Column -->
         <div class="glass-panel sim-card">
           <div class="chain-explorer-box">
-            <h3 style="color: #FFFFFF; font-size: 1.25rem; margin-bottom: 14px; display: flex; align-items: center; justify-content: space-between;">
-              <span style="display: flex; align-items: center; gap: 10px;">
-                <i class="fas fa-network-wired" style="color: #7DD3FC;"></i>
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px;">
+              <h3 style="color: #FFFFFF; font-size: 1.2rem; margin: 0; display: flex; align-items: center; gap: 10px;">
+                <i class="fas fa-cubes" style="color: #7DD3FC;"></i>
                 <span data-i18n="sim1_chain_title">Live Decentralized Ledger Explorer</span>
-              </span>
+              </h3>
               <span class="status-dot"></span>
-            </h3>
+            </div>
 
+            <!-- Search & Filter Controls -->
+            <div class="block-search-container" style="margin-bottom: 12px;">
+              <div class="search-input-wrapper">
+                <i class="fas fa-search search-icon"></i>
+                <input type="text" id="blockSearchInput" class="block-search-input" placeholder="Search by Block #, TxID, Hash, or Student ID..." data-i18n-ph="bc_search_placeholder">
+              </div>
+              <div class="block-filters-bar" id="blockFiltersBar">
+                <button class="filter-pill active" data-filter="all" data-i18n="bc_filter_all">All Blocks</button>
+                <button class="filter-pill" data-filter="Graduation" data-i18n="bc_filter_edu">Graduation</button>
+                <button class="filter-pill" data-filter="Identity" data-i18n="bc_filter_gov">Identity</button>
+                <button class="filter-pill" data-filter="Clearance" data-i18n="bc_filter_sec">Clearance</button>
+                <button class="filter-pill" data-filter="KYC" data-i18n="bc_filter_fin">Digital KYC</button>
+              </div>
+            </div>
+
+            <!-- Feed of Blocks -->
             <div class="chain-feed" id="chainFeed">
-              <div class="block-card latest">
-                <div class="block-top">
-                  <span class="block-num">📦 Block #10842</span>
-                  <span class="block-time">Just Now</span>
-                </div>
-                <div class="block-hash">Hash: 0x8fa1b92049dbe881c1092a71f09230491...</div>
-                <div class="block-meta">
-                  <span>Type: <b>GraduationCertificate</b></span>
-                  <span>Ledger: <b>pal-sovereign</b></span>
-                  <span style="color:#4ADE80;">Status: Valid (0)</span>
-                </div>
-              </div>
+              <!-- Dynamically populated and rich initial cards -->
+            </div>
 
-              <div class="block-card">
-                <div class="block-top">
-                  <span class="block-num">📦 Block #10841</span>
-                  <span class="block-time">2 mins ago</span>
-                </div>
-                <div class="block-hash">Hash: 0x33e8b091fca01994bca71092fe901182...</div>
-                <div class="block-meta">
-                  <span>Type: <b>ClearanceCertificate</b></span>
-                  <span>Ledger: <b>pal-sovereign</b></span>
-                  <span style="color:#4ADE80;">Status: Valid (0)</span>
-                </div>
+            <!-- Live Consensus Event Terminal -->
+            <div class="consensus-terminal-box" style="margin-top: 14px;">
+              <div class="terminal-bar">
+                <span class="term-dot red"></span>
+                <span class="term-dot yellow"></span>
+                <span class="term-dot green"></span>
+                <span class="term-title" data-i18n="bc_terminal_title">Consensus & Raft Event Terminal</span>
+                <span class="term-live-tag">LIVE</span>
               </div>
-
-              <div class="block-card">
-                <div class="block-top">
-                  <span class="block-num">📦 Block #10840</span>
-                  <span class="block-time">5 mins ago</span>
-                </div>
-                <div class="block-hash">Hash: 0x110fb881a76c0293db199047ea1198c2...</div>
-                <div class="block-meta">
-                  <span>Type: <b>Digital_KYC_Proof</b></span>
-                  <span>Ledger: <b>pal-sovereign</b></span>
-                  <span style="color:#4ADE80;">Status: Valid (0)</span>
-                </div>
+              <div class="terminal-logs" id="consensusTerminal">
+                <!-- Log messages populated dynamically -->
               </div>
             </div>
           </div>
@@ -1488,6 +1721,63 @@
         <button id="downloadRawJsonModalBtn" class="btn btn-facepal btn-sm" style="flex: 1.5;" data-i18n="fp_btn_download_db">
           <i class="fas fa-download"></i> <span>Export .json File</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- BLOCK & TRANSACTION DEEP INSPECTOR MODAL -->
+  <div id="blockInspectorModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card glass-panel" style="max-width: 760px; max-height: 90vh; display: flex; flex-direction: column;">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 10px;">
+          <div class="modal-icon-badge gold"><i class="fas fa-cubes"></i></div>
+          <div>
+            <h3 style="font-size: 1.15rem; color: #FFFFFF; margin: 0;" data-i18n="bc_modal_title">Cryptographic Block & Transaction Inspector</h3>
+            <span style="font-size: 0.72rem; color: #7DD3FC;" data-i18n="bc_modal_subtitle">Channel: pal-sovereign-channel • Hyperledger Fabric v2.5 LTS</span>
+          </div>
+        </div>
+        <button id="closeBlockInspectorModalBtn" class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body" style="overflow-y: auto; padding-right: 6px;">
+        <!-- Zero PII Guarantee Banner -->
+        <div style="display: flex; align-items: center; gap: 10px; background: rgba(16, 185, 129, 0.15); border: 1px solid #10B981; border-radius: 8px; padding: 10px 14px; margin-bottom: 16px; font-size: 0.8rem; color: #A7F3D0;">
+          <i class="fas fa-shield-halved" style="font-size: 1.2rem; color: #34D399;"></i>
+          <div>
+            <strong data-i18n="bc_zero_pii_badge">Verified 100% Zero-PII On-Chain: Only cryptographic SHA-256 state hashes anchored</strong>
+            <div style="font-size: 0.72rem; color: #6EE7B7;">No citizen names or plaintext ID numbers exist in the ledger state DB. All claims are client-side blinded.</div>
+          </div>
+        </div>
+
+        <!-- Block Header Spec Grid -->
+        <div class="inspector-grid" id="inspectorHeaderGrid">
+          <!-- Populated by JS -->
+        </div>
+
+        <!-- Endorsement Signatures Matrix -->
+        <div style="margin: 16px 0;">
+          <h4 style="font-size: 0.85rem; color: #FDE047; text-transform: uppercase; margin-bottom: 8px; letter-spacing: 0.5px;">
+            <i class="fas fa-file-signature"></i> Consortium Endorsement Signatures (3/3 Quorum)
+          </h4>
+          <div class="endorsement-matrix" id="inspectorEndorsementMatrix">
+            <!-- Populated by JS -->
+          </div>
+        </div>
+
+        <!-- Raw JSON Block -->
+        <div>
+          <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px;">
+            <h4 style="font-size: 0.85rem; color: #BAE6FD; text-transform: uppercase; margin: 0;">Raw Block & State Payload (JSON)</h4>
+            <button id="copyBlockJsonBtn" class="btn btn-sm btn-outline" style="padding: 3px 10px; font-size: 0.72rem;">
+              <i class="fas fa-copy"></i> <span id="copyBlockJsonText">Copy JSON</span>
+            </button>
+          </div>
+          <pre id="rawBlockJsonCode" class="raw-json-code-view" style="max-height: 200px;"><code>{}</code></pre>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="margin-top: 16px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 12px;">
+        <button id="closeBlockInspectorModalBottomBtn" class="btn btn-outline btn-sm" style="width: 100%;" data-i18n="modal_btn_close">Close Inspector</button>
       </div>
     </div>
   </div>

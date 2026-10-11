@@ -13,6 +13,7 @@ const i18n = {
     nav_architecture: "Architecture",
     nav_sectors: "5 Sectors & Cases",
     nav_blockchain: "Blockchain Studio",
+    nav_chaincodes: "Smart Contract Studio",
     nav_auth_sim: "Biometric Auth Sim",
     btn_launch_demo: "Try FaceReader",
     
@@ -164,9 +165,9 @@ const i18n = {
     sec_fin_f2: "Instant credit decisions with zero compliance friction.",
     sec_fin_f3: "Eliminates identity theft and synthetic loan fraud.",
 
-    // Simulator 1
-    sim1_title: "⚡ Simulator 1: Blockchain Creation & Credential Studio",
-    sim1_subtitle: "Issue a sovereign Verifiable Credential and anchor its cryptographic root into the decentralized ledger",
+    // Simulator 1 & Blockchain Monitoring Dashboard
+    sim1_title: "⚡ Sovereign Consortium Blockchain & Node Monitoring Dashboard",
+    sim1_subtitle: "Live Peer & Consortium Node Health, Cryptographic Block Explorer, Consensus Telemetry, and Zero-PII Credential Anchoring",
     sim1_select_sector: "Select Issuing Authority / Sector",
     sim1_cred_type: "Credential Type",
     sim1_citizen_name: "Citizen / Student Name",
@@ -174,6 +175,33 @@ const i18n = {
     sim1_extra_field: "Primary Attribute / Clearance Status",
     sim1_btn_mint: "🚀 Sign & Anchor to Blockchain",
     sim1_chain_title: "Live Decentralized Ledger Explorer",
+    bc_badge_label: "Consortium Ledger Telemetry & Dashboard",
+    bc_health_status: "100% Operational (3/3 Nodes Synced)",
+    bc_btn_ping: "Ping Consortium Nodes",
+    bc_btn_pulse: "Simulate Consensus Pulse",
+    bc_node_pma_role: "Consortium Consensus Leader",
+    bc_node_nuvte_role: "Academic Endorsing Peer",
+    bc_node_bop_role: "Validating & Revocation Peer",
+    bc_kpi_height: "Ledger Block Height",
+    bc_kpi_anchored: "Zero-PII Hashes Anchored",
+    bc_kpi_tps: "Consensus Throughput (TPS)",
+    bc_kpi_latency: "Avg Endorsement Latency",
+    bc_flow_title: "Live Consensus Pipeline & Telemetry Waveform",
+    bc_step_client: "1. Local Enclave Sign",
+    bc_step_nuvte: "2. NUVTE Endorse",
+    bc_step_bop: "3. BOP Validate",
+    bc_step_pma: "4. PMA Raft Order",
+    bc_step_commit: "5. Ledger Commit",
+    bc_search_placeholder: "Search by Block #, TxID, Hash, or Student ID...",
+    bc_filter_all: "All Blocks",
+    bc_filter_edu: "Graduation",
+    bc_filter_gov: "Identity",
+    bc_filter_sec: "Clearance",
+    bc_filter_fin: "Digital KYC",
+    bc_terminal_title: "Consensus & Raft Event Terminal",
+    bc_modal_title: "Cryptographic Block & Transaction Inspector",
+    bc_modal_subtitle: "Channel: pal-sovereign-channel • Hyperledger Fabric v2.5 LTS",
+    bc_zero_pii_badge: "Verified 100% Zero-PII On-Chain: Only cryptographic SHA-256 state hashes anchored",
     
     // Simulator 2
     sim2_title: "🔐 Simulator 2: Authentication Request & Zero-Knowledge Flow",
@@ -224,6 +252,7 @@ const i18n = {
     nav_architecture: "الهيكلية والأمان",
     nav_sectors: "القطاعات الخمسة والحالات",
     nav_blockchain: "استوديو البلوكشين",
+    nav_chaincodes: "استوديو العقود الذكية",
     nav_auth_sim: "محاكاة التحقق الحيوي",
     btn_launch_demo: "تجربة قارئ الوجه",
     
@@ -375,9 +404,9 @@ const i18n = {
     sec_fin_f2: "قرارات ائتمانية فورية بدون معاملات ورقية أو تعقيدات امتثال.",
     sec_fin_f3: "القضاء على انتحال الشخصية والاحتيال المالي في القروض.",
 
-    // Simulator 1
-    sim1_title: "⚡ محاكي 1: استوديو إصدار الشهادات الرقمية على البلوكشين",
-    sim1_subtitle: "إصدار شهادة موثقة وتثبيت جذرها التشفيري على سجل البلوكشين السيادي",
+    // Simulator 1 & Blockchain Monitoring Dashboard
+    sim1_title: "⚡ لوحة مراقبة شبكة البلوكشين السيادية والعقد المشتركة",
+    sim1_subtitle: "المراقبة الحية لصحة العقد، ومستكشف الكتل التشفيرية، ومؤشرات التوافق اللامركزي، وتثبيت السجلات دون بيانات شخصية",
     sim1_select_sector: "اختر القطاع / جهة الإصدار",
     sim1_cred_type: "نوع الشهادة / الاعتماد",
     sim1_citizen_name: "اسم المواطن / الطالب",
@@ -385,6 +414,33 @@ const i18n = {
     sim1_extra_field: "الصفة المعتمدة / تفاصيل الاعتماد",
     sim1_btn_mint: "🚀 توقيع وتثبيت السجل على البلوكشين",
     sim1_chain_title: "مستكشف سجلات البلوكشين المباشر",
+    bc_badge_label: "مؤشرات وتيليمتري شبكة البلوكشين المشتركة",
+    bc_health_status: "100% تشغيل سليم (3/3 عقد متزامنة)",
+    bc_btn_ping: "فحص استجابة العقد (Ping)",
+    bc_btn_pulse: "محاكاة نبضة التوافق (Raft)",
+    bc_node_pma_role: "قائد التوافق والإجماع السيادي",
+    bc_node_nuvte_role: "عقدة التصديق والعقود الذكية الأكاديمية",
+    bc_node_bop_role: "عقدة التحقق وسجلات الإلغاء المصرفية",
+    bc_kpi_height: "ارتفاع كتل السجل (Block Height)",
+    bc_kpi_anchored: "البصمات المثبتة (Zero-PII Hashes)",
+    bc_kpi_tps: "معدل معالجة المعاملات (TPS)",
+    bc_kpi_latency: "زمن استجابة التصديق",
+    bc_flow_title: "مسار التصديق والتوافق بين العقد",
+    bc_step_client: "1. توقيع المحفظة",
+    bc_step_nuvte: "2. تصديق جامعة NUVTE",
+    bc_step_bop: "3. تحقق بنك فلسطين",
+    bc_step_pma: "4. ترتيب سلطة النقد (PMA)",
+    bc_step_commit: "5. تثبيت الكتلة",
+    bc_search_placeholder: "ابحث برقم الكتلة، معرف المعاملة TxID، البصمة، أو رقم الطالب...",
+    bc_filter_all: "كل الكتل",
+    bc_filter_edu: "الشهادات الأكاديمية",
+    bc_filter_gov: "السجل المدني",
+    bc_filter_sec: "التصاريح الأمنية",
+    bc_filter_fin: "اعرف عميلك (KYC)",
+    bc_terminal_title: "سجل أحداث التوافق وإجماع Raft الحي",
+    bc_modal_title: "الفاحص التشفيري المعمق للكتل والمعاملات",
+    bc_modal_subtitle: "القناة: pal-sovereign-channel • منصة Hyperledger Fabric v2.5 LTS",
+    bc_zero_pii_badge: "تم التحقق 100% من انعدام البيانات الشخصية: فقط بصمات SHA-256 مثبتة بالسجل",
     
     // Simulator 2
     sim2_title: "🔐 محاكي 2: طلب التحقق والتدفق صفري المعرفة (ZKP)",
@@ -516,6 +572,13 @@ function setLanguage(lang) {
     const key = el.getAttribute('data-i18n');
     if (i18n[lang] && i18n[lang][key]) {
       el.textContent = i18n[lang][key];
+    }
+  });
+
+  document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+    const key = el.getAttribute('data-i18n-ph');
+    if (i18n[lang] && i18n[lang][key]) {
+      el.placeholder = i18n[lang][key];
     }
   });
 
@@ -2434,6 +2497,360 @@ function updateSimulatorPresets() {
   if (fieldInput) fieldInput.value = preset.defaultField;
 }
 
+// --- BLOCKCHAIN MONITORING DASHBOARD & EXPLORER STATE ---
+let anchoredHashCount = 48219;
+let activeBlockFilter = 'all';
+let blockSearchTerm = '';
+
+const blockchainDataset = [
+  {
+    height: 10842,
+    time: "Just Now",
+    timestamp: new Date().toISOString(),
+    channelId: "pal-sovereign-channel",
+    txId: "0x8fa1b92049dbe881c1092a71f09230491ab54921908ac77123efd90184b8c91a",
+    credType: "GraduationCertificateCredential",
+    category: "Graduation",
+    studentOrId: "STU-2026-8891",
+    citizenNameBlindedDigest: "0x4e29b1092efc4091ba88710291af0238c91... (SHA-256 Blinded)",
+    prevHash: "0x33e8b091fca01994bca71092fe90118274ac439281a0293ebc982310fa09231",
+    dataHash: "0x8fa1b92049dbe881c1092a71f09230491",
+    merkleRoot: "0x91fab021894ac012489eac71829... (Level 4)",
+    batchSize: 1,
+    status: "Committed & Valid (0)",
+    bitstringIndex: 48219,
+    creatorMSP: "NUVTEMSP (peer0.nuvte.edu.ps)",
+    endorsements: [
+      { org: "NUVTEMSP", role: "Endorser Peer", signature: "0x3045022100e49a18fa09... (secp256k1)" },
+      { org: "BOPMSP", role: "Validating Peer", signature: "0x304402207a1b901fc8... (secp256k1)" },
+      { org: "PMAMSP", role: "Raft Leader", signature: "0x3045022100bc89110a2... (secp256k1)" }
+    ]
+  },
+  {
+    height: 10841,
+    time: "2 mins ago",
+    timestamp: new Date(Date.now() - 120000).toISOString(),
+    channelId: "pal-sovereign-channel",
+    txId: "0x33e8b091fca01994bca71092fe901182e04917a128ac91024bcde0912fa8109",
+    credType: "PoliceClearanceNonConvictionCredential",
+    category: "Clearance",
+    studentOrId: "SEC-REC-449102",
+    citizenNameBlindedDigest: "0x7a0912efc4091ba88710291af0238c91012... (SHA-256 Blinded)",
+    prevHash: "0x110fb881a76c0293db199047ea1198c255ab9102938ac0192eab890123efc91",
+    dataHash: "0x33e8b091fca01994bca71092fe901182",
+    merkleRoot: "0x44bc0912fa810931290fae109... (Level 4)",
+    batchSize: 1,
+    status: "Committed & Valid (0)",
+    bitstringIndex: 48218,
+    creatorMSP: "SECDIRMSP (peer0.sec.gov.ps)",
+    endorsements: [
+      { org: "SECDIRMSP", role: "Endorser Peer", signature: "0x304502210091fa023... (secp256k1)" },
+      { org: "BOPMSP", role: "Validating Peer", signature: "0x30440220ab109e2... (secp256k1)" },
+      { org: "PMAMSP", role: "Raft Leader", signature: "0x3045022100fa1182c... (secp256k1)" }
+    ]
+  },
+  {
+    height: 10840,
+    time: "5 mins ago",
+    timestamp: new Date(Date.now() - 300000).toISOString(),
+    channelId: "pal-sovereign-channel",
+    txId: "0x110fb881a76c0293db199047ea1198c2acb901249fa02189ac01824901baef1",
+    credType: "SovereignCreditSolvencyProofCredential",
+    category: "KYC",
+    studentOrId: "ACC-110948",
+    citizenNameBlindedDigest: "0x99238ac0192eab890123efc910238c91012... (SHA-256 Blinded)",
+    prevHash: "0x55ac9102938ac0192eab890123efc910491ac71829304918239014910293481",
+    dataHash: "0x110fb881a76c0293db199047ea1198c2",
+    merkleRoot: "0x81920acb901249fa0218... (Level 4)",
+    batchSize: 1,
+    status: "Committed & Valid (0)",
+    bitstringIndex: 48217,
+    creatorMSP: "BOPMSP (peer0.bankofpalestine.ps)",
+    endorsements: [
+      { org: "BOPMSP", role: "Endorser Peer", signature: "0x30450221001182c09... (secp256k1)" },
+      { org: "NUVTEMSP", role: "Validating Peer", signature: "0x30440220bc910a2... (secp256k1)" },
+      { org: "PMAMSP", role: "Raft Leader", signature: "0x3045022100348ac01... (secp256k1)" }
+    ]
+  },
+  {
+    height: 10839,
+    time: "12 mins ago",
+    timestamp: new Date(Date.now() - 720000).toISOString(),
+    channelId: "pal-sovereign-channel",
+    txId: "0x55ac9102938ac0192eab890123efc910491ac71829304918239014910293481a",
+    credType: "NationalCitizenIdentityCredential",
+    category: "Identity",
+    studentOrId: "PAL-ID-904128911",
+    citizenNameBlindedDigest: "0x112348ac0192eab890123efc910238c9101... (SHA-256 Blinded)",
+    prevHash: "0x981249fa02189ac01824901baef102938ac0192eab890123efc910491ac7182",
+    dataHash: "0x55ac9102938ac0192eab890123efc910",
+    merkleRoot: "0x66fa0192eab890123efc... (Level 4)",
+    batchSize: 1,
+    status: "Committed & Valid (0)",
+    bitstringIndex: 48216,
+    creatorMSP: "GOVCIVILMSP (peer0.gov.ps)",
+    endorsements: [
+      { org: "GOVCIVILMSP", role: "Endorser Peer", signature: "0x304502210088190ab... (secp256k1)" },
+      { org: "NUVTEMSP", role: "Validating Peer", signature: "0x304402202390149... (secp256k1)" },
+      { org: "PMAMSP", role: "Raft Leader", signature: "0x3045022100ef10293... (secp256k1)" }
+    ]
+  }
+];
+
+function logConsensusTerminal(tag, message) {
+  const terminal = document.getElementById('consensusTerminal');
+  if (!terminal) return;
+  const timeStr = new Date().toTimeString().split(' ')[0];
+  const line = document.createElement('div');
+  line.className = 'term-log-line';
+  line.innerHTML = `
+    <span class="term-log-time">[${timeStr}]</span>
+    <span class="term-log-tag">[${tag}]</span>
+    <span class="term-log-msg">${message}</span>
+  `;
+  terminal.appendChild(line);
+  if (terminal.children.length > 25) {
+    terminal.removeChild(terminal.firstChild);
+  }
+  terminal.scrollTop = terminal.scrollHeight;
+}
+
+function renderBlockFeed() {
+  const chainFeed = document.getElementById('chainFeed');
+  if (!chainFeed) return;
+
+  const query = blockSearchTerm.trim().toLowerCase();
+  const filtered = blockchainDataset.filter(b => {
+    // Filter pill matching
+    if (activeBlockFilter !== 'all') {
+      if (activeBlockFilter === 'Graduation' && !b.credType.includes('Graduation')) return false;
+      if (activeBlockFilter === 'Identity' && !b.credType.includes('Identity')) return false;
+      if (activeBlockFilter === 'Clearance' && !b.credType.includes('Clearance')) return false;
+      if (activeBlockFilter === 'KYC' && !b.credType.includes('Credit') && !b.credType.includes('KYC')) return false;
+    }
+
+    // Search query matching
+    if (query) {
+      const matchHeight = b.height.toString().includes(query);
+      const matchTx = b.txId.toLowerCase().includes(query);
+      const matchHash = b.dataHash.toLowerCase().includes(query);
+      const matchType = b.credType.toLowerCase().includes(query);
+      const matchId = (b.studentOrId || '').toLowerCase().includes(query);
+      return matchHeight || matchTx || matchHash || matchType || matchId;
+    }
+    return true;
+  });
+
+  if (filtered.length === 0) {
+    chainFeed.innerHTML = `
+      <div style="text-align: center; padding: 30px 10px; color: #64748B; font-size: 0.85rem;">
+        <i class="fas fa-search" style="font-size: 1.6rem; margin-bottom: 8px; display: block; opacity: 0.5;"></i>
+        <span>No matching blocks found for query or filter.</span>
+      </div>
+    `;
+    return;
+  }
+
+  chainFeed.innerHTML = filtered.map((b, idx) => `
+    <div class="block-card ${idx === 0 && !query ? 'latest' : ''}">
+      <div class="block-top">
+        <span class="block-num">
+          <i class="fas fa-cube"></i> Block #${b.height}
+        </span>
+        <span class="block-time">${b.time}</span>
+      </div>
+      <div class="block-hash">
+        <span style="color: #94A3B8;">TxID:</span> ${b.txId.substring(0, 24)}...
+        <br><span style="color: #94A3B8;">StateHash:</span> ${b.dataHash}...
+      </div>
+      <div class="block-meta">
+        <span>Type: <b style="color: #F1F5F9;">${b.credType}</b></span>
+        <span style="color: #4ADE80;"><i class="fas fa-check-double"></i> 3/3 Endorsed</span>
+        <button class="block-inspect-btn" onclick="openBlockInspector(${b.height})">
+          <i class="fas fa-search-plus"></i> Inspect
+        </button>
+      </div>
+    </div>
+  `).join('');
+}
+
+window.openBlockInspector = function(height) {
+  playClickSound();
+  const block = blockchainDataset.find(b => b.height === height);
+  if (!block) return;
+
+  const modal = document.getElementById('blockInspectorModal');
+  const headerGrid = document.getElementById('inspectorHeaderGrid');
+  const endorsementMatrix = document.getElementById('inspectorEndorsementMatrix');
+  const rawCode = document.getElementById('rawBlockJsonCode');
+
+  if (headerGrid) {
+    headerGrid.innerHTML = `
+      <div class="inspector-spec-box">
+        <div class="insp-label">Block Height</div>
+        <div class="insp-val text-gold">#${block.height}</div>
+      </div>
+      <div class="inspector-spec-box">
+        <div class="insp-label">Consortium Channel</div>
+        <div class="insp-val text-cyan">${block.channelId}</div>
+      </div>
+      <div class="inspector-spec-box">
+        <div class="insp-label">Transaction ID (TxID)</div>
+        <div class="insp-val" style="font-size: 0.72rem;">${block.txId}</div>
+      </div>
+      <div class="inspector-spec-box">
+        <div class="insp-label">W3C Credential Type</div>
+        <div class="insp-val text-green">${block.credType}</div>
+      </div>
+      <div class="inspector-spec-box">
+        <div class="insp-label">Previous Block Hash (SHA-256)</div>
+        <div class="insp-val" style="font-size: 0.7rem; color: #94A3B8;">${block.prevHash}</div>
+      </div>
+      <div class="inspector-spec-box">
+        <div class="insp-label">State Root Hash (DataHash)</div>
+        <div class="insp-val text-cyan" style="font-size: 0.7rem;">${block.dataHash}</div>
+      </div>
+      <div class="inspector-spec-box">
+        <div class="insp-label">Merkle Tree Root</div>
+        <div class="insp-val" style="font-size: 0.7rem;">${block.merkleRoot}</div>
+      </div>
+      <div class="inspector-spec-box">
+        <div class="insp-label">StatusList Bit Index (Active=0)</div>
+        <div class="insp-val text-gold">Index #${block.bitstringIndex} (Bit: 0)</div>
+      </div>
+    `;
+  }
+
+  if (endorsementMatrix) {
+    endorsementMatrix.innerHTML = block.endorsements.map(e => `
+      <div class="endorsement-sig-card">
+        <div class="sig-org"><i class="fas fa-check-circle"></i> ${e.org}</div>
+        <div style="font-size: 0.68rem; color: #7DD3FC; margin-top: 2px;">${e.role}</div>
+        <div class="sig-hash">${e.signature}</div>
+      </div>
+    `).join('');
+  }
+
+  if (rawCode) {
+    rawCode.textContent = JSON.stringify(block, null, 2);
+  }
+
+  if (modal) {
+    modal.style.display = 'flex';
+  }
+};
+
+function initBlockchainActivityCanvas() {
+  const canvas = document.getElementById('blockchainActivityCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let points = [];
+  const maxPoints = 80;
+
+  for (let i = 0; i < maxPoints; i++) {
+    points.push(35 + Math.sin(i * 0.2) * 12 + (Math.random() - 0.5) * 8);
+  }
+
+  function resizeCanvas() {
+    if (canvas.parentElement) {
+      canvas.width = canvas.parentElement.clientWidth || 600;
+    }
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  let stepCount = 0;
+  function renderWave() {
+    stepCount++;
+    const w = canvas.width;
+    const h = canvas.height;
+
+    ctx.clearRect(0, 0, w, h);
+
+    // Subtle grid lines
+    ctx.strokeStyle = 'rgba(56, 189, 248, 0.08)';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    for (let x = 0; x < w; x += 40) {
+      ctx.moveTo(x, 0);
+      ctx.lineTo(x, h);
+    }
+    for (let y = 0; y < h; y += 20) {
+      ctx.moveTo(0, y);
+      ctx.lineTo(w, y);
+    }
+    ctx.stroke();
+
+    // Push new point periodically
+    if (stepCount % 3 === 0) {
+      const base = 38 + Math.sin(stepCount * 0.05) * 14;
+      const noise = (Math.random() - 0.5) * 10;
+      points.push(Math.max(10, Math.min(h - 10, base + noise)));
+      if (points.length > maxPoints) points.shift();
+    }
+
+    // Gradient fill under waveform
+    const grad = ctx.createLinearGradient(0, 0, 0, h);
+    grad.addColorStop(0, 'rgba(56, 189, 248, 0.25)');
+    grad.addColorStop(1, 'rgba(56, 189, 248, 0.0)');
+
+    ctx.beginPath();
+    const sliceWidth = w / (points.length - 1);
+    ctx.moveTo(0, h);
+    for (let i = 0; i < points.length; i++) {
+      const x = i * sliceWidth;
+      const y = h - points[i];
+      if (i === 0) ctx.lineTo(x, y);
+      else {
+        const prevX = (i - 1) * sliceWidth;
+        const prevY = h - points[i - 1];
+        const cpX = (prevX + x) / 2;
+        ctx.bezierCurveTo(cpX, prevY, cpX, y, x, y);
+      }
+    }
+    ctx.lineTo(w, h);
+    ctx.closePath();
+    ctx.fillStyle = grad;
+    ctx.fill();
+
+    // Sparkline stroke
+    ctx.beginPath();
+    for (let i = 0; i < points.length; i++) {
+      const x = i * sliceWidth;
+      const y = h - points[i];
+      if (i === 0) ctx.moveTo(x, y);
+      else {
+        const prevX = (i - 1) * sliceWidth;
+        const prevY = h - points[i - 1];
+        const cpX = (prevX + x) / 2;
+        ctx.bezierCurveTo(cpX, prevY, cpX, y, x, y);
+      }
+    }
+    ctx.strokeStyle = '#38BDF8';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+
+    // Leading glowing point
+    const lastX = w;
+    const lastY = h - points[points.length - 1];
+    ctx.fillStyle = '#FDE047';
+    ctx.beginPath();
+    ctx.arc(lastX - 2, lastY, 3.5, 0, Math.PI * 2);
+    ctx.fill();
+
+    requestAnimationFrame(renderWave);
+  }
+
+  renderWave();
+
+  window.triggerActivityBurst = function() {
+    for (let i = 0; i < 5; i++) {
+      points.push(65 + Math.random() * 15);
+      if (points.length > maxPoints) points.shift();
+    }
+  };
+}
+
 function initBlockchainStudio() {
   const sectorSelect = document.getElementById('simSectorSelect');
   if (sectorSelect) {
@@ -2443,56 +2860,281 @@ function initBlockchainStudio() {
     });
   }
 
+  // Render initial blocks
+  renderBlockFeed();
+
+  // Search input listener
+  const searchInput = document.getElementById('blockSearchInput');
+  if (searchInput) {
+    searchInput.addEventListener('input', (e) => {
+      blockSearchTerm = e.target.value;
+      renderBlockFeed();
+    });
+  }
+
+  // Filter pills
+  const filtersBar = document.getElementById('blockFiltersBar');
+  if (filtersBar) {
+    filtersBar.querySelectorAll('.filter-pill').forEach(pill => {
+      pill.addEventListener('click', () => {
+        playClickSound();
+        filtersBar.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
+        pill.classList.add('active');
+        activeBlockFilter = pill.getAttribute('data-filter') || 'all';
+        renderBlockFeed();
+      });
+    });
+  }
+
+  // Ping Consortium Nodes button
+  const pingBtn = document.getElementById('btnPingConsortium');
+  if (pingBtn) {
+    pingBtn.addEventListener('click', () => {
+      playClickSound();
+      pingBtn.disabled = true;
+      pingBtn.innerHTML = `<i class="fas fa-spinner fa-spin"></i> <span>Pinging...</span>`;
+
+      setTimeout(() => {
+        const pmaPing = (7.5 + Math.random() * 2).toFixed(1);
+        const nuvtePing = (11.0 + Math.random() * 2.5).toFixed(1);
+        const bopPing = (14.2 + Math.random() * 3).toFixed(1);
+
+        const pmaVal = document.getElementById('pmaPingVal');
+        const nuvteVal = document.getElementById('nuvtePingVal');
+        const bopVal = document.getElementById('bopPingVal');
+
+        if (pmaVal) pmaVal.textContent = `${pmaPing} ms`;
+        if (nuvteVal) nuvteVal.textContent = `${nuvtePing} ms`;
+        if (bopVal) bopVal.textContent = `${bopPing} ms`;
+
+        ['nodePmaCard', 'nodeNuvteCard', 'nodeBopCard'].forEach(id => {
+          const card = document.getElementById(id);
+          if (card) {
+            card.classList.add('pulsing-active');
+            setTimeout(() => card.classList.remove('pulsing-active'), 800);
+          }
+        });
+
+        logConsensusTerminal('Consortium Ping', `PMA: ${pmaPing}ms | NUVTE: ${nuvtePing}ms | BOP: ${bopPing}ms. Consensus cluster SLA 100%.`);
+
+        playSuccessSound();
+        pingBtn.disabled = false;
+        pingBtn.innerHTML = `<i class="fas fa-satellite-dish"></i> <span>${currentLang === 'en' ? 'Ping Consortium Nodes' : 'فحص استجابة العقد (Ping)'}</span>`;
+      }, 450);
+    });
+  }
+
+  // Simulate Consensus Pulse button
+  const pulseBtn = document.getElementById('btnPulseConsensus');
+  if (pulseBtn) {
+    pulseBtn.addEventListener('click', () => {
+      playClickSound();
+      pulseBtn.disabled = true;
+
+      const cardPma = document.getElementById('nodePmaCard');
+      const cardNuvte = document.getElementById('nodeNuvteCard');
+      const cardBop = document.getElementById('nodeBopCard');
+
+      // Sequence: Leader pulses ➔ Endorser pulses ➔ Verifier pulses
+      if (cardPma) cardPma.classList.add('pulsing-active');
+      logConsensusTerminal('Raft Leader', 'Heartbeat broadcast (Term #41, Raft group 0xPMA). Quorum healthy.');
+
+      setTimeout(() => {
+        if (cardPma) cardPma.classList.remove('pulsing-active');
+        if (cardNuvte) cardNuvte.classList.add('pulsing-active');
+        playTone(700, 'sine', 0.08, 0.04);
+        logConsensusTerminal('NUVTE Endorser', 'Raft heartbeat acknowledged. State DB block height synced.');
+      }, 300);
+
+      setTimeout(() => {
+        if (cardNuvte) cardNuvte.classList.remove('pulsing-active');
+        if (cardBop) cardBop.classList.add('pulsing-active');
+        playTone(850, 'sine', 0.08, 0.04);
+        logConsensusTerminal('BOP Validator', 'Quorum consensus 3/3 affirmed. Raft commit index updated.');
+      }, 600);
+
+      setTimeout(() => {
+        if (cardBop) cardBop.classList.remove('pulsing-active');
+        if (window.triggerActivityBurst) window.triggerActivityBurst();
+        playSuccessSound();
+        pulseBtn.disabled = false;
+      }, 950);
+    });
+  }
+
+  // Modal Close Handlers
+  const closeInspectorBtn = document.getElementById('closeBlockInspectorModalBtn');
+  const closeInspectorBottomBtn = document.getElementById('closeBlockInspectorModalBottomBtn');
+  const inspectorModal = document.getElementById('blockInspectorModal');
+
+  function closeInspector() {
+    if (inspectorModal) inspectorModal.style.display = 'none';
+  }
+
+  if (closeInspectorBtn) closeInspectorBtn.addEventListener('click', closeInspector);
+  if (closeInspectorBottomBtn) closeInspectorBottomBtn.addEventListener('click', closeInspector);
+  if (inspectorModal) {
+    inspectorModal.addEventListener('click', (e) => {
+      if (e.target === inspectorModal) closeInspector();
+    });
+  }
+
+  // Copy Block JSON button
+  const copyBlockBtn = document.getElementById('copyBlockJsonBtn');
+  if (copyBlockBtn) {
+    copyBlockBtn.addEventListener('click', () => {
+      const codeBlock = document.getElementById('rawBlockJsonCode');
+      if (codeBlock) {
+        navigator.clipboard.writeText(codeBlock.textContent).then(() => {
+          playSuccessSound();
+          const textSpan = document.getElementById('copyBlockJsonText');
+          if (textSpan) {
+            textSpan.textContent = 'Copied!';
+            setTimeout(() => { textSpan.textContent = 'Copy JSON'; }, 2000);
+          }
+        });
+      }
+    });
+  }
+
+  // Activity Canvas Initialization
+  initBlockchainActivityCanvas();
+
+  // Initial terminal logs
+  logConsensusTerminal('PMA Raft', 'Consensus quorum active (Leader: orderer.pma.gov.ps, Term #41, 3/3 nodes synced).');
+  logConsensusTerminal('NUVTE Peer', 'Chaincode paldfi_academic_contract:v2.4 initialized with CouchDB state cache.');
+  logConsensusTerminal('BOP Peer', 'BitstringStatusList2021 loaded (Channel: pal-sovereign-channel, 0 revocations).');
+
+  // Sign & Anchor Button Handler
   const mintBtn = document.getElementById('simMintBtn');
   if (!mintBtn) return;
 
   mintBtn.addEventListener('click', () => {
     playClickSound();
     mintBtn.disabled = true;
-    mintBtn.innerHTML = `<span>⏳ Anchoring Hash to Decentralized Ledger...</span>`;
+    mintBtn.innerHTML = `<span>⏳ Endorsement & Consensus Pipeline Active...</span>`;
 
     const sectorKey = document.getElementById('simSectorSelect').value;
     const preset = sectorPresets[sectorKey];
     const credType = document.getElementById('simCredType').value || preset.type;
+    const citizenName = document.getElementById('simCitizenName').value || preset.defaultName;
+    const idNum = document.getElementById('simIdNum').value || preset.defaultId;
 
+    const stepClient = document.getElementById('stepClient');
+    const stepNuvte = document.getElementById('stepNuvte');
+    const stepBop = document.getElementById('stepBop');
+    const stepPma = document.getElementById('stepPma');
+    const stepCommit = document.getElementById('stepCommit');
+
+    const cardPma = document.getElementById('nodePmaCard');
+    const cardNuvte = document.getElementById('nodeNuvteCard');
+    const cardBop = document.getElementById('nodeBopCard');
+
+    // Reset steps
+    [stepClient, stepNuvte, stepBop, stepPma, stepCommit].forEach(s => {
+      if (s) { s.classList.remove('active', 'completed'); }
+    });
+
+    // Stage 1: Client Enclave Sign (100ms)
     setTimeout(() => {
+      if (stepClient) stepClient.classList.add('active');
+      logConsensusTerminal('Client Enclave', `Blinded PII hash generated for ID ${idNum}. Signed with secp256k1 key.`);
+    }, 100);
+
+    // Stage 2: NUVTE Endorse (400ms)
+    setTimeout(() => {
+      if (stepClient) { stepClient.classList.remove('active'); stepClient.classList.add('completed'); }
+      if (stepNuvte) stepNuvte.classList.add('active');
+      if (cardNuvte) cardNuvte.classList.add('pulsing-active');
+      playTone(900, 'sine', 0.08, 0.04);
+      logConsensusTerminal('NUVTE Peer', `Executing chaincode for ${credType}. Validating credentials schema.`);
+    }, 400);
+
+    // Stage 3: BOP Validate (700ms)
+    setTimeout(() => {
+      if (cardNuvte) cardNuvte.classList.remove('pulsing-active');
+      if (stepNuvte) { stepNuvte.classList.remove('active'); stepNuvte.classList.add('completed'); }
+      if (stepBop) stepBop.classList.add('active');
+      if (cardBop) cardBop.classList.add('pulsing-active');
+      playTone(1050, 'sine', 0.08, 0.04);
+      logConsensusTerminal('BOP Peer', `BitstringStatusList2021 check passed. Bit index allocated.`);
+    }, 700);
+
+    // Stage 4: PMA Raft Order (1000ms)
+    setTimeout(() => {
+      if (cardBop) cardBop.classList.remove('pulsing-active');
+      if (stepBop) { stepBop.classList.remove('active'); stepBop.classList.add('completed'); }
+      if (stepPma) stepPma.classList.add('active');
+      if (cardPma) cardPma.classList.add('pulsing-active');
+      playTone(1200, 'triangle', 0.1, 0.05);
+      logConsensusTerminal('PMA Raft', `Leader orderer cut batch #${currentBlockHeight + 1}. Consensus achieved.`);
+    }, 1000);
+
+    // Stage 5: Ledger Commit & Append (1300ms)
+    setTimeout(() => {
+      if (cardPma) cardPma.classList.remove('pulsing-active');
+      if (stepPma) { stepPma.classList.remove('active'); stepPma.classList.add('completed'); }
+      if (stepCommit) { stepCommit.classList.add('active', 'completed'); }
+
       currentBlockHeight++;
-      const timeStr = new Date().toLocaleTimeString();
+      anchoredHashCount++;
 
-      const chainFeed = document.getElementById('chainFeed');
-      if (chainFeed) {
-        const blockCard = document.createElement('div');
-        blockCard.className = 'block-card latest';
-        blockCard.innerHTML = `
-          <div class="block-top">
-            <span class="block-num">📦 Block #${currentBlockHeight}</span>
-            <span class="block-time">${timeStr}</span>
-          </div>
-          <div class="block-hash">Hash: 0x8fa1${Math.random().toString(16).substring(2, 24)}...</div>
-          <div class="block-meta">
-            <span>Type: <b>${credType}</b></span>
-            <span>Ledger: <b>pal-sovereign</b></span>
-            <span style="color:#4ADE80;">Status: Valid (0)</span>
-          </div>
-        `;
-        chainFeed.insertBefore(blockCard, chainFeed.firstChild);
+      // Update KPIs
+      const kpiHeight = document.getElementById('kpiBlockHeight');
+      if (kpiHeight) kpiHeight.textContent = `#${currentBlockHeight.toLocaleString()}`;
+      const nuvteHeight = document.getElementById('nuvteHeightVal');
+      if (nuvteHeight) nuvteHeight.textContent = `#${currentBlockHeight.toLocaleString()}`;
+      const pmaHeight = document.getElementById('pmaHeightVal');
+      if (pmaHeight) pmaHeight.textContent = `#${currentBlockHeight.toLocaleString()}`;
+      const kpiAnchored = document.getElementById('kpiAnchoredCount');
+      if (kpiAnchored) kpiAnchored.textContent = anchoredHashCount.toLocaleString();
 
-        const allBlocks = chainFeed.querySelectorAll('.block-card');
-        if (allBlocks.length > 5) {
-          allBlocks[allBlocks.length - 1].remove();
-        }
+      // Create new Block Object
+      const newTxId = '0x' + Array.from({length: 64}, () => Math.floor(Math.random()*16).toString(16)).join('');
+      const newStateHash = '0x' + Array.from({length: 32}, () => Math.floor(Math.random()*16).toString(16)).join('');
+      const newBlock = {
+        height: currentBlockHeight,
+        time: "Just Now",
+        timestamp: new Date().toISOString(),
+        channelId: "pal-sovereign-channel",
+        txId: newTxId,
+        credType: credType,
+        category: sectorKey === 'edu' ? 'Graduation' : sectorKey === 'gov' ? 'Identity' : sectorKey === 'sec' ? 'Clearance' : sectorKey === 'fin' ? 'KYC' : 'Health',
+        studentOrId: idNum,
+        citizenNameBlindedDigest: '0x' + Array.from({length: 40}, () => Math.floor(Math.random()*16).toString(16)).join('') + '... (SHA-256 Blinded)',
+        prevHash: blockchainDataset[0] ? blockchainDataset[0].dataHash : '0x8fa1b92049dbe881c1092a71f09230491',
+        dataHash: newStateHash,
+        merkleRoot: '0x' + Array.from({length: 24}, () => Math.floor(Math.random()*16).toString(16)).join('') + '... (Level 4)',
+        batchSize: 1,
+        status: "Committed & Valid (0)",
+        bitstringIndex: anchoredHashCount,
+        creatorMSP: sectorKey === 'edu' ? 'NUVTEMSP' : sectorKey === 'fin' ? 'BOPMSP' : 'GOVCIVILMSP',
+        endorsements: [
+          { org: "NUVTEMSP", role: "Endorser Peer", signature: "0x3045022100" + Math.random().toString(16).substring(2, 12) + "... (secp256k1)" },
+          { org: "BOPMSP", role: "Validating Peer", signature: "0x30440220" + Math.random().toString(16).substring(2, 12) + "... (secp256k1)" },
+          { org: "PMAMSP", role: "Raft Leader", signature: "0x3045022100" + Math.random().toString(16).substring(2, 12) + "... (secp256k1)" }
+        ]
+      };
+
+      blockchainDataset.unshift(newBlock);
+      renderBlockFeed();
+
+      if (window.triggerActivityBurst) {
+        window.triggerActivityBurst();
       }
+
+      logConsensusTerminal('Commit', `Block #${currentBlockHeight} committed to local peer state database.`);
 
       playSuccessSound();
       mintBtn.disabled = false;
       mintBtn.innerHTML = currentLang === 'en' ? `<span>🚀 Sign & Anchor to Blockchain</span>` : `<span>🚀 توقيع وتثبيت السجل على البلوكشين</span>`;
 
-      const statusBadge = document.getElementById('mintSuccessToast');
-      if (statusBadge) {
-        statusBadge.style.display = 'flex';
-        setTimeout(() => { statusBadge.style.display = 'none'; }, 4000);
+      const toast = document.getElementById('mintSuccessToast');
+      if (toast) {
+        toast.style.display = 'flex';
+        setTimeout(() => { toast.style.display = 'none'; }, 4000);
       }
-    }, 850);
+    }, 1300);
   });
 }
 

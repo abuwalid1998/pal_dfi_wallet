@@ -1,0 +1,38 @@
+[
+  {
+    "eventId": "evt_1791710880881_50c2e3",
+    "type": "verification.completed",
+    "source": "paldfi-zkp-service",
+    "timestamp": 1791710880.8812478,
+    "isoTime": "2026-10-11T09:28:00Z",
+    "payload": {
+      "proofId": "zkp_1791710880878_6e3534dc",
+      "status": "VERIFIED_VALID",
+      "holderDid": "did:paldfi:citizen:908172635"
+    }
+  },
+  {
+    "eventId": "evt_1791710953256_ae1f0b",
+    "type": "verification.completed",
+    "source": "paldfi-zkp-service",
+    "timestamp": 1791710953.2568154,
+    "isoTime": "2026-10-11T09:29:13Z",
+    "payload": {
+      "proofId": "zkp_1791710953254_25e12373",
+      "status": "VERIFIED_VALID",
+      "holderDid": "did:paldfi:citizen:908172635"
+    }
+  },
+  {
+    "eventId": "evt_1791711009594_4f4d77",
+    "type": "verification.completed",
+    "source": "paldfi-zkp-service",
+    "timestamp": 1791711009.5947292,
+    "isoTime": "2026-10-11T09:30:09Z",
+    "payload": {
+      "proofId": "zkp_1791711009591_c54d59dd",
+      "status": "VERIFIED_VALID",
+      "holderDid": "did:paldfi:citizen:908172635"
+    }
+  }
+]
