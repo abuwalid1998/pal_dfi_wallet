@@ -204,6 +204,45 @@
             <video id="faceVideoFeed" playsinline muted autoplay></video>
             <canvas id="faceScanCanvas" width="440" height="380"></canvas>
             
+            <!-- Biometric Oval Auto-Alignment Reticle HUD -->
+            <div class="biometric-oval-guide" id="biometricOvalGuide" style="display: none;">
+              <svg class="oval-svg-frame" viewBox="0 0 240 300">
+                <defs>
+                  <linearGradient id="ovalGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#23A6F0" stop-opacity="0.8"/>
+                    <stop offset="100%" stop-color="#10B981" stop-opacity="0.8"/>
+                  </linearGradient>
+                </defs>
+                <!-- Ghost Target Oval -->
+                <ellipse cx="120" cy="150" rx="95" ry="125" class="oval-ghost-path" />
+                <!-- Auto-Focus Hold Progress Ring (0% to 100%) -->
+                <ellipse id="ovalProgressRing" cx="120" cy="150" rx="95" ry="125" class="oval-progress-path" />
+                <!-- Silhouette & Crosshair -->
+                <path class="oval-face-silhouette" d="M85,115 Q120,95 155,115 Q160,175 140,215 Q120,230 100,215 Q80,175 85,115 Z" />
+                <line x1="110" y1="150" x2="130" y2="150" class="oval-crosshair" />
+                <line x1="120" y1="140" x2="120" y2="160" class="oval-crosshair" />
+              </svg>
+
+              <!-- 4 Precision Corner Brackets -->
+              <div class="oval-bracket bracket-tl"></div>
+              <div class="oval-bracket bracket-tr"></div>
+              <div class="oval-bracket bracket-bl"></div>
+              <div class="oval-bracket bracket-br"></div>
+
+              <!-- Animated Laser Sweep -->
+              <div class="oval-laser-line"></div>
+
+              <!-- Real-time Oval Guidance Pill -->
+              <div class="oval-guidance-pill" id="ovalGuidancePill">
+                <i class="fas fa-expand-alt" id="ovalGuidanceIcon"></i>
+                <span id="ovalGuidanceText">Position face inside oval</span>
+                <span id="ovalFocusPercentBadge" class="oval-focus-badge" style="display: none;">0%</span>
+              </div>
+            </div>
+
+            <!-- Shutter Flash Effect -->
+            <div class="camera-shutter-flash" id="cameraShutterFlash"></div>
+
             <div class="face-mesh-overlay" id="faceMeshLaserContainer" style="display: none;">
               <div class="face-mesh-laser"></div>
             </div>
@@ -1198,6 +1237,146 @@
         <button id="saveNewFaceModalBtn" class="btn btn-facepal btn-sm" style="flex: 1.5;" data-i18n="modal_btn_save">
           <i class="fas fa-check"></i> <span>Save to Enclave (JSON)</span>
         </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================================================================= -->
+  <!-- --- POPUP MODAL: KEY GENERATION & NOISE CANCELLATION PROCESS ---- -->
+  <!-- ================================================================= -->
+  <div id="keyGenAnimationModal" class="modal-overlay" style="display: none;">
+    <div class="modal-card glass-panel keygen-modal-card">
+      <div class="modal-header">
+        <div style="display: flex; align-items: center; gap: 12px;">
+          <div class="keygen-cyber-icon">
+            <i class="fas fa-fingerprint"></i>
+          </div>
+          <div>
+            <h3 class="keygen-modal-title" data-i18n="keygen_modal_title">Sovereign Key Derivation & Hardware Enclave Sealing</h3>
+            <span class="keygen-modal-subtitle" data-i18n="keygen_modal_subtitle">Multi-Stage Optical Noise Filter • Invariant 128-D Vector • ZKP Digest</span>
+          </div>
+        </div>
+        <button id="closeKeyGenModalBtn" class="modal-close-btn">&times;</button>
+      </div>
+
+      <div class="modal-body" style="padding: 20px 24px;">
+        <!-- 4-Phase Stepper Progress -->
+        <div class="keygen-stepper">
+          <div class="keygen-step-node active" id="keygenStep1">
+            <div class="step-circle"><i class="fas fa-wand-magic-sparkles"></i></div>
+            <span data-i18n="keygen_step_1">1. Noise Filter</span>
+          </div>
+          <div class="keygen-step-line" id="keygenLine1"></div>
+          <div class="keygen-step-node" id="keygenStep2">
+            <div class="step-circle"><i class="fas fa-project-diagram"></i></div>
+            <span data-i18n="keygen_step_2">2. Invariant Vector</span>
+          </div>
+          <div class="keygen-step-line" id="keygenLine2"></div>
+          <div class="keygen-step-node" id="keygenStep3">
+            <div class="step-circle"><i class="fas fa-shield-halved"></i></div>
+            <span data-i18n="keygen_step_3">3. ZKP Digest</span>
+          </div>
+          <div class="keygen-step-line" id="keygenLine3"></div>
+          <div class="keygen-step-node" id="keygenStep4">
+            <div class="step-circle"><i class="fas fa-key"></i></div>
+            <span data-i18n="keygen_step_4">4. Fixed Key</span>
+          </div>
+        </div>
+
+        <!-- Center Visual Showcase Grid -->
+        <div class="keygen-visual-grid">
+          <!-- Transformed Normalized Face Chip -->
+          <div class="keygen-chip-preview">
+            <div class="chip-frame-box">
+              <canvas id="keygenFaceCanvas" width="160" height="160"></canvas>
+              <div class="chip-scanner-laser" id="keygenLaser"></div>
+              <div class="chip-noise-matrix" id="keygenNoiseMatrix"></div>
+            </div>
+            <div class="chip-meta-badge" id="keygenChipLabel">Denoised & Equalized</div>
+          </div>
+
+          <!-- Dynamic Enclave Telemetry Terminal Log -->
+          <div class="keygen-telemetry-terminal">
+            <div class="terminal-header">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+              <span class="terminal-title">ENCLAVE_NEURAL_KERNEL // v4.2</span>
+              <span class="terminal-status" id="keygenTerminalStatus">EXECUTING</span>
+            </div>
+            <div class="terminal-body" id="keygenTerminalLog">
+              <div class="terminal-line info">> Optical buffer captured from calibrated oval viewport...</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Scrambling Key Generation Display Box -->
+        <div class="keygen-key-reveal-container">
+          <div class="keygen-key-label">
+            <span><i class="fas fa-lock"></i> <span data-i18n="keygen_key_label">SOVEREIGN DETERMINISTIC FACIAL IDENTIFIER:</span></span>
+            <span id="keygenSecuritySeal" class="seal-badge pending">CALCULATING...</span>
+          </div>
+          <div class="keygen-scramble-box" id="keygenScrambleBox">
+            <span class="key-prefix">PAL-FP-</span><span class="key-segment" id="keySeg1">????</span>-<span class="key-segment" id="keySeg2">????</span>-<span class="key-segment" id="keySeg3">????</span>-<span class="key-segment" id="keySeg4">????</span>
+          </div>
+          <div class="keygen-progress-bar-container">
+            <div class="keygen-progress-bar-fill" id="keygenProgressFill" style="width: 0%;"></div>
+          </div>
+        </div>
+
+        <!-- Captured Face Status Checklist Card -->
+        <div class="captured-status-card" id="capturedStatusCard">
+          <div class="status-grid">
+            <div class="status-pill"><i class="fas fa-check-circle text-green"></i> <span>Lighting:</span> <b id="statLighting">Optimal (96%)</b></div>
+            <div class="status-pill"><i class="fas fa-check-circle text-green"></i> <span>Eyes Open:</span> <b id="statEyes">Both (EAR 0.34)</b></div>
+            <div class="status-pill"><i class="fas fa-check-circle text-green"></i> <span>Symmetry:</span> <b id="statSymmetry">99.1% Bilateral</b></div>
+            <div class="status-pill"><i class="fas fa-check-circle text-green"></i> <span>Expression:</span> <b id="statEmotion">Calm & Focused</b></div>
+            <div class="status-pill"><i class="fas fa-check-circle text-green"></i> <span>Noise Canceled:</span> <b id="statNoise">Gaussian 5x5 + CLAHE</b></div>
+            <div class="status-pill"><i class="fas fa-check-circle text-green"></i> <span>Enclave Liveness:</span> <b id="statLiveness">Biological Verified</b></div>
+          </div>
+        </div>
+
+        <!-- Outcome Section: Recognized Citizen vs Add New Profile -->
+        <div id="keygenOutcomeContainer" style="display: none; margin-top: 16px;">
+          <!-- Recognized Card -->
+          <div id="keygenRecognizedCard" class="keygen-result-card recognized" style="display: none;">
+            <div class="result-icon-badge success"><i class="fas fa-id-card-clip"></i></div>
+            <div class="result-info" style="flex: 1;">
+              <h4 class="result-title">✓ Citizen Recognized: <span id="recogCitizenName" style="color: #4ADE80;">--</span></h4>
+              <p class="result-desc">Face matched against Hardware Enclave records with <span id="recogConfidence" style="color: var(--color-fin-gold); font-weight: 700;">98.5% confidence</span>. Canonical sovereign key confirmed.</p>
+            </div>
+            <button id="recogProceedBtn" class="btn btn-facepal btn-sm">
+              <i class="fas fa-check-double"></i> <span>Confirm & Continue</span>
+            </button>
+          </div>
+
+          <!-- New Identity Card -->
+          <div id="keygenNewFaceCard" class="keygen-result-card new-identity" style="display: none;">
+            <div class="result-icon-badge new"><i class="fas fa-user-plus"></i></div>
+            <div class="result-info" style="flex: 1;">
+              <h4 class="result-title">✨ New Sovereign Face Signature Sealed</h4>
+              <p class="result-desc">A fixed deterministic ID has been synthesized from your noise-filtered biometric vector. Enroll into your hardware enclave:</p>
+              <div class="enroll-form-row">
+                <input type="text" id="keygenNewNameInput" class="form-control" placeholder="Citizen Full Name (e.g. Zaid N. Al-Qadi)" style="font-size: 0.9rem; padding: 10px 14px; flex: 2; min-width: 200px;">
+                <select id="keygenNewSectorSelect" class="form-control" style="font-size: 0.9rem; padding: 10px 14px; flex: 1; min-width: 150px;">
+                  <option value="Civil Registry">Civil Registry</option>
+                  <option value="Healthcare">Healthcare</option>
+                  <option value="Education">Education</option>
+                  <option value="Border Security">Border Security</option>
+                  <option value="Finance">Financial Services</option>
+                </select>
+                <button id="keygenSaveNewBtn" class="btn btn-facepal btn-sm" style="white-space: nowrap;">
+                  <i class="fas fa-shield-halved"></i> <span>Save to Enclave (JSON)</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer" style="padding: 14px 24px;">
+        <button id="closeKeyGenModalBottomBtn" class="btn btn-outline btn-sm" style="flex: 1;">Close</button>
+        <button id="reScanKeyGenBtn" class="btn btn-secondary btn-sm" style="flex: 1.2;"><i class="fas fa-rotate"></i> Scan Again</button>
       </div>
     </div>
   </div>
