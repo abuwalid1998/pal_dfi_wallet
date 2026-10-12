@@ -1164,6 +1164,58 @@ async function persistToCsvDatabase(record) {
   fetchCsvRecords();
 }
 
+// Current back-face mode ('appendix' | 'chip')
+let currentBackFaceMode = 'appendix';
+
+// Switch between Appendix View and Smart Chip / MRZ View on the reverse face
+function setBackFaceMode(mode, event) {
+  if (event) {
+    event.stopPropagation(); // Don't trigger the card flip when clicking the pills
+  }
+  currentBackFaceMode = mode;
+
+  const btnAppendix = document.getElementById('btnModeAppendix');
+  const btnChip = document.getElementById('btnModeChip');
+  const viewAppendix = document.getElementById('backFaceAppendix');
+  const viewChip = document.getElementById('backFaceChip');
+  const tabAnnex = document.getElementById('tabBtnAnnex');
+  const tabBack = document.getElementById('tabBtnBack');
+
+  if (mode === 'appendix') {
+    if (btnAppendix) btnAppendix.classList.add('active');
+    if (btnChip) btnChip.classList.remove('active');
+    if (viewAppendix) viewAppendix.style.display = 'flex';
+    if (viewChip) viewChip.style.display = 'none';
+    if (tabAnnex) tabAnnex.classList.add('active');
+    if (tabBack) tabBack.classList.remove('active');
+
+    const sideBadge = document.getElementById('cardSideBadge');
+    if (sideBadge && document.getElementById('palFlipCard')?.classList.contains('is-flipped')) {
+      sideBadge.textContent = '📋 ملحق الهوية الرسمي (Appendix)';
+      sideBadge.style.color = '#A78BFA';
+      sideBadge.style.borderColor = 'rgba(167, 139, 250, 0.4)';
+      sideBadge.style.background = 'rgba(167, 139, 250, 0.2)';
+    }
+  } else {
+    if (btnAppendix) btnAppendix.classList.remove('active');
+    if (btnChip) btnChip.classList.add('active');
+    if (viewAppendix) viewAppendix.style.display = 'none';
+    if (viewChip) viewChip.style.display = 'flex';
+    if (tabAnnex) tabAnnex.classList.remove('active');
+    if (tabBack) tabBack.classList.add('active');
+
+    const sideBadge = document.getElementById('cardSideBadge');
+    if (sideBadge && document.getElementById('palFlipCard')?.classList.contains('is-flipped')) {
+      sideBadge.textContent = '💳 شريحة التشفير وMRZ (Smart Chip)';
+      sideBadge.style.color = '#38BDF8';
+      sideBadge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+      sideBadge.style.background = 'rgba(56, 189, 248, 0.2)';
+    }
+  }
+
+  playBeep(mode === 'appendix' ? 620 : 700, 'sine', 0.05);
+}
+
 // --- 3D INTERACTIVE CARD FLIP & VIEW SWITCHER ---
 function toggleCardFlip() {
   const flipCard = document.getElementById('palFlipCard');
@@ -1175,55 +1227,92 @@ function toggleCardFlip() {
   // Play tactile card flip sound
   playBeep(isFlipped ? 640 : 520, 'sine', 0.06);
 
+  // Synchronize Tab Buttons
+  const tabFront = document.getElementById('tabBtnFront');
+  const tabAnnex = document.getElementById('tabBtnAnnex');
+  const tabBack = document.getElementById('tabBtnBack');
+
+  if (isFlipped) {
+    if (tabFront) tabFront.classList.remove('active');
+    if (currentBackFaceMode === 'appendix') {
+      if (tabAnnex) tabAnnex.classList.add('active');
+      if (tabBack) tabBack.classList.remove('active');
+    } else {
+      if (tabAnnex) tabAnnex.classList.remove('active');
+      if (tabBack) tabBack.classList.add('active');
+    }
+  } else {
+    if (tabFront) tabFront.classList.add('active');
+    if (tabAnnex) tabAnnex.classList.remove('active');
+    if (tabBack) tabBack.classList.remove('active');
+  }
+
   // Update badge and hint text
   const sideBadge = document.getElementById('cardSideBadge');
   const hintText = document.getElementById('flipHintText');
   if (sideBadge) {
-    sideBadge.textContent = isFlipped ? '💳 الوجه الخلفي (Back & MRZ)' : '🟢 الوجه الأمامي (Front)';
-    sideBadge.style.color = isFlipped ? '#38BDF8' : '#10B981';
-    sideBadge.style.borderColor = isFlipped ? 'rgba(56, 189, 248, 0.4)' : 'rgba(16, 185, 129, 0.4)';
-    sideBadge.style.background = isFlipped ? 'rgba(56, 189, 248, 0.2)' : 'rgba(16, 185, 129, 0.2)';
+    if (isFlipped) {
+      if (currentBackFaceMode === 'appendix') {
+        sideBadge.textContent = '📋 ملحق الهوية الرسمي (Appendix)';
+        sideBadge.style.color = '#A78BFA';
+        sideBadge.style.borderColor = 'rgba(167, 139, 250, 0.4)';
+        sideBadge.style.background = 'rgba(167, 139, 250, 0.2)';
+      } else {
+        sideBadge.textContent = '💳 شريحة التشفير وMRZ (Smart Chip)';
+        sideBadge.style.color = '#38BDF8';
+        sideBadge.style.borderColor = 'rgba(56, 189, 248, 0.4)';
+        sideBadge.style.background = 'rgba(56, 189, 248, 0.2)';
+      }
+    } else {
+      sideBadge.textContent = '🟢 الوجه الأمامي (Front)';
+      sideBadge.style.color = '#10B981';
+      sideBadge.style.borderColor = 'rgba(16, 185, 129, 0.4)';
+      sideBadge.style.background = 'rgba(16, 185, 129, 0.2)';
+    }
   }
+
   if (hintText) {
     hintText.textContent = isFlipped 
       ? 'انقر على الهوية للعودة إلى الوجه الأمامي • Click Card to Flip to Front'
-      : 'انقر على الهوية لقلبها (الوجه ⇄ الظهر) • Click Card to Flip (Front ⇄ Back)';
+      : 'انقر على الهوية لقلبها (الوجه ⇄ ملحق الهوية) • Click Card to Flip (Front ⇄ Appendix)';
   }
 }
 
 function switchCardView(view) {
-  const card3dScene = document.getElementById('viewIdCard3dScene');
-  const annexView = document.getElementById('viewAnnex');
   const flipCard = document.getElementById('palFlipCard');
-
   const tabFront = document.getElementById('tabBtnFront');
   const tabAnnex = document.getElementById('tabBtnAnnex');
+  const tabBack = document.getElementById('tabBtnBack');
 
   if (view === 'front' || view === '3d') {
-    if (card3dScene) card3dScene.style.display = 'flex';
-    if (annexView) annexView.style.display = 'none';
     if (tabFront) tabFront.classList.add('active');
     if (tabAnnex) tabAnnex.classList.remove('active');
+    if (tabBack) tabBack.classList.remove('active');
 
     // If currently flipped to back, rotate back to front
     if (flipCard && flipCard.classList.contains('is-flipped')) {
       toggleCardFlip();
     }
-  } else if (view === 'back') {
-    if (card3dScene) card3dScene.style.display = 'flex';
-    if (annexView) annexView.style.display = 'none';
-    if (tabFront) tabFront.classList.add('active');
-    if (tabAnnex) tabAnnex.classList.remove('active');
+  } else if (view === 'annex') {
+    setBackFaceMode('appendix');
+    if (tabFront) tabFront.classList.remove('active');
+    if (tabAnnex) tabAnnex.classList.add('active');
+    if (tabBack) tabBack.classList.remove('active');
 
-    // If currently on front, flip to back
+    // Ensure the card is flipped to back face
     if (flipCard && !flipCard.classList.contains('is-flipped')) {
       toggleCardFlip();
     }
-  } else if (view === 'annex') {
-    if (card3dScene) card3dScene.style.display = 'none';
-    if (annexView) annexView.style.display = 'block';
+  } else if (view === 'back' || view === 'chip') {
+    setBackFaceMode('chip');
     if (tabFront) tabFront.classList.remove('active');
-    if (tabAnnex) tabAnnex.classList.add('active');
+    if (tabAnnex) tabAnnex.classList.remove('active');
+    if (tabBack) tabBack.classList.add('active');
+
+    // Ensure the card is flipped to back face
+    if (flipCard && !flipCard.classList.contains('is-flipped')) {
+      toggleCardFlip();
+    }
   }
 
   playBeep(520, 'sine', 0.05);

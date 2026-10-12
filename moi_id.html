@@ -503,12 +503,31 @@
       font-weight: 800;
     }
 
-    /* --- 3D PERSPECTIVE SCENE & FLIP CARD WRAPPER (FIXED STANDARD RATIO: 580px x 366px) --- */
+    /* ========================================================================= */
+    /* FUTURISTIC 3D PALESTINIAN NATIONAL ID & CYBER-SECURITY CREDENTIAL        */
+    /* ========================================================================= */
+    @keyframes holoPrismBorder {
+      0% { filter: hue-rotate(0deg) drop-shadow(0 0 15px rgba(16, 185, 129, 0.45)); }
+      50% { filter: hue-rotate(50deg) drop-shadow(0 0 25px rgba(56, 189, 248, 0.65)); }
+      100% { filter: hue-rotate(0deg) drop-shadow(0 0 15px rgba(16, 185, 129, 0.45)); }
+    }
+
+    @keyframes circuitPulse {
+      0%, 100% { opacity: 0.15; }
+      50% { opacity: 0.45; }
+    }
+
+    @keyframes bioScannerPulse {
+      0%, 100% { transform: scale(1); opacity: 0.8; }
+      50% { transform: scale(1.05); opacity: 1; }
+    }
+
+    /* --- 3D PERSPECTIVE SCENE & FUTURISTIC SHAPE (590px x 372px) --- */
     .pal-flip-card-scene {
-      perspective: 1400px;
+      perspective: 1600px;
       width: 100%;
-      max-width: 580px;
-      height: 366px;
+      max-width: 590px;
+      height: 372px;
       margin: 0 auto;
       position: relative;
       user-select: none;
@@ -521,7 +540,12 @@
       transform-style: preserve-3d;
       transition: transform 0.85s cubic-bezier(0.34, 1.25, 0.64, 1);
       cursor: pointer;
-      border-radius: 12px;
+      border-radius: 18px;
+      background: linear-gradient(135deg, #10B981 0%, #06B6D4 30%, #3B82F6 50%, #D4AF37 75%, #10B981 100%);
+      padding: 3px;
+      animation: holoPrismBorder 8s ease-in-out infinite;
+      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.9), 0 0 35px rgba(16, 185, 129, 0.35);
+      box-sizing: border-box;
     }
 
     .pal-flip-card.is-flipped {
@@ -530,13 +554,13 @@
 
     /* Floating Lift & Shadow on Hover */
     .pal-flip-card-scene:hover .pal-flip-card:not(.is-flipped) {
-      transform: translateY(-5px) rotateX(2deg) rotateY(-2deg);
-      filter: drop-shadow(0 20px 30px rgba(0, 122, 61, 0.35));
+      transform: translateY(-6px) rotateX(2deg) rotateY(-2deg);
+      box-shadow: 0 30px 65px rgba(0, 0, 0, 0.95), 0 0 45px rgba(16, 185, 129, 0.55);
     }
 
     .pal-flip-card-scene:hover .pal-flip-card.is-flipped {
-      transform: rotateY(180deg) translateY(-5px) rotateX(2deg);
-      filter: drop-shadow(0 20px 30px rgba(0, 122, 61, 0.35));
+      transform: rotateY(180deg) translateY(-6px) rotateX(2deg);
+      box-shadow: 0 30px 65px rgba(0, 0, 0, 0.95), 0 0 45px rgba(56, 189, 248, 0.55);
     }
 
     /* Common Card Face Properties */
@@ -547,31 +571,28 @@
       height: 100%;
       -webkit-backface-visibility: hidden;
       backface-visibility: hidden;
-      border-radius: 12px;
+      border-radius: 15px;
       overflow: hidden;
       box-sizing: border-box;
-      box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 122, 61, 0.25);
     }
 
     /* FRONT FACE: LAMINATED GREEN PALESTINIAN ID */
     .pal-flip-face-front {
       z-index: 2;
       transform: rotateY(0deg);
-      background: #FFFFFF;
-      padding: 8px;
-      border: 2.5px solid #2E7D32;
+      background: #022013;
+      padding: 4px;
     }
 
-    /* BACK FACE: LAMINATED GREEN/DARK MRZ & CHIP PALESTINIAN ID */
+    /* BACK FACE: DIRECTLY HOUSES THE OFFICIAL APPENDIX CARD & CHIP */
     .pal-flip-face-back {
       transform: rotateY(180deg);
       z-index: 1;
-      background: #FFFFFF;
-      padding: 8px;
-      border: 2.5px solid #2E7D32;
+      background: #041424;
+      padding: 4px;
     }
 
-    /* Outer Notch markers (Red triangles like official laminated pouch) */
+    /* Holographic Cyber Notch Accents */
     .pal-card-notch-l, .pal-card-notch-r {
       position: absolute;
       top: 50%;
@@ -581,11 +602,11 @@
       border-bottom: 7px solid transparent;
       z-index: 10;
     }
-    .pal-card-notch-l { left: -9px; border-right: 9px solid #D32F2F; }
-    .pal-card-notch-r { right: -9px; border-left: 9px solid #D32F2F; }
+    .pal-card-notch-l { left: -7px; border-right: 8px solid #EF4444; }
+    .pal-card-notch-r { right: -7px; border-left: 8px solid #EF4444; }
 
-    .pal-card-notch-l-top { position: absolute; top: 20%; left: -9px; width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 9px solid #D32F2F; z-index: 10; }
-    .pal-card-notch-r-top { position: absolute; top: 20%; right: -9px; width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 9px solid #D32F2F; z-index: 10; }
+    .pal-card-notch-l-top { position: absolute; top: 20%; left: -7px; width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 8px solid #EF4444; z-index: 10; }
+    .pal-card-notch-r-top { position: absolute; top: 20%; right: -7px; width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 8px solid #EF4444; z-index: 10; }
 
     /* The Inner Green Card Surface (Front) */
     .pal-green-card-inner {
@@ -595,12 +616,12 @@
       background-color: #E2F2E5;
       background-image: 
         radial-gradient(#C8E6C9 15%, transparent 16%),
-        linear-gradient(45deg, rgba(76, 175, 80, 0.06) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.06) 75%),
-        linear-gradient(45deg, rgba(76, 175, 80, 0.06) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.06) 75%);
+        linear-gradient(45deg, rgba(76, 175, 80, 0.08) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.08) 75%),
+        linear-gradient(45deg, rgba(76, 175, 80, 0.08) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.08) 75%);
       background-size: 14px 14px, 20px 20px, 20px 20px;
       border: 1.5px solid #2E7D32;
-      border-radius: 6px;
-      padding: 7px 10px;
+      border-radius: 12px;
+      padding: 6px 10px;
       color: #0F172A;
       font-family: 'Cairo', sans-serif;
       overflow: hidden;
@@ -610,17 +631,38 @@
       justify-content: space-between;
     }
 
+    /* Cyber Security Circuit Traces Overlay */
+    .pal-cyber-circuit-svg {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      pointer-events: none;
+      z-index: 1;
+      animation: circuitPulse 4s ease-in-out infinite;
+    }
+
     /* Central Palestinian Eagle Watermark */
     .pal-green-watermark {
       position: absolute;
       top: 50%;
       left: 55%;
       transform: translate(-50%, -50%);
-      width: 190px;
-      height: 190px;
-      opacity: 0.14;
+      width: 185px;
+      height: 185px;
+      opacity: 0.16;
       pointer-events: none;
       z-index: 1;
+    }
+
+    /* Microprint Security Thread */
+    .pal-security-thread {
+      position: absolute;
+      top: 0; bottom: 0; left: 142px;
+      width: 3px;
+      background: linear-gradient(180deg, rgba(16,185,129,0.7) 0%, rgba(212,175,55,0.7) 50%, rgba(16,185,129,0.7) 100%);
+      box-shadow: 0 0 6px rgba(16, 185, 129, 0.5);
+      z-index: 2;
     }
 
     /* Top Row */
@@ -628,14 +670,14 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       position: relative;
-      z-index: 2;
+      z-index: 3;
     }
 
     .pal-green-top-center {
       text-align: center;
-      line-height: 1.1;
+      line-height: 1.05;
       margin-left: 20px;
     }
 
@@ -643,6 +685,7 @@
       font-size: 1.15rem;
       font-weight: 900;
       color: #1B5E20;
+      letter-spacing: 0.5px;
     }
 
     .pal-green-title-he {
@@ -654,7 +697,7 @@
 
     .pal-green-top-right {
       text-align: right;
-      line-height: 1.1;
+      line-height: 1.05;
     }
 
     .pal-green-authority-ar {
@@ -670,13 +713,27 @@
       direction: rtl;
     }
 
+    /* Top Left Contactless Wave Indicator */
+    .pal-nfc-indicator {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      color: #047857;
+      background: rgba(16, 185, 129, 0.15);
+      padding: 1px 6px;
+      border-radius: 4px;
+      border: 1px solid rgba(16, 185, 129, 0.3);
+    }
+
     /* Front Content Grid: Left Photo, Right Table */
     .pal-green-content-grid {
       display: grid;
       grid-template-columns: 122px 1fr;
       gap: 8px;
       position: relative;
-      z-index: 2;
+      z-index: 3;
       align-items: center;
       flex: 1;
     }
@@ -691,12 +748,12 @@
     .pal-photo-container {
       width: 118px;
       height: 152px;
-      border-radius: 5px;
+      border-radius: 6px;
       border: 1.5px solid #1B5E20;
       background: #1D4ED8;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.35);
     }
 
     .pal-photo-container img {
@@ -709,7 +766,7 @@
     .pal-photo-top-ribbon {
       position: absolute;
       top: 0; left: 0; right: 0;
-      background: rgba(15, 23, 42, 0.8);
+      background: rgba(15, 23, 42, 0.85);
       color: #FFFFFF;
       font-size: 0.62rem;
       font-weight: 800;
@@ -719,12 +776,28 @@
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
+    /* Futuristic Hologram Badge on Photo */
+    .pal-photo-bio-reticle {
+      position: absolute;
+      bottom: 2px;
+      right: 2px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid #10B981;
+      border-radius: 3px;
+      padding: 1px 4px;
+      font-size: 0.52rem;
+      font-weight: 800;
+      color: #4ADE80;
+      letter-spacing: 0.3px;
+      animation: bioScannerPulse 3s ease-in-out infinite;
+    }
+
     .pal-official-ink-stamp {
       position: absolute;
       bottom: -8px;
       left: -8px;
-      width: 78px;
-      height: 78px;
+      width: 76px;
+      height: 76px;
       pointer-events: none;
       transform: rotate(-12deg);
       filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
@@ -733,7 +806,7 @@
 
     .pal-photo-date-stamp {
       font-family: 'JetBrains Mono', 'OCR-A', monospace;
-      font-size: 0.70rem;
+      font-size: 0.68rem;
       font-weight: 800;
       color: #1E293B;
       margin-top: 3px;
@@ -744,10 +817,10 @@
     .pal-green-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.71rem;
+      font-size: 0.70rem;
       line-height: 1.1;
       border: 1.5px solid #2E7D32;
-      background: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.65);
     }
 
     .pal-green-table td {
@@ -775,7 +848,7 @@
       white-space: nowrap;
       font-weight: 800;
       width: 30%;
-      background: rgba(200, 230, 201, 0.35);
+      background: rgba(200, 230, 201, 0.4);
     }
 
     .pal-field-label-ar {
@@ -806,20 +879,15 @@
       width: 25%;
     }
 
-    /* --- BACK FACE INNER CARD (EXACT 580px x 366px DIMENSION MATCH) --- */
+    /* --- BACK FACE: DUAL-MODE FUTURISTIC WRAPPER (APPENDIX & MRZ CHIP) --- */
     .pal-back-card-inner {
       position: relative;
       width: 100%;
       height: 100%;
-      background-color: #E8F5E9;
-      background-image: 
-        radial-gradient(#C8E6C9 15%, transparent 16%),
-        linear-gradient(45deg, rgba(76, 175, 80, 0.05) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.05) 75%),
-        linear-gradient(45deg, rgba(76, 175, 80, 0.05) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.05) 75%);
-      background-size: 14px 14px, 20px 20px, 20px 20px;
-      border: 1.5px solid #2E7D32;
-      border-radius: 6px;
-      padding: 8px 10px;
+      background-color: #FFFFFF;
+      border: 1.5px solid #0F172A;
+      border-radius: 12px;
+      padding: 8px 12px;
       color: #0F172A;
       font-family: 'Cairo', sans-serif;
       overflow: hidden;
@@ -829,61 +897,169 @@
       justify-content: space-between;
     }
 
+    /* Top Sub-Mode Pills right on the back face */
+    .pal-back-subnav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(15, 23, 42, 0.88);
+      border-radius: 20px;
+      padding: 2px 5px;
+      margin-bottom: 5px;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      z-index: 10;
+    }
+
+    .pal-back-mode-pill {
+      background: transparent;
+      border: none;
+      color: #94A3B8;
+      font-size: 0.65rem;
+      font-weight: 800;
+      padding: 3px 10px;
+      border-radius: 14px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      transition: all 0.2s;
+    }
+
+    .pal-back-mode-pill.active {
+      background: #007A3D;
+      color: #FFFFFF;
+      box-shadow: 0 0 10px rgba(0, 122, 61, 0.8);
+    }
+
+    /* Mode 1: The Official Appendix Content on Back */
+    .pal-back-appendix-content {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+    }
+
+    .pal-appendix-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      border-bottom: 1.5px solid #000000;
+      padding-bottom: 6px;
+      margin-bottom: 5px;
+    }
+
+    .pal-appendix-title-ar {
+      font-size: 1.15rem;
+      font-weight: 900;
+      color: #000000;
+      line-height: 1.05;
+    }
+
+    .pal-appendix-title-he {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #000000;
+      direction: rtl;
+    }
+
+    .pal-appendix-id-box {
+      border: 1.5px solid #000000;
+      padding: 1px 8px;
+      font-family: 'JetBrains Mono', monospace;
+      font-weight: 900;
+      font-size: 0.95rem;
+      letter-spacing: 2px;
+      margin-top: 3px;
+      display: inline-block;
+    }
+
+    .pal-appendix-qr-img {
+      width: 58px;
+      height: 58px;
+      border: 1px solid #CBD5E1;
+      padding: 2px;
+      border-radius: 4px;
+    }
+
+    .pal-appendix-authority-ar {
+      font-size: 1.05rem;
+      font-weight: 900;
+      color: #C62828;
+      line-height: 1.05;
+    }
+
+    .pal-appendix-authority-he {
+      font-size: 0.85rem;
+      font-weight: 800;
+      color: #C62828;
+      direction: rtl;
+    }
+
+    .pal-appendix-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.74rem;
+      margin-top: 4px;
+    }
+
+    .pal-appendix-table td {
+      border: 1px solid #000000;
+      padding: 3.5px 6px;
+    }
+
+    /* Mode 2: Hardware Smart Chip & MRZ Zone Content */
+    .pal-back-chip-content {
+      display: none;
+      flex-direction: column;
+      justify-content: space-between;
+      height: 100%;
+      background: #E8F5E9;
+      border-radius: 8px;
+      padding: 8px;
+    }
+
     .pal-back-magstripe {
-      height: 32px;
+      height: 30px;
       background: linear-gradient(180deg, #111827 0%, #030712 100%);
       border-radius: 3px;
       margin-bottom: 6px;
       border: 1px solid rgba(0, 0, 0, 0.4);
-      position: relative;
-    }
-
-    .pal-back-middle-grid {
-      display: grid;
-      grid-template-columns: 50px 1fr auto;
-      gap: 10px;
-      align-items: center;
-      margin-bottom: 4px;
     }
 
     .pal-emv-chip {
-      width: 46px;
-      height: 36px;
+      width: 44px;
+      height: 34px;
       background: linear-gradient(135deg, #F59E0B 0%, #D97706 40%, #FBBF24 70%, #B45309 100%);
       border-radius: 5px;
       border: 1px solid #78350F;
       position: relative;
-      overflow: hidden;
       box-shadow: inset 0 1px 2px rgba(255,255,255,0.6), 0 2px 4px rgba(0,0,0,0.25);
     }
+    .pal-emv-chip::before { content: ""; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: #78350F; }
+    .pal-emv-chip::after { content: ""; position: absolute; top: 0; bottom: 0; left: 50%; width: 1px; background: #78350F; }
 
-    .pal-emv-chip::before {
-      content: "";
-      position: absolute;
-      top: 50%; left: 0; right: 0; height: 1px;
-      background: #78350F;
-    }
-    .pal-emv-chip::after {
-      content: "";
-      position: absolute;
-      top: 0; bottom: 0; left: 50%; width: 1px;
-      background: #78350F;
+    .pal-back-middle-grid {
+      display: grid;
+      grid-template-columns: 46px 1fr 50px;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 6px;
     }
 
     .pal-back-meta-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 3px 10px;
-      font-size: 0.67rem;
+      gap: 4px 8px;
     }
 
     .pal-back-meta-item {
+      font-size: 0.65rem;
       line-height: 1.15;
     }
 
     .pal-back-meta-label {
-      color: #1E293B;
-      font-size: 0.60rem;
+      color: #64748B;
+      font-size: 0.58rem;
       font-weight: 700;
     }
 
@@ -896,128 +1072,30 @@
       background: #09121D;
       border: 1px solid #1E293B;
       border-radius: 4px;
-      padding: 5px 8px;
+      padding: 4px 8px;
       font-family: 'OCR-A', 'JetBrains Mono', monospace;
-      font-size: 0.72rem;
+      font-size: 0.70rem;
       letter-spacing: 2px;
       color: #E2E8F0;
-      line-height: 1.3;
+      line-height: 1.25;
       white-space: pre-line;
       text-align: left;
       direction: ltr;
     }
 
     .pal-back-disclaimer {
-      font-size: 0.58rem;
-      color: #475569;
+      font-size: 0.56rem;
+      color: #64748B;
       text-align: center;
-      margin-top: 3px;
-      font-weight: 700;
-      line-height: 1.1;
-    }
-
-    /* --- THE OFFICIAL ANNEX CARD (ملحق بطاقة الهوية / ספח לתعודת זהות) --- */
-    .pal-annex-card {
-      width: 100%;
-      max-width: 580px;
-      background: #FFFFFF;
-      border: 2px solid #0F172A;
-      border-radius: 8px;
-      padding: 18px 20px;
-      color: #0F172A;
-      font-family: 'Cairo', sans-serif;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-      box-sizing: border-box;
-      position: relative;
-      margin: 0 auto;
-    }
-
-    .pal-annex-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 12px;
-      border-bottom: 2px solid #000000;
-      padding-bottom: 10px;
-    }
-
-    .pal-annex-title-left {
-      text-align: left;
-      line-height: 1.15;
-    }
-
-    .pal-annex-title-ar {
-      font-size: 1.25rem;
-      font-weight: 900;
-      color: #000000;
-    }
-
-    .pal-annex-title-he {
-      font-size: 0.95rem;
-      font-weight: 800;
-      color: #000000;
-      direction: rtl;
-    }
-
-    .pal-annex-qr-box {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
-    }
-
-    .pal-annex-qr-img {
-      width: 64px;
-      height: 64px;
-      border: 1px solid #CBD5E1;
-      padding: 2px;
-    }
-
-    .pal-annex-id-box {
-      border: 1.5px solid #000000;
-      padding: 2px 10px;
-      font-family: 'JetBrains Mono', monospace;
-      font-weight: 900;
-      font-size: 1.05rem;
-      letter-spacing: 2px;
+      line-height: 1.2;
       margin-top: 4px;
-    }
-
-    .pal-annex-authority-right {
-      text-align: right;
-      line-height: 1.15;
-    }
-
-    .pal-annex-authority-ar {
-      font-size: 1.15rem;
-      font-weight: 900;
-      color: #C62828;
-    }
-
-    .pal-annex-authority-he {
-      font-size: 0.92rem;
-      font-weight: 800;
-      color: #C62828;
-      direction: rtl;
-    }
-
-    .pal-annex-table {
-      width: 100%;
-      border-collapse: collapse;
-      font-size: 0.8rem;
-      margin-top: 6px;
-    }
-
-    .pal-annex-table td {
-      border: 1px solid #000000;
-      padding: 5px 8px;
     }
 
     /* Responsive scaling for mobile devices */
     @media (max-width: 650px) {
       .pal-flip-card-scene {
         max-width: 100%;
-        height: 330px;
+        height: 335px;
       }
       .pal-green-content-grid {
         grid-template-columns: 100px 1fr;
@@ -1029,7 +1107,7 @@
       }
       .pal-green-table td {
         padding: 1.5px 3px;
-        font-size: 0.64rem;
+        font-size: 0.63rem;
       }
       .pal-id-num-display {
         font-size: 0.90rem;
@@ -1040,8 +1118,8 @@
       .pal-field-value-cell { font-size: 0.70rem; }
       .pal-field-hebrew-val { font-size: 0.64rem; }
       .pal-mrz-box {
-        font-size: 0.58rem;
-        letter-spacing: 1.2px;
+        font-size: 0.56rem;
+        letter-spacing: 1px;
       }
     }
 
@@ -1728,37 +1806,53 @@
     <div class="moi-panel" id="stepPanel5">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap:wrap; gap:10px;">
         <div>
-          <h2 style="font-size: 1.4r      <!-- VIEW SWITCHER TABS -->
+          <h2 style="font-size: 1.4rem; color: #FFFFFF; font-weight: 800; display:flex; align-items:center; gap:10px;">
+            <i class="fas fa-id-card-clip" style="color: #10B981;"></i>
+            <span id="step5Title">Step 5: Visualized Digital National ID & Appendix Card</span>
+          </h2>
+          <p style="color: #94A3B8; font-size: 0.88rem; margin-top: 4px;" id="step5Desc">
+            Cryptographically signed by the Ministry of Interior issuer node and pushed directly to SANAD Wallet. Click the card or buttons below to flip front/appendix.
+          </p>
+        </div>
+        <span class="tag-badge gold">
+          <i class="fas fa-shield-halved"></i> W3C & ICAO 9303 Compliant
+        </span>
+      </div>
+
+      <!-- VIEW SWITCHER TABS -->
       <div class="id-card-view-tabs">
         <button class="id-tab-btn active" id="tabBtnFront" onclick="switchCardView('front')">
-          <i class="fas fa-id-card"></i> <span>بطاقة الهوية الذكية (3D تفاعلي) • 3D National ID</span>
+          <i class="fas fa-id-card"></i> <span>🟢 وجه الهوية الوطنية • Front ID</span>
         </button>
         <button class="id-tab-btn" id="tabBtnAnnex" onclick="switchCardView('annex')">
-          <i class="fas fa-file-contract"></i> <span>ملحق الهوية الرسمي (السفح) • Official Annex</span>
+          <i class="fas fa-file-contract"></i> <span>📋 ملحق الهوية الرسمي (السفح) • Official Appendix</span>
+        </button>
+        <button class="id-tab-btn" id="tabBtnBack" onclick="switchCardView('back')">
+          <i class="fas fa-microchip"></i> <span>💳 شريحة التشفير وMRZ • Smart Chip</span>
         </button>
         <button class="id-tab-btn" id="tabBtnFlip" onclick="toggleCardFlip()">
-          <i class="fas fa-arrows-rotate"></i> <span>اقلب الهوية (Flip Card)</span>
+          <i class="fas fa-arrows-rotate"></i> <span>🔄 اقلب الهوية (Flip Card)</span>
         </button>
       </div>
 
       <!-- DISPLAY CONTAINER -->
       <div class="id-card-display-container">
 
-        <!-- 1. 3D FLIPPABLE PALESTINIAN NATIONAL ID CARD (FRONT & BACK IN ONE SCENE) -->
+        <!-- 3D FLIPPABLE PALESTINIAN NATIONAL ID CARD (FRONT & APPENDIX / CHIP BACK) -->
         <div id="viewIdCard3dScene" style="display:flex; flex-direction:column; align-items:center; width:100%;">
           
           <!-- Interactive Flip Prompt Pill -->
           <div class="pal-flip-hint-pill" onclick="toggleCardFlip()" title="Click anywhere to flip the card">
             <i class="fas fa-arrows-rotate"></i>
-            <span id="flipHintText">انقر على الهوية لقلبها (الوجه ⇄ الظهر) • Click Card to Flip</span>
+            <span id="flipHintText">انقر على الهوية لقلبها (الوجه ⇄ ملحق الهوية) • Click Card to Flip (Front ⇄ Appendix)</span>
             <span class="pal-flip-badge" id="cardSideBadge">🟢 الوجه الأمامي (Front)</span>
           </div>
 
-          <!-- The 3D Scene Wrapper (Fixed Proportions 580px x 366px) -->
-          <div class="pal-flip-card-scene" onclick="toggleCardFlip()" title="Click to flip between Front and Back">
+          <!-- The 3D Scene Wrapper (Futuristic Proportions 590px x 372px) -->
+          <div class="pal-flip-card-scene" onclick="toggleCardFlip()" title="Click to flip between Front and Appendix">
             <div class="pal-flip-card" id="palFlipCard">
 
-              <!-- FRONT FACE: LAMINATED GREEN PALESTINIAN ID -->
+              <!-- FRONT FACE: LAMINATED GREEN PALESTINIAN ID WITH CYBER-FUTURISTIC EMBELLISHMENTS -->
               <div class="pal-flip-face pal-flip-face-front">
                 <!-- Alignment notch indicators (Red triangles matching official laminated pouch) -->
                 <div class="pal-card-notch-l-top"></div>
@@ -1767,6 +1861,29 @@
                 <div class="pal-card-notch-r"></div>
 
                 <div class="pal-green-card-inner">
+                  <!-- Futuristic Cyber Geometric Circuit Lines SVG Overlay -->
+                  <svg class="pal-cyber-circuit-svg" viewBox="0 0 580 366" preserveAspectRatio="none">
+                    <defs>
+                      <linearGradient id="cyberTraceGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stop-color="#10B981" stop-opacity="0.45"/>
+                        <stop offset="50%" stop-color="#06B6D4" stop-opacity="0.3"/>
+                        <stop offset="100%" stop-color="#3B82F6" stop-opacity="0.45"/>
+                      </linearGradient>
+                    </defs>
+                    <path d="M 0 35 L 80 35 L 110 5 L 260 5" fill="none" stroke="url(#cyberTraceGrad)" stroke-width="1.2"/>
+                    <circle cx="80" cy="35" r="2.5" fill="#10B981"/>
+                    <circle cx="260" cy="5" r="2.5" fill="#38BDF8"/>
+                    <path d="M 580 35 L 500 35 L 470 5 L 360 5" fill="none" stroke="url(#cyberTraceGrad)" stroke-width="1.2"/>
+                    <circle cx="500" cy="35" r="2.5" fill="#10B981"/>
+                    <path d="M 0 330 L 120 330 L 155 360 L 280 360" fill="none" stroke="url(#cyberTraceGrad)" stroke-width="1.2"/>
+                    <circle cx="120" cy="330" r="2.5" fill="#10B981"/>
+                    <path d="M 580 330 L 460 330 L 425 360 L 320 360" fill="none" stroke="url(#cyberTraceGrad)" stroke-width="1.2"/>
+                    <circle cx="460" cy="330" r="2.5" fill="#10B981"/>
+                  </svg>
+
+                  <!-- Microprint Security Thread -->
+                  <div class="pal-security-thread"></div>
+
                   <!-- Center Watermark of the Palestinian Eagle of Saladin -->
                   <svg class="pal-green-watermark" viewBox="0 0 100 100" fill="none">
                     <path d="M50 5 L55 20 L70 20 L58 30 L63 45 L50 35 L37 45 L42 30 L30 20 L45 20 Z" fill="#1B5E20"/>
@@ -1777,8 +1894,14 @@
                     <polygon points="38,45 50,55 38,65" fill="#C62828"/>
                   </svg>
 
-                  <!-- Top Row: Title in Center, Authority on Right -->
+                  <!-- Top Row: NFC Badge on Left, Title in Center, Authority on Right -->
                   <div class="pal-green-top-row">
+                    <!-- Futuristic NFC Wave Indicator -->
+                    <div class="pal-nfc-indicator">
+                      <i class="fas fa-wifi" style="transform:rotate(90deg); font-size:0.65rem;"></i>
+                      <span>PAL-NFC SECURE</span>
+                    </div>
+
                     <!-- Center Title -->
                     <div class="pal-green-top-center">
                       <div class="pal-green-title-ar">بطاقة هوية</div>
@@ -1801,13 +1924,16 @@
                         <img id="cardPhotoImg" src="assets/official_citizen_portrait.jpg" alt="Citizen Photo" onerror="this.src='assets/logo_icon.jpg'">
                         <div class="pal-photo-top-ribbon">وزارة الداخلية</div>
                         
+                        <!-- Futuristic Biometric Verification Scan Reticle -->
+                        <div class="pal-photo-bio-reticle">
+                          <i class="fas fa-fingerprint"></i> BIO-VERIFIED: 99.4%
+                        </div>
+
                         <!-- Overlapping Circular Blue Ink Stamp (Civil Status Directorate) -->
                         <svg class="pal-official-ink-stamp" viewBox="0 0 100 100">
                           <circle cx="50" cy="50" r="46" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-dasharray="3 2"/>
                           <circle cx="50" cy="50" r="38" fill="none" stroke="#1D4ED8" stroke-width="1.5"/>
-                          <!-- Palestinian Eagle in Center of Stamp -->
                           <path d="M50 24 L53 36 L64 36 L55 43 L58 55 L50 48 L42 55 L45 43 L36 36 L47 36 Z" fill="#1D4ED8"/>
-                          <!-- Text around stamp in Arabic and Hebrew -->
                           <text x="50" y="74" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="900" fill="#1D4ED8">دائرة الأحوال المدنية</text>
                           <text x="50" y="84" text-anchor="middle" font-size="6.5" font-weight="bold" fill="#1D4ED8">مديرية غزة / 21-2</text>
                         </svg>
@@ -1926,173 +2052,157 @@
                 </div>
               </div>
 
-              <!-- BACK FACE: LAMINATED GREEN/DARK MRZ & CHIP PALESTINIAN ID -->
+              <!-- BACK FACE: DUAL-MODE SOVEREIGN REVERSE (OFFICIAL APPENDIX CARD & SMART CHIP) -->
               <div class="pal-flip-face pal-flip-face-back">
-                <!-- Alignment notch indicators (Red triangles matching front side) -->
+                <!-- Alignment notch indicators (matching official pouch) -->
                 <div class="pal-card-notch-l-top"></div>
                 <div class="pal-card-notch-l"></div>
                 <div class="pal-card-notch-r-top"></div>
                 <div class="pal-card-notch-r"></div>
 
                 <div class="pal-back-card-inner">
-                  <!-- Magnetic Stripe -->
-                  <div class="pal-back-magstripe"></div>
+                  <!-- Subnav mode switcher pills right on the back face -->
+                  <div class="pal-back-subnav" onclick="event.stopPropagation()">
+                    <button type="button" class="pal-back-mode-pill active" id="btnModeAppendix" onclick="setBackFaceMode('appendix', event)">
+                      <i class="fas fa-file-contract"></i> <span>📋 ملحق الهوية الرسمي (Appendix)</span>
+                    </button>
+                    <button type="button" class="pal-back-mode-pill" id="btnModeChip" onclick="setBackFaceMode('chip', event)">
+                      <i class="fas fa-microchip"></i> <span>💳 شريحة التشفير وMRZ (Smart Chip)</span>
+                    </button>
+                  </div>
 
-                  <!-- Middle Section -->
-                  <div class="pal-back-middle-grid">
-                    <!-- Gold Smart Chip Graphic -->
-                    <div class="pal-emv-chip" title="EMV Smart Cryptographic Chip"></div>
+                  <!-- MODE 1: OFFICIAL CIVIL STATUS APPENDIX CARD (ملحق بطاقة الهوية / ספח לתעודת זהות) -->
+                  <div class="pal-back-appendix-content" id="backFaceAppendix" style="display:flex;">
+                    <!-- Appendix Header -->
+                    <div class="pal-appendix-header">
+                      <!-- Left: Title & 9-Digit Boxed ID -->
+                      <div style="text-align:right;">
+                        <div class="pal-appendix-title-ar">ملحق لبطاقة الهوية</div>
+                        <div class="pal-appendix-title-he">ספח לתעודת זהות</div>
+                        <div class="pal-appendix-id-box" id="annexIdDisplay">4 0892184 3</div>
+                      </div>
 
-                    <!-- Metadata grid -->
-                    <div class="pal-back-meta-grid">
-                      <div class="pal-back-meta-item">
-                        <div class="pal-back-meta-label">المحافظة / العنوان:</div>
-                        <div class="pal-back-meta-val" id="backAddress">القدس الشريف — دولة فلسطين</div>
+                      <!-- Center: QR Code & Hebrew transliteration -->
+                      <div style="display:flex; flex-direction:column; align-items:center;">
+                        <img id="annexQrImg" class="pal-appendix-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=did:paldi:moi:408921843" alt="QR">
+                        <div style="font-size:0.58rem; color:#475569; margin-top:2px;">رقم الهوية / מספר הזהות</div>
+                        <div style="font-size:0.75rem; font-weight:800; color:#0F172A; direction:rtl;" id="annexHebrewHeader">אל קדומי • טארק</div>
                       </div>
-                      <div class="pal-back-meta-item">
-                        <div class="pal-back-meta-label">W3C Decentralized ID:</div>
-                        <div class="pal-back-meta-val" id="backDid" style="font-family:'JetBrains Mono', monospace; font-size:0.60rem; color:#0369A1;">did:paldi:moi:408921843</div>
-                      </div>
-                      <div class="pal-back-meta-item">
-                        <div class="pal-back-meta-label">رقم سجل الأسرة:</div>
-                        <div class="pal-back-meta-val" style="color:#B45309;">PAL-FAM-2010-994</div>
-                      </div>
-                      <div class="pal-back-meta-item">
-                        <div class="pal-back-meta-label">Hyperledger Fabric Block:</div>
-                        <div class="pal-back-meta-val" id="backFabricBlock" style="font-family:'JetBrains Mono', monospace; font-size:0.60rem; color:#15803D;">Block #4812 (Tx: fab7a912)</div>
+
+                      <!-- Right: Authority (Red) -->
+                      <div style="text-align:left;">
+                        <div class="pal-appendix-authority-ar">السلطة الفلسطينية</div>
+                        <div class="pal-appendix-authority-he">הרשות הפלסטינית</div>
                       </div>
                     </div>
 
-                    <!-- Biometric Fingerprint & Authority Token -->
-                    <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
-                      <i class="fas fa-fingerprint" style="font-size:1.6rem; color:#1B5E20;"></i>
-                      <span style="font-size:0.55rem; font-weight:800; color:#1B5E20;">BIO-TOKEN</span>
+                    <!-- Appendix Attribute Table -->
+                    <table class="pal-appendix-table">
+                      <tr>
+                        <td style="width:50%;">
+                          <div style="display:flex; justify-content:space-between;">
+                            <span style="font-weight:800;">اسم العائلة: <span id="annexFamilyName" style="color:#000;">القدومي</span></span>
+                            <span style="direction:rtl; font-size:0.68rem;">שם המשפחה</span>
+                          </div>
+                        </td>
+                        <td style="width:50%;">
+                          <div style="display:flex; justify-content:space-between;">
+                            <span style="font-weight:800;">الاسم الشخصي: <span id="annexFirstName" style="color:#000;">طارق</span></span>
+                            <span style="direction:rtl; font-size:0.68rem;">השם הפרטי</span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-weight:800;">العنوان: <span id="annexAddress" style="color:#000;">شارع صلاح الدين — منزل 14</span></span>
+                            <span style="font-family:'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:2px;">00 00</span>
+                            <span style="direction:rtl; font-size:0.68rem;">המען</span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <div style="display:flex; justify-content:space-between; align-items:center;">
+                            <span style="font-weight:800;">البلدة / المخيم: <span id="annexTownCamp" style="color:#000; font-size:0.85rem;">مخيم الشاطئ</span></span>
+                            <span style="direction:rtl; font-size:0.80rem; font-weight:700;" id="annexTownCampHe">אלשאטאי</span>
+                            <span style="direction:rtl; font-size:0.68rem;">היישוב</span>
+                          </div>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td colspan="2">
+                          <div style="display:flex; justify-content:space-between;">
+                            <span style="font-weight:800;">الحالة الشخصية: <span id="annexMaritalStatus" style="color:#000;">أعزب</span></span>
+                            <span style="direction:rtl; font-size:0.68rem;">המצב האישי: <strong id="annexMaritalStatusHe">רווק</strong></span>
+                          </div>
+                        </td>
+                      </tr>
+                    </table>
+
+                    <!-- Children & Status Footer -->
+                    <div style="border-top:1px dashed #64748B; padding-top:3px; display:flex; justify-content:space-between; font-size:0.65rem; color:#475569;">
+                      <span>الأولاد دون سن 16: لا يوجد (مواطن غير متزوج)</span>
+                      <span style="direction:rtl;">ילדים מתחת לגיל 16</span>
+                    </div>
+                    <div style="background:#F1F5F9; border-radius:4px; padding:3px 8px; display:flex; justify-content:space-between; font-size:0.62rem; color:#334155; margin-top:2px;">
+                      <span><i class="fas fa-barcode"></i> MOI-SANAD-ANNEX-2026 • W3C VERIFIED</span>
+                      <span>مدير عام الأحوال المدنية والجوازات</span>
                     </div>
                   </div>
 
-                  <!-- Machine Readable Zone (MRZ) -->
-                  <div class="pal-mrz-box" id="backMrzBox">IDPSE4089218433<<<<<<<<<<<<<<<
+                  <!-- MODE 2: HARDWARE SMART CHIP & MRZ ZONE CONTENT -->
+                  <div class="pal-back-chip-content" id="backFaceChip" style="display:none;">
+                    <!-- Magnetic Stripe -->
+                    <div class="pal-back-magstripe"></div>
+
+                    <!-- Middle Section -->
+                    <div class="pal-back-middle-grid">
+                      <!-- Gold Smart Chip Graphic -->
+                      <div class="pal-emv-chip" title="EMV Smart Cryptographic Chip"></div>
+
+                      <!-- Metadata grid -->
+                      <div class="pal-back-meta-grid">
+                        <div class="pal-back-meta-item">
+                          <div class="pal-back-meta-label">المحافظة / العنوان:</div>
+                          <div class="pal-back-meta-val" id="backAddress">القدس الشريف — دولة فلسطين</div>
+                        </div>
+                        <div class="pal-back-meta-item">
+                          <div class="pal-back-meta-label">W3C Decentralized ID:</div>
+                          <div class="pal-back-meta-val" id="backDid" style="font-family:'JetBrains Mono', monospace; font-size:0.60rem; color:#0369A1;">did:paldi:moi:408921843</div>
+                        </div>
+                        <div class="pal-back-meta-item">
+                          <div class="pal-back-meta-label">رقم سجل الأسرة:</div>
+                          <div class="pal-back-meta-val" style="color:#B45309;">PAL-FAM-2010-994</div>
+                        </div>
+                        <div class="pal-back-meta-item">
+                          <div class="pal-back-meta-label">Hyperledger Fabric Block:</div>
+                          <div class="pal-back-meta-val" id="backFabricBlock" style="font-family:'JetBrains Mono', monospace; font-size:0.60rem; color:#15803D;">Block #4812 (Tx: fab7a912)</div>
+                        </div>
+                      </div>
+
+                      <!-- Biometric Fingerprint & Authority Token -->
+                      <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+                        <i class="fas fa-fingerprint" style="font-size:1.6rem; color:#1B5E20;"></i>
+                        <span style="font-size:0.55rem; font-weight:800; color:#1B5E20;">BIO-TOKEN</span>
+                      </div>
+                    </div>
+
+                    <!-- Machine Readable Zone (MRZ) -->
+                    <div class="pal-mrz-box" id="backMrzBox">IDPSE4089218433<<<<<<<<<<<<<<<
 1004147M3610126PSE<<<<<<<<<<<4
 AL<<QADDOUMI<<TARIQ<IBRAHIM<<<</div>
 
-                  <!-- Official Legal Disclaimer -->
-                  <div class="pal-back-disclaimer">
-                    هذه البطاقة وثيقة رسمية صادرة عن السلطة الفلسطينية • وزارة الداخلية • תעודה זו הינה מסמך רשמי
+                    <!-- Official Legal Disclaimer -->
+                    <div class="pal-back-disclaimer">
+                      هذه البطاقة وثيقة رسمية صادرة عن السلطة الفلسطينية • وزارة الداخلية • תעודה זו הינה מסמך רשמי
+                    </div>
                   </div>
+
                 </div>
               </div>
 
             </div>
-          </div>
-        </div>
-
-        <!-- 2. OFFICIAL CIVIL STATUS ANNEX CARD (ملحق بطاقة الهوية / ספح לתעודת זהות) -->
-        <div class="pal-annex-card" id="viewAnnex" style="display:none;">
-          <div class="pal-annex-header">
-            <!-- Left: Title -->
-            <div class="pal-annex-title-left">
-              <div class="pal-annex-title-ar">ملحق لبطاقة الهوية</div>
-              <div class="pal-annex-title-he">ספח לתעודת זהות</div>
-              <div class="pal-annex-id-box" id="annexIdDisplay">4 0892184 3</div>
-            </div>
-
-            <!-- Center: QR Code & Hebrew transliteration -->
-            <div class="pal-annex-qr-box">
-              <img id="annexQrImg" class="pal-annex-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=did:paldi:moi:408921843" alt="QR">
-              <div style="font-size:0.65rem; color:#475569; margin-top:2px;">رقم الهوية / מספר הזהות</div>
-              <div style="font-size:0.8rem; font-weight:800; color:#0F172A; direction:rtl;" id="annexHebrewHeader">אל קדומי • טארק</div>
-            </div>
-
-            <!-- Right: Authority (Red) -->
-            <div class="pal-annex-authority-right">
-              <div class="pal-annex-authority-ar">السلطة الفلسطينية</div>
-              <div class="pal-annex-authority-he">הרשות הפלסטינית</div>
-            </div>
-          </div>
-
-          <!-- Annex Attribute Table -->
-          <table class="pal-annex-table">
-            <tr>
-              <td style="width:50%;">
-                <div style="display:flex; justify-content:space-between;">
-                  <span style="font-weight:800;">اسم العائلة: <span id="annexFamilyName" style="color:#000;">القدومي</span></span>
-                  <span style="direction:rtl; font-size:0.75rem;">שם המשפחה</span>
-                </div>
-              </td>
-              <td style="width:50%;">
-                <div style="display:flex; justify-content:space-between;">
-                  <span style="font-weight:800;">الاسم الشخصي: <span id="annexFirstName" style="color:#000;">طارق</span></span>
-                  <span style="direction:rtl; font-size:0.75rem;">השם הפרטי</span>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="2">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <span style="font-weight:800;">العنوان: <span id="annexAddress" style="color:#000;">شارع صلاح الدين — منزل 14</span></span>
-                  <span style="font-family:'JetBrains Mono', monospace; font-size:0.85rem; letter-spacing:2px;">00 00</span>
-                  <span style="direction:rtl; font-size:0.75rem;">המען</span>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="2">
-                <div style="display:flex; justify-content:space-between; align-items:center;">
-                  <span style="font-weight:800;">البلدة / المخيم: <span id="annexTownCamp" style="color:#000; font-size:0.95rem;">مخيم الشاطئ</span></span>
-                  <span style="direction:rtl; font-size:0.9rem; font-weight:700;" id="annexTownCampHe">אלשאטאי</span>
-                  <span style="direction:rtl; font-size:0.75rem;">היישוב</span>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="2">
-                <div style="display:flex; justify-content:space-between;">
-                  <span style="font-weight:800;">الحالة الشخصية: <span id="annexMaritalStatus" style="color:#000;">أعزب</span></span>
-                  <span style="direction:rtl; font-size:0.75rem;">המצב האישי: <strong id="annexMaritalStatusHe">רווק</strong></span>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="2">
-                <div style="display:flex; justify-content:space-between; color:#64748B; font-size:0.75rem;">
-                  <span>اسم الزوج / الزوجة: —</span>
-                  <span style="direction:rtl;">שם בן/בת הזוג</span>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="2">
-                <div style="display:flex; justify-content:space-between; color:#64748B; font-size:0.75rem;">
-                  <span>رقم هوية الزوج / الزوجة: —</span>
-                  <span style="direction:rtl;">מספר הזהות בן/בת הזוג</span>
-                </div>
-              </td>
-            </tr>
-
-            <tr>
-              <td colspan="2">
-                <div style="display:flex; justify-content:space-between; color:#64748B; font-size:0.75rem;">
-                  <span>اسم العائلة السابق: —</span>
-                  <span style="direction:rtl;">שם המשפחה הקודם</span>
-                </div>
-              </td>
-            </tr>
-          </table>
-
-          <!-- Children Table Placeholder -->
-          <div style="margin-top:10px; border-top:1px dashed #64748B; padding-top:6px; font-size:0.72rem; color:#475569; display:flex; justify-content:space-between;">
-            <span>الأولاد دون سن 16: لا يوجد (مواطن غير متزوج)</span>
-            <span style="direction:rtl;">ילדים מתחת לגיל 16</span>
-          </div>
-
-          <div style="margin-top:10px; padding:6px 10px; background:#F1F5F9; border-radius:4px; display:flex; justify-content:space-between; align-items:center; font-size:0.68rem; color:#334155;">
-            <span><i class="fas fa-barcode"></i> MOI-SANAD-ANNEX-2026 • W3C VERIFIED</span>
-            <span>مدير عام الأحوال المدنية والجوازات</span>
           </div>
         </div>
 
@@ -2106,11 +2216,11 @@ AL<<QADDOUMI<<TARIQ<IBRAHIM<<<</div>
         <button class="btn btn-gold" onclick="downloadGreenIdCard()">
           <i class="fas fa-download"></i> <span>Download Front Green ID (PNG)</span>
         </button>
-        <button class="btn btn-outline" onclick="downloadBackIdCard()" style="border-color:#38BDF8; color:#38BDF8;">
-          <i class="fas fa-download"></i> <span>Download Back ID (PNG)</span>
+        <button class="btn btn-outline" onclick="downloadAnnexCard()" style="border-color:#A78BFA; color:#A78BFA;">
+          <i class="fas fa-file-arrow-down"></i> <span>Download Official Annex (PNG)</span>
         </button>
-        <button class="btn btn-outline" onclick="downloadAnnexCard()">
-          <i class="fas fa-file-arrow-down" style="color:#A78BFA;"></i> <span>Download Official Annex (PNG)</span>
+        <button class="btn btn-outline" onclick="downloadBackIdCard()" style="border-color:#38BDF8; color:#38BDF8;">
+          <i class="fas fa-download"></i> <span>Download Back Chip & MRZ (PNG)</span>
         </button>
         <button class="btn btn-outline" onclick="exportVerifiableCredentialJson()">
           <i class="fas fa-file-code" style="color: #FDE047;"></i> <span>Export W3C VC (JSON-LD)</span>
