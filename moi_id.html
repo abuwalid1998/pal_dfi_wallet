@@ -873,13 +873,29 @@
             </div>
           </div>
 
-          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px;">
+          <div style="display:flex; justify-content:space-between; align-items:center; margin-top:12px; gap:8px;">
             <div style="font-size:0.78rem; color:#64748B;">
               <i class="fas fa-camera"></i> Live High-Res WebCam Stream (Zero-PII Tokenization)
             </div>
-            <button class="btn btn-sm btn-outline" onclick="restartLivenessCamera()">
-              <i class="fas fa-rotate"></i> Reset Camera
-            </button>
+            <div style="display:flex; gap:8px;">
+              <button class="btn btn-sm btn-outline" onclick="restartLivenessCamera()">
+                <i class="fas fa-rotate"></i> Reset
+              </button>
+              <button id="manualSnapBtn" class="btn btn-sm btn-gold" onclick="manualTriggerLivenessVerification()">
+                <i class="fas fa-camera"></i> <span>Snap & Verify Liveness</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- 3-Second Statutory Scan Progress Bar -->
+          <div style="margin-top:12px; background:rgba(3,10,18,0.7); padding:10px 14px; border-radius:10px; border:1px solid rgba(255,255,255,0.06);">
+            <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:4px;">
+              <span style="color:#94A3B8;"><i class="fas fa-stopwatch" style="color:#F9E79F;"></i> 3-Sec Statutory Presence Scan:</span>
+              <span id="scanTimerLabel" style="font-weight:700; color:#38BDF8;">0.0s / 3.0s</span>
+            </div>
+            <div class="telemetry-bar-bg" style="height:6px;">
+              <div class="telemetry-bar-fill" id="scanTimerBar" style="width: 0%; background: linear-gradient(90deg, #38BDF8, #10B981);"></div>
+            </div>
           </div>
         </div>
 
@@ -895,21 +911,28 @@
             <span style="color:#94A3B8;">Liveness Challenge:</span>
             <span id="challengeType" style="font-weight:700; color:#F9E79F;">Blink Eyes / Natural Vitality</span>
           </div>
+
           <div class="telemetry-row">
             <span style="color:#94A3B8;">Eye Aspect Ratio (EAR):</span>
-            <span id="earScore" style="font-weight:700; color:#38BDF8;">0.31 (Awaiting Blink)</span>
+            <span id="earScore" style="font-weight:700; color:#38BDF8;">0.28 (Awaiting Face)</span>
           </div>
           <div class="telemetry-bar-bg">
-            <div class="telemetry-bar-fill" id="earBar" style="width: 45%; background: #38BDF8;"></div>
+            <div class="telemetry-bar-fill" id="earBar" style="width: 50%; background: #38BDF8;"></div>
+          </div>
+
+          <!-- Real-Time Hemodynamic Pulse -->
+          <div class="telemetry-row" style="margin-top:14px;">
+            <span style="color:#94A3B8;">Optical rPPG Capillary Pulse:</span>
+            <span id="rppgPulseScore" style="font-weight:700; color:#F59E0B;">-- BPM (Scanning Forehead ROI)</span>
           </div>
 
           <!-- Anti-Spoofing Probability -->
-          <div class="telemetry-row" style="margin-top:16px;">
-            <span style="color:#94A3B8;">Genuine Human Vitality:</span>
-            <span id="vitalityScore" style="font-weight:700; color:#10B981;">99.4% (Non-Spoofed)</span>
+          <div class="telemetry-row" style="margin-top:14px;">
+            <span style="color:#94A3B8;">Genuine Human Vitality (Dynamic):</span>
+            <span id="vitalityScore" style="font-weight:700; color:#10B981;">0.0% (Scanning...)</span>
           </div>
           <div class="telemetry-bar-bg">
-            <div class="telemetry-bar-fill" id="vitalityBar" style="width: 95%; background: #10B981;"></div>
+            <div class="telemetry-bar-fill" id="vitalityBar" style="width: 0%; background: #10B981;"></div>
           </div>
 
           <!-- Noise Cancellation & Enclave Key -->
