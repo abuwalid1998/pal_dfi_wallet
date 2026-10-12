@@ -1142,6 +1142,43 @@
       .pal-green-content-grid { grid-template-columns: 1fr; }
       .moi-stepper-bar { overflow-x: auto; padding: 10px; }
       .moi-step-item { font-size: 0.75rem; }
+    /* Validation feedback pills & Friendly State Indicators */
+    .val-hint {
+      font-size: 0.68rem;
+      margin-top: 3px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      font-weight: 600;
+    }
+    .val-hint.valid {
+      color: #34D399;
+    }
+    .val-hint.invalid {
+      color: #F87171;
+    }
+    .val-hint.warn {
+      color: #FBBF24;
+    }
+    .input-dark.is-valid {
+      border-color: rgba(52, 211, 153, 0.6) !important;
+      background-color: rgba(52, 211, 153, 0.05) !important;
+    }
+    .input-dark.is-invalid {
+      border-color: rgba(248, 113, 113, 0.6) !important;
+      background-color: rgba(248, 113, 113, 0.05) !important;
+    }
+    .face-match-card {
+      margin-top: 16px;
+      background: rgba(4, 15, 28, 0.9);
+      border: 1.5px solid rgba(56, 189, 248, 0.35);
+      border-radius: 10px;
+      padding: 12px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
   </style>
 </head>
@@ -1292,41 +1329,48 @@
           <div class="vc-form-grid">
             <div class="vc-form-field">
               <label class="vc-form-label"><span class="ar">الاسم الشخصي</span><span>First Name</span></label>
-              <input type="text" id="inputNameFirst" value="طارق" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;">
+              <input type="text" id="inputNameFirst" value="طارق" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintNameFirst"></div>
             </div>
             <div class="vc-form-field">
               <label class="vc-form-label"><span class="ar">اسم الأب</span><span>Father's Name</span></label>
-              <input type="text" id="inputNameFather" value="إبراهيم" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;">
+              <input type="text" id="inputNameFather" value="إبراهيم" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintNameFather"></div>
             </div>
             <div class="vc-form-field">
               <label class="vc-form-label"><span class="ar">اسم الجد</span><span>Grandfather's Name</span></label>
-              <input type="text" id="inputNameGrandfather" value="خليل" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;">
+              <input type="text" id="inputNameGrandfather" value="خليل" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintNameGrandfather"></div>
             </div>
             <div class="vc-form-field">
               <label class="vc-form-label"><span class="ar">اسم العائلة</span><span>Family Name</span></label>
-              <input type="text" id="inputNameFamily" value="القدومي" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;">
+              <input type="text" id="inputNameFamily" value="القدومي" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintNameFamily"></div>
             </div>
 
             <!-- English Full Name -->
             <div class="vc-form-field full-width">
               <label class="vc-form-label"><span class="ar">الاسم الكامل بالإنجليزية</span><span>Full Name (Latin/English)</span></label>
-              <input type="text" id="inputNameEn" value="Tariq Ibrahim Al-Qaddoumi" class="input-dark" style="font-size:0.85rem; padding:5px 8px;">
+              <input type="text" id="inputNameEn" value="Tariq Ibrahim Al-Qaddoumi" class="input-dark" style="font-size:0.85rem; padding:5px 8px;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintNameEn"></div>
             </div>
 
             <!-- Mother's Name & DOB -->
             <div class="vc-form-field">
               <label class="vc-form-label"><span class="ar">اسم الأم</span><span>Mother's Name</span></label>
-              <input type="text" id="inputMotherName" value="مريم عبد الله" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;">
+              <input type="text" id="inputMotherName" value="مريم عبد الله" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintMotherName"></div>
             </div>
             <div class="vc-form-field">
               <label class="vc-form-label"><span class="ar">تاريخ الولادة</span><span>Date of Birth</span></label>
-              <input type="date" id="inputDob" value="2010-04-14" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;">
+              <input type="date" id="inputDob" value="2010-04-14" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;" onchange="validateStep1Fields()">
+              <div class="val-hint" id="valHintDob"></div>
             </div>
 
             <!-- Place of Birth & Town / Refugee Camp -->
             <div class="vc-form-field">
               <label class="vc-form-label"><span class="ar">مكان الولادة (المحافظة)</span><span>Place of Birth</span></label>
-              <select id="inputBirthPlace" class="input-dark" style="font-size:0.85rem; padding:5px 8px;">
+              <select id="inputBirthPlace" class="input-dark" style="font-size:0.85rem; padding:5px 8px;" onchange="validateStep1Fields()">
                 <option value="القدس الشريف">القدس الشريف (Jerusalem)</option>
                 <option value="غزة">غزة (Gaza)</option>
                 <option value="رام الله والبيرة" selected>رام الله والبيرة (Ramallah)</option>
@@ -1343,13 +1387,15 @@
             </div>
             <div class="vc-form-field">
               <label class="vc-form-label"><span class="ar">البلدة / المخيم / الحي</span><span>Town / Camp / District</span></label>
-              <input type="text" id="inputTownCamp" value="مخيم الشاطئ" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;">
+              <input type="text" id="inputTownCamp" value="مخيم الشاطئ" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintTownCamp"></div>
             </div>
 
             <!-- Street Address & House -->
             <div class="vc-form-field full-width">
               <label class="vc-form-label"><span class="ar">العنوان ورقم المنزل</span><span>Residential Address</span></label>
-              <input type="text" id="inputStreetAddress" value="شارع صلاح الدين — منزل 14" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;">
+              <input type="text" id="inputStreetAddress" value="شارع صلاح الدين — منزل 14" class="input-dark" style="font-size:0.85rem; padding:5px 8px; text-align:right;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintAddress"></div>
             </div>
 
             <!-- Gender & Religion -->
@@ -1426,13 +1472,15 @@
 
           <div class="vc-form-grid">
             <div class="vc-form-field full-width">
-              <label class="vc-form-label"><span class="ar">رقم هوية ولي الأمر (9 أرقام)</span><span>Parent National ID Number</span></label>
-              <input type="text" id="inputParentId" value="901452819" class="input-dark" style="font-family:'JetBrains Mono', monospace; font-size:1rem; font-weight:800; letter-spacing:2px; color:#38BDF8; padding:6px 10px; text-align:center;">
+              <label class="vc-form-label"><span class="ar">رقم هوية ولي الأمر (9 أرقام فلسطينية)</span><span>Parent National ID Number</span></label>
+              <input type="text" id="inputParentId" value="901452819" class="input-dark" style="font-family:'JetBrains Mono', monospace; font-size:1rem; font-weight:800; letter-spacing:2px; color:#38BDF8; padding:6px 10px; text-align:center;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintParentId"></div>
             </div>
 
             <div class="vc-form-field full-width">
               <label class="vc-form-label"><span class="ar">اسم ولي الأمر الرباعي</span><span>Parent Full Name (Arabic)</span></label>
-              <input type="text" id="inputParentName" value="إبراهيم خليل محمد القدومي" class="input-dark" style="font-size:0.85rem; padding:6px 10px; text-align:right;">
+              <input type="text" id="inputParentName" value="إبراهيم خليل محمد القدومي" class="input-dark" style="font-size:0.85rem; padding:6px 10px; text-align:right;" oninput="validateStep1Fields()">
+              <div class="val-hint" id="valHintParentName"></div>
             </div>
 
             <div class="vc-form-field">
@@ -1461,6 +1509,12 @@
             </div>
           </div>
         </div>
+      </div>
+
+      <!-- Friendly Validation Alert Banner -->
+      <div id="step1ValidationBanner" style="display:none; margin-bottom:18px; padding:12px 16px; border-radius:10px; background:rgba(239, 68, 68, 0.12); border:1px solid rgba(239, 68, 68, 0.35); color:#FCA5A5; font-size:0.85rem; align-items:center; gap:10px;">
+        <i class="fas fa-triangle-exclamation" style="font-size:1.1rem; color:#EF4444;"></i>
+        <span id="step1ValidationBannerText">يرجى تصحيح الحقول المحددة للمتابعة.</span>
       </div>
 
       <div style="background: rgba(3, 10, 18, 0.6); padding: 14px 18px; border-radius: 10px; border: 1px solid rgba(255, 255, 255, 0.05); margin-bottom: 25px;">
@@ -1616,8 +1670,57 @@
             </div>
           </div>
 
+          <!-- 1:1 Face Similarity Match Engine HUD (Live Read Face vs Uploaded Reference) -->
+          <div class="face-match-card" id="faceMatchCard">
+            <div style="display:flex; justify-content:space-between; align-items:center;">
+              <div style="font-size:0.8rem; font-weight:800; color:#F8FAFC; display:flex; align-items:center; gap:6px;">
+                <i class="fas fa-id-badge" style="color:#38BDF8;"></i>
+                <span>1:1 Facial Biometric Verification Match</span>
+              </div>
+              <span class="tag-badge" id="faceMatchBadge" style="background:rgba(16,185,129,0.15); color:#10B981; font-size:0.65rem; border:1px solid rgba(16,185,129,0.3);">
+                <i class="fas fa-check-circle"></i> Official Match Confirmed
+              </span>
+            </div>
+
+            <!-- Comparison Thumbs & Metrics -->
+            <div style="display:grid; grid-template-columns: 60px 1fr 60px; gap:10px; align-items:center;">
+              <!-- Thumb 1: Live Read Face (from Camera) -->
+              <div style="text-align:center;">
+                <div style="width:58px; height:68px; border-radius:6px; overflow:hidden; border:1.5px solid #38BDF8; background:#0B1E33; margin:0 auto; position:relative;">
+                  <canvas id="faceMatchReadCanvas" width="58" height="68" style="width:100%; height:100%; object-fit:cover; display:block;"></canvas>
+                  <span style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.7); font-size:0.48rem; color:#38BDF8; font-weight:800;">READ</span>
+                </div>
+                <div style="font-size:0.62rem; color:#94A3B8; margin-top:3px;">Live Face</div>
+              </div>
+
+              <!-- Center: Similarity Bar & Vector Distance -->
+              <div>
+                <div style="display:flex; justify-content:space-between; font-size:0.75rem; margin-bottom:4px;">
+                  <span style="color:#CBD5E1;">Face Match Similarity:</span>
+                  <span id="faceSimilarityScore" style="font-weight:900; color:#10B981; font-size:0.88rem;">98.4% (Matched)</span>
+                </div>
+                <div class="telemetry-bar-bg" style="height:8px;">
+                  <div class="telemetry-bar-fill" id="faceSimilarityBar" style="width: 98%; background: linear-gradient(90deg, #38BDF8, #10B981);"></div>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:0.65rem; color:#64748B; margin-top:4px;">
+                  <span>Euclidean Dist: <strong id="faceEuclideanDist" style="color:#F9E79F;">0.18</strong> (&lt;0.6)</span>
+                  <span style="color:#38BDF8;">ICAO 9303 Compliant</span>
+                </div>
+              </div>
+
+              <!-- Thumb 2: Reference Uploaded / Official Portrait -->
+              <div style="text-align:center;">
+                <div style="width:58px; height:68px; border-radius:6px; overflow:hidden; border:1.5px solid #D4AF37; background:#0B1E33; margin:0 auto; position:relative;">
+                  <img id="faceMatchRefImg" src="assets/official_citizen_portrait.jpg" style="width:100%; height:100%; object-fit:cover; display:block;" onerror="this.src='assets/logo_icon.jpg'">
+                  <span style="position:absolute; bottom:0; left:0; right:0; background:rgba(0,0,0,0.7); font-size:0.48rem; color:#F9E79F; font-weight:800;">REF</span>
+                </div>
+                <div style="font-size:0.62rem; color:#94A3B8; margin-top:3px;">Uploaded</div>
+              </div>
+            </div>
+          </div>
+
           <!-- Action Button -->
-          <button id="submitBiometricsBtn" class="btn btn-gold" style="width:100%; margin-top:20px; padding:12px;" disabled onclick="proceedToSmartContract()">
+          <button id="submitBiometricsBtn" class="btn btn-gold" style="width:100%; margin-top:16px; padding:12px;" disabled onclick="proceedToSmartContract()">
             <i class="fas fa-lock"></i> <span>Awaiting Biometric Liveness Scan...</span>
           </button>
         </div>
@@ -1738,24 +1841,28 @@
           </div>
 
           <div style="margin-bottom:14px;">
-            <label style="font-size:0.72rem; color:#94A3B8; display:block; margin-bottom:4px;">CARD NUMBER</label>
-            <input type="text" id="payCardNum" value="4500 9812 3456 7890" class="input-dark" style="font-family:'JetBrains Mono', monospace; font-size:1rem; letter-spacing:2px; width:100%;">
+            <label style="font-size:0.72rem; color:#94A3B8; display:block; margin-bottom:4px;">CARD NUMBER (VISA / MASTERCARD)</label>
+            <input type="text" id="payCardNum" value="4500 9812 3456 7890" class="input-dark" style="font-family:'JetBrains Mono', monospace; font-size:1rem; letter-spacing:2px; width:100%;" oninput="validatePaymentFields(event)">
+            <div class="val-hint" id="valHintCardNum"></div>
           </div>
 
           <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px; margin-bottom:14px;">
             <div>
-              <label style="font-size:0.72rem; color:#94A3B8; display:block; margin-bottom:4px;">EXPIRES</label>
-              <input type="text" id="payCardExp" value="12/28" class="input-dark" style="font-family:'JetBrains Mono', monospace; width:100%;">
+              <label style="font-size:0.72rem; color:#94A3B8; display:block; margin-bottom:4px;">EXPIRES (MM/YY)</label>
+              <input type="text" id="payCardExp" value="12/28" placeholder="MM/YY" maxlength="5" class="input-dark" style="font-family:'JetBrains Mono', monospace; width:100%;" oninput="validatePaymentFields(event)">
+              <div class="val-hint" id="valHintCardExp"></div>
             </div>
             <div>
               <label style="font-size:0.72rem; color:#94A3B8; display:block; margin-bottom:4px;">CVC / CVV</label>
-              <input type="text" id="payCardCvc" value="888" class="input-dark" style="font-family:'JetBrains Mono', monospace; width:100%;">
+              <input type="text" id="payCardCvc" value="888" placeholder="3 digits" maxlength="4" class="input-dark" style="font-family:'JetBrains Mono', monospace; width:100%;" oninput="validatePaymentFields(event)">
+              <div class="val-hint" id="valHintCardCvc"></div>
             </div>
           </div>
 
           <div>
             <label style="font-size:0.72rem; color:#94A3B8; display:block; margin-bottom:4px;">CARDHOLDER NAME</label>
-            <input type="text" id="payCardHolder" value="Ibrahim Kh. Al-Qaddoumi (Parent/Guardian)" class="input-dark" style="width:100%;">
+            <input type="text" id="payCardHolder" value="Ibrahim Kh. Al-Qaddoumi (Parent/Guardian)" class="input-dark" style="width:100%;" oninput="validatePaymentFields(event)">
+            <div class="val-hint" id="valHintCardHolder"></div>
           </div>
         </div>
 
@@ -1785,6 +1892,12 @@
                 <i class="fas fa-spinner fa-spin"></i>
                 <span id="paymentProgressText">Processing settlement through Bank of Palestine gateway...</span>
               </div>
+            </div>
+
+            <!-- Friendly Payment Error Alert Banner -->
+            <div id="payValidationAlert" style="display:none; margin-top:14px; padding:10px 14px; border-radius:8px; background:rgba(239, 68, 68, 0.15); border:1px solid rgba(239, 68, 68, 0.4); color:#FCA5A5; font-size:0.8rem; align-items:center; gap:8px;">
+              <i class="fas fa-circle-exclamation" style="color:#EF4444;"></i>
+              <span id="payValidationAlertText">يرجى التحقق من بيانات البطاقة البنكية للمتابعة.</span>
             </div>
           </div>
 
