@@ -1164,25 +1164,196 @@ async function persistToCsvDatabase(record) {
   fetchCsvRecords();
 }
 
-// --- CARD VIEW SWITCHER TABS (FRONT / ANNEX / BACK) ---
+// --- 3D INTERACTIVE CARD FLIP & VIEW SWITCHER ---
+function toggleCardFlip() {
+  const flipCard = document.getElementById('palFlipCard');
+  if (!flipCard) return;
+
+  flipCard.classList.toggle('is-flipped');
+  const isFlipped = flipCard.classList.contains('is-flipped');
+
+  // Play tactile card flip sound
+  playBeep(isFlipped ? 640 : 520, 'sine', 0.06);
+
+  // Update badge and hint text
+  const sideBadge = document.getElementById('cardSideBadge');
+  const hintText = document.getElementById('flipHintText');
+  if (sideBadge) {
+    sideBadge.textContent = isFlipped ? '💳 الوجه الخلفي (Back & MRZ)' : '🟢 الوجه الأمامي (Front)';
+    sideBadge.style.color = isFlipped ? '#38BDF8' : '#10B981';
+    sideBadge.style.borderColor = isFlipped ? 'rgba(56, 189, 248, 0.4)' : 'rgba(16, 185, 129, 0.4)';
+    sideBadge.style.background = isFlipped ? 'rgba(56, 189, 248, 0.2)' : 'rgba(16, 185, 129, 0.2)';
+  }
+  if (hintText) {
+    hintText.textContent = isFlipped 
+      ? 'انقر على الهوية للعودة إلى الوجه الأمامي • Click Card to Flip to Front'
+      : 'انقر على الهوية لقلبها (الوجه ⇄ الظهر) • Click Card to Flip (Front ⇄ Back)';
+  }
+}
+
 function switchCardView(view) {
-  const frontView = document.getElementById('viewGreenFront');
+  const card3dScene = document.getElementById('viewIdCard3dScene');
   const annexView = document.getElementById('viewAnnex');
-  const backView = document.getElementById('viewBack');
+  const flipCard = document.getElementById('palFlipCard');
 
   const tabFront = document.getElementById('tabBtnFront');
   const tabAnnex = document.getElementById('tabBtnAnnex');
-  const tabBack = document.getElementById('tabBtnBack');
 
-  if (tabFront) tabFront.classList.toggle('active', view === 'front');
-  if (tabAnnex) tabAnnex.classList.toggle('active', view === 'annex');
-  if (tabBack) tabBack.classList.toggle('active', view === 'back');
+  if (view === 'front' || view === '3d') {
+    if (card3dScene) card3dScene.style.display = 'flex';
+    if (annexView) annexView.style.display = 'none';
+    if (tabFront) tabFront.classList.add('active');
+    if (tabAnnex) tabAnnex.classList.remove('active');
 
-  if (frontView) frontView.style.display = view === 'front' ? 'block' : 'none';
-  if (annexView) annexView.style.display = view === 'annex' ? 'block' : 'none';
-  if (backView) backView.style.display = view === 'back' ? 'block' : 'none';
+    // If currently flipped to back, rotate back to front
+    if (flipCard && flipCard.classList.contains('is-flipped')) {
+      toggleCardFlip();
+    }
+  } else if (view === 'back') {
+    if (card3dScene) card3dScene.style.display = 'flex';
+    if (annexView) annexView.style.display = 'none';
+    if (tabFront) tabFront.classList.add('active');
+    if (tabAnnex) tabAnnex.classList.remove('active');
+
+    // If currently on front, flip to back
+    if (flipCard && !flipCard.classList.contains('is-flipped')) {
+      toggleCardFlip();
+    }
+  } else if (view === 'annex') {
+    if (card3dScene) card3dScene.style.display = 'none';
+    if (annexView) annexView.style.display = 'block';
+    if (tabFront) tabFront.classList.remove('active');
+    if (tabAnnex) tabAnnex.classList.add('active');
+  }
 
   playBeep(520, 'sine', 0.05);
+}
+
+// Download Back ID Card (MRZ & EMV Smart Chip) as High-Res PNG
+function downloadBackIdCard() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1100;
+  canvas.height = 700;
+  const ctx = canvas.getContext('2d');
+
+  // Outer glossy white margin
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, 1100, 700);
+
+  // Outer green border & red notch indicators
+  ctx.strokeStyle = '#2E7D32';
+  ctx.lineWidth = 12;
+  ctx.strokeRect(20, 20, 1060, 660);
+
+  // Red notches (mirrored)
+  ctx.fillStyle = '#D32F2F';
+  ctx.beginPath(); ctx.moveTo(8, 140); ctx.lineTo(24, 150); ctx.lineTo(8, 160); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(8, 340); ctx.lineTo(24, 350); ctx.lineTo(8, 360); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(1092, 140); ctx.lineTo(1076, 150); ctx.lineTo(1092, 160); ctx.closePath(); ctx.fill();
+  ctx.beginPath(); ctx.moveTo(1092, 340); ctx.lineTo(1076, 350); ctx.lineTo(1092, 360); ctx.closePath(); ctx.fill();
+
+  // Green Guilloche Background
+  ctx.fillStyle = '#E8F5E9';
+  ctx.fillRect(26, 26, 1048, 648);
+
+  // Subtle Pattern
+  ctx.strokeStyle = '#C8E6C9';
+  ctx.lineWidth = 1;
+  for (let i = 30; i < 1070; i += 18) {
+    ctx.beginPath(); ctx.moveTo(i, 26); ctx.lineTo(i, 674); ctx.stroke();
+  }
+  for (let j = 30; j < 670; j += 18) {
+    ctx.beginPath(); ctx.moveTo(26, j); ctx.lineTo(1074, j); ctx.stroke();
+  }
+
+  // Top Magnetic Stripe
+  ctx.fillStyle = '#111827';
+  ctx.fillRect(40, 45, 1020, 75);
+
+  // EMV Smart Chip (Gold)
+  const chipX = 55, chipY = 150, chipW = 100, chipH = 75;
+  const chipGrad = ctx.createLinearGradient(chipX, chipY, chipX + chipW, chipY + chipH);
+  chipGrad.addColorStop(0, '#F59E0B');
+  chipGrad.addColorStop(0.5, '#D97706');
+  chipGrad.addColorStop(1, '#B45309');
+  ctx.fillStyle = chipGrad;
+  ctx.fillRect(chipX, chipY, chipW, chipH);
+  ctx.strokeStyle = '#78350F';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(chipX, chipY, chipW, chipH);
+  ctx.beginPath(); ctx.moveTo(chipX, chipY + chipH / 2); ctx.lineTo(chipX + chipW, chipY + chipH / 2); ctx.stroke();
+  ctx.beginPath(); ctx.moveTo(chipX + chipW / 2, chipY); ctx.lineTo(chipX + chipW / 2, chipY + chipH); ctx.stroke();
+
+  // Authority Title in Center
+  ctx.fillStyle = '#1B5E20';
+  ctx.font = 'bold 26px Cairo, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('دولة فلسطين • وزارة الداخلية', 1040, 160);
+  ctx.font = '20px Cairo, sans-serif';
+  ctx.fillText('הרשות הפלסטינית • משרד הפנים', 1040, 190);
+
+  // Address and DID text
+  const addrText = document.getElementById('backAddress')?.textContent || 'القدس الشريف — فلسطين';
+  const didText = document.getElementById('backDid')?.textContent || 'did:paldi:moi:408921843';
+  const fabricText = document.getElementById('backFabricBlock')?.textContent || 'Block #4812 (Tx: fab7a912)';
+
+  ctx.fillStyle = '#0F172A';
+  ctx.font = 'bold 20px Cairo, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText(`المحافظة والعنوان: ${addrText}`, 1040, 235);
+  ctx.font = '16px "JetBrains Mono", monospace';
+  ctx.fillText(`W3C DID: ${didText}`, 1040, 265);
+  ctx.fillText(`Blockchain Ledger: ${fabricText}`, 1040, 292);
+
+  // Fingerprint icon / Biometric token label
+  ctx.fillStyle = '#15803D';
+  ctx.font = 'bold 18px Cairo, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('⚡ ICAO 9303 BIOMETRIC EMBEDDED CHIP', 180, 175);
+  ctx.fillStyle = '#64748B';
+  ctx.font = '15px "JetBrains Mono", monospace';
+  ctx.fillText('STATUS: CRYPTOGRAPHICALLY SECURED & COMMITTED', 180, 200);
+
+  // Barcode Strip
+  ctx.fillStyle = '#000000';
+  ctx.fillRect(55, 320, 990, 4);
+  for (let b = 55; b < 1040; b += 7) {
+    const barW = (b % 14 === 0) ? 4 : 2;
+    ctx.fillRect(b, 330, barW, 45);
+  }
+
+  // Machine Readable Zone (MRZ Box)
+  ctx.fillStyle = '#09121D';
+  ctx.fillRect(55, 395, 990, 220);
+  ctx.strokeStyle = '#1E293B';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(55, 395, 990, 220);
+
+  const mrzContent = document.getElementById('backMrzBox')?.textContent || 
+`IDPSE4089218433<<<<<<<<<<<<<<<
+1004147M3610126PSE<<<<<<<<<<<4
+AL<<QADDOUMI<<TARIQ<IBRAHIM<<<`;
+
+  ctx.fillStyle = '#E2E8F0';
+  ctx.font = 'bold 26px "OCR-A", "JetBrains Mono", monospace';
+  ctx.textAlign = 'left';
+  const mrzLines = mrzContent.trim().split('\n');
+  mrzLines.forEach((line, idx) => {
+    ctx.fillText(line, 85, 460 + (idx * 55));
+  });
+
+  // Disclaimer text
+  ctx.fillStyle = '#475569';
+  ctx.font = 'bold 15px Cairo, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('هذه البطاقة وثيقة رسمية صادرة عن السلطة الوطنية الفلسطينية • وزارة الداخلية • תעודה זו הינה מסמך רשמי', 550, 645);
+
+  // Trigger Download
+  const link = document.createElement('a');
+  const d = currentApplicationData || {};
+  link.download = `Palestine_National_ID_Back_${d.national_id_number || '408921843'}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
 }
 
 // --- STEP 5: RENDER VISUALIZED OFFICIAL PALESTINIAN NATIONAL ID & ANNEX ---

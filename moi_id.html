@@ -423,7 +423,7 @@
       display: flex;
       justify-content: center;
       gap: 10px;
-      margin-bottom: 24px;
+      margin-bottom: 16px;
       flex-wrap: wrap;
     }
 
@@ -451,55 +451,163 @@
 
     .id-card-display-container {
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
-      margin: 15px auto 30px;
-      max-width: 650px;
-    }
-
-    /* --- THE OFFICIAL GREEN PALESTINIAN ID CARD (FRONT) --- */
-    .pal-green-card-wrapper {
-      position: relative;
+      margin: 10px auto 25px;
       width: 100%;
-      max-width: 600px;
-      background: #FFFFFF;
-      padding: 10px;
-      border-radius: 12px;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 122, 61, 0.3);
-      border: 2px solid #388E3C;
-      box-sizing: border-box;
     }
 
-    /* Notch markers on outer plastic sleeve */
+    /* Flip Hint Pill / Interactive Trigger */
+    .pal-flip-hint-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(15, 23, 42, 0.85);
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      padding: 7px 18px;
+      border-radius: 30px;
+      font-size: 0.82rem;
+      color: #E2E8F0;
+      cursor: pointer;
+      margin-bottom: 14px;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+      user-select: none;
+    }
+
+    .pal-flip-hint-pill:hover {
+      background: rgba(0, 122, 61, 0.25);
+      border-color: #10B981;
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(0, 122, 61, 0.35);
+    }
+
+    .pal-flip-hint-pill i {
+      color: #10B981;
+      font-size: 0.95rem;
+      transition: transform 0.4s ease;
+    }
+
+    .pal-flip-hint-pill:hover i {
+      transform: rotate(180deg);
+    }
+
+    .pal-flip-badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10B981;
+      border: 1px solid rgba(16, 185, 129, 0.4);
+      border-radius: 20px;
+      padding: 2px 10px;
+      font-size: 0.72rem;
+      font-weight: 800;
+    }
+
+    /* --- 3D PERSPECTIVE SCENE & FLIP CARD WRAPPER (FIXED STANDARD RATIO: 580px x 366px) --- */
+    .pal-flip-card-scene {
+      perspective: 1400px;
+      width: 100%;
+      max-width: 580px;
+      height: 366px;
+      margin: 0 auto;
+      position: relative;
+      user-select: none;
+    }
+
+    .pal-flip-card {
+      width: 100%;
+      height: 100%;
+      position: relative;
+      transform-style: preserve-3d;
+      transition: transform 0.85s cubic-bezier(0.34, 1.25, 0.64, 1);
+      cursor: pointer;
+      border-radius: 12px;
+    }
+
+    .pal-flip-card.is-flipped {
+      transform: rotateY(180deg);
+    }
+
+    /* Floating Lift & Shadow on Hover */
+    .pal-flip-card-scene:hover .pal-flip-card:not(.is-flipped) {
+      transform: translateY(-5px) rotateX(2deg) rotateY(-2deg);
+      filter: drop-shadow(0 20px 30px rgba(0, 122, 61, 0.35));
+    }
+
+    .pal-flip-card-scene:hover .pal-flip-card.is-flipped {
+      transform: rotateY(180deg) translateY(-5px) rotateX(2deg);
+      filter: drop-shadow(0 20px 30px rgba(0, 122, 61, 0.35));
+    }
+
+    /* Common Card Face Properties */
+    .pal-flip-face {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      -webkit-backface-visibility: hidden;
+      backface-visibility: hidden;
+      border-radius: 12px;
+      overflow: hidden;
+      box-sizing: border-box;
+      box-shadow: 0 25px 50px -10px rgba(0, 0, 0, 0.8), 0 0 25px rgba(0, 122, 61, 0.25);
+    }
+
+    /* FRONT FACE: LAMINATED GREEN PALESTINIAN ID */
+    .pal-flip-face-front {
+      z-index: 2;
+      transform: rotateY(0deg);
+      background: #FFFFFF;
+      padding: 8px;
+      border: 2.5px solid #2E7D32;
+    }
+
+    /* BACK FACE: LAMINATED GREEN/DARK MRZ & CHIP PALESTINIAN ID */
+    .pal-flip-face-back {
+      transform: rotateY(180deg);
+      z-index: 1;
+      background: #FFFFFF;
+      padding: 8px;
+      border: 2.5px solid #2E7D32;
+    }
+
+    /* Outer Notch markers (Red triangles like official laminated pouch) */
     .pal-card-notch-l, .pal-card-notch-r {
       position: absolute;
       top: 50%;
       transform: translateY(-50%);
       width: 0; height: 0;
-      border-top: 8px solid transparent;
-      border-bottom: 8px solid transparent;
+      border-top: 7px solid transparent;
+      border-bottom: 7px solid transparent;
+      z-index: 10;
     }
-    .pal-card-notch-l { left: -10px; border-right: 10px solid #D32F2F; }
-    .pal-card-notch-r { right: -10px; border-left: 10px solid #D32F2F; }
+    .pal-card-notch-l { left: -9px; border-right: 9px solid #D32F2F; }
+    .pal-card-notch-r { right: -9px; border-left: 9px solid #D32F2F; }
 
-    .pal-card-notch-l-top { position: absolute; top: 22%; left: -10px; width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-right: 10px solid #D32F2F; }
-    .pal-card-notch-r-top { position: absolute; top: 22%; right: -10px; width: 0; height: 0; border-top: 8px solid transparent; border-bottom: 8px solid transparent; border-left: 10px solid #D32F2F; }
+    .pal-card-notch-l-top { position: absolute; top: 20%; left: -9px; width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-right: 9px solid #D32F2F; z-index: 10; }
+    .pal-card-notch-r-top { position: absolute; top: 20%; right: -9px; width: 0; height: 0; border-top: 7px solid transparent; border-bottom: 7px solid transparent; border-left: 9px solid #D32F2F; z-index: 10; }
 
-    .pal-green-card {
+    /* The Inner Green Card Surface (Front) */
+    .pal-green-card-inner {
       position: relative;
+      width: 100%;
+      height: 100%;
       background-color: #E2F2E5;
       background-image: 
         radial-gradient(#C8E6C9 15%, transparent 16%),
         linear-gradient(45deg, rgba(76, 175, 80, 0.06) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.06) 75%),
         linear-gradient(45deg, rgba(76, 175, 80, 0.06) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.06) 75%);
       background-size: 14px 14px, 20px 20px, 20px 20px;
-      border: 2px solid #2E7D32;
-      border-radius: 8px;
-      padding: 12px 14px;
+      border: 1.5px solid #2E7D32;
+      border-radius: 6px;
+      padding: 7px 10px;
       color: #0F172A;
       font-family: 'Cairo', sans-serif;
       overflow: hidden;
       box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
     /* Central Palestinian Eagle Watermark */
@@ -508,36 +616,37 @@
       top: 50%;
       left: 55%;
       transform: translate(-50%, -50%);
-      width: 210px;
-      height: 210px;
+      width: 190px;
+      height: 190px;
       opacity: 0.14;
       pointer-events: none;
       z-index: 1;
     }
 
-    /* Top Header Section */
+    /* Top Row */
     .pal-green-top-row {
       display: flex;
       justify-content: space-between;
       align-items: flex-start;
-      margin-bottom: 8px;
+      margin-bottom: 3px;
       position: relative;
       z-index: 2;
     }
 
     .pal-green-top-center {
       text-align: center;
-      line-height: 1.15;
+      line-height: 1.1;
+      margin-left: 20px;
     }
 
     .pal-green-title-ar {
-      font-size: 1.25rem;
+      font-size: 1.15rem;
       font-weight: 900;
       color: #1B5E20;
     }
 
     .pal-green-title-he {
-      font-size: 0.95rem;
+      font-size: 0.88rem;
       font-weight: 800;
       color: #1B5E20;
       direction: rtl;
@@ -545,32 +654,33 @@
 
     .pal-green-top-right {
       text-align: right;
-      line-height: 1.15;
+      line-height: 1.1;
     }
 
     .pal-green-authority-ar {
-      font-size: 1.05rem;
+      font-size: 0.98rem;
       font-weight: 900;
       color: #C62828;
     }
 
     .pal-green-authority-he {
-      font-size: 0.88rem;
+      font-size: 0.82rem;
       font-weight: 800;
       color: #C62828;
       direction: rtl;
     }
 
-    /* ID Card Main Layout (Left: Photo, Right: Info Table) */
+    /* Front Content Grid: Left Photo, Right Table */
     .pal-green-content-grid {
       display: grid;
-      grid-template-columns: 140px 1fr;
-      gap: 12px;
+      grid-template-columns: 122px 1fr;
+      gap: 8px;
       position: relative;
       z-index: 2;
+      align-items: center;
+      flex: 1;
     }
 
-    /* Citizen Photo Frame with Official Studio Touch */
     .pal-official-photo-wrap {
       display: flex;
       flex-direction: column;
@@ -579,14 +689,14 @@
     }
 
     .pal-photo-container {
-      width: 135px;
-      height: 175px;
-      border-radius: 6px;
+      width: 118px;
+      height: 152px;
+      border-radius: 5px;
       border: 1.5px solid #1B5E20;
       background: #1D4ED8;
       overflow: hidden;
       position: relative;
-      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.35);
+      box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
     }
 
     .pal-photo-container img {
@@ -596,66 +706,63 @@
       display: block;
     }
 
-    /* Top Ribbon: وزارة الداخلية */
     .pal-photo-top-ribbon {
       position: absolute;
       top: 0; left: 0; right: 0;
-      background: rgba(15, 23, 42, 0.75);
+      background: rgba(15, 23, 42, 0.8);
       color: #FFFFFF;
-      font-size: 0.68rem;
+      font-size: 0.62rem;
       font-weight: 800;
       text-align: center;
-      padding: 2px 0;
+      padding: 1.5px 0;
       letter-spacing: 0.5px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    /* Authentic Circular Blue Ink Stamp (دائرة الأحوال المدنية) */
     .pal-official-ink-stamp {
       position: absolute;
-      bottom: -10px;
-      left: -10px;
-      width: 90px;
-      height: 90px;
+      bottom: -8px;
+      left: -8px;
+      width: 78px;
+      height: 78px;
       pointer-events: none;
       transform: rotate(-12deg);
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.3));
+      filter: drop-shadow(0 2px 3px rgba(0,0,0,0.25));
       opacity: 0.88;
     }
 
     .pal-photo-date-stamp {
       font-family: 'JetBrains Mono', 'OCR-A', monospace;
-      font-size: 0.75rem;
+      font-size: 0.70rem;
       font-weight: 800;
       color: #1E293B;
-      margin-top: 6px;
+      margin-top: 3px;
       letter-spacing: 1px;
     }
 
-    /* Right Table of Identity Attributes (Exact 9-row template layout) */
+    /* Right 10-Row Structured Table */
     .pal-green-table {
       width: 100%;
       border-collapse: collapse;
-      font-size: 0.76rem;
+      font-size: 0.71rem;
       line-height: 1.1;
       border: 1.5px solid #2E7D32;
-      background: rgba(255, 255, 255, 0.55);
+      background: rgba(255, 255, 255, 0.6);
     }
 
     .pal-green-table td {
-      border: 1px solid #66BB6A;
-      padding: 3px 6px;
+      border: 1px solid #81C784;
+      padding: 2.2px 5px;
       vertical-align: middle;
     }
 
-    /* Top ID Number Row */
     .pal-id-num-row {
       background: #C8E6C9;
     }
 
     .pal-id-num-display {
       font-family: 'JetBrains Mono', 'Courier New', monospace;
-      font-size: 1.1rem;
+      font-size: 1.05rem;
       font-weight: 900;
       letter-spacing: 3px;
       color: #000000;
@@ -667,17 +774,17 @@
       color: #000000;
       white-space: nowrap;
       font-weight: 800;
-      width: 32%;
+      width: 30%;
       background: rgba(200, 230, 201, 0.35);
     }
 
     .pal-field-label-ar {
-      font-size: 0.74rem;
+      font-size: 0.70rem;
       display: block;
     }
 
     .pal-field-label-he {
-      font-size: 0.65rem;
+      font-size: 0.62rem;
       color: #334155;
       display: block;
       direction: rtl;
@@ -687,22 +794,132 @@
       text-align: right;
       color: #000000;
       font-weight: 800;
-      font-size: 0.82rem;
+      font-size: 0.78rem;
     }
 
     .pal-field-hebrew-val {
       text-align: left;
       direction: rtl;
-      font-size: 0.76rem;
+      font-size: 0.72rem;
       font-weight: 700;
       color: #1E293B;
       width: 25%;
     }
 
-    /* --- THE OFFICIAL ANNEX CARD (ملحق بطاقة الهوية / ספח לתעודת זהות) --- */
+    /* --- BACK FACE INNER CARD (EXACT 580px x 366px DIMENSION MATCH) --- */
+    .pal-back-card-inner {
+      position: relative;
+      width: 100%;
+      height: 100%;
+      background-color: #E8F5E9;
+      background-image: 
+        radial-gradient(#C8E6C9 15%, transparent 16%),
+        linear-gradient(45deg, rgba(76, 175, 80, 0.05) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.05) 75%),
+        linear-gradient(45deg, rgba(76, 175, 80, 0.05) 25%, transparent 25%, transparent 75%, rgba(76, 175, 80, 0.05) 75%);
+      background-size: 14px 14px, 20px 20px, 20px 20px;
+      border: 1.5px solid #2E7D32;
+      border-radius: 6px;
+      padding: 8px 10px;
+      color: #0F172A;
+      font-family: 'Cairo', sans-serif;
+      overflow: hidden;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .pal-back-magstripe {
+      height: 32px;
+      background: linear-gradient(180deg, #111827 0%, #030712 100%);
+      border-radius: 3px;
+      margin-bottom: 6px;
+      border: 1px solid rgba(0, 0, 0, 0.4);
+      position: relative;
+    }
+
+    .pal-back-middle-grid {
+      display: grid;
+      grid-template-columns: 50px 1fr auto;
+      gap: 10px;
+      align-items: center;
+      margin-bottom: 4px;
+    }
+
+    .pal-emv-chip {
+      width: 46px;
+      height: 36px;
+      background: linear-gradient(135deg, #F59E0B 0%, #D97706 40%, #FBBF24 70%, #B45309 100%);
+      border-radius: 5px;
+      border: 1px solid #78350F;
+      position: relative;
+      overflow: hidden;
+      box-shadow: inset 0 1px 2px rgba(255,255,255,0.6), 0 2px 4px rgba(0,0,0,0.25);
+    }
+
+    .pal-emv-chip::before {
+      content: "";
+      position: absolute;
+      top: 50%; left: 0; right: 0; height: 1px;
+      background: #78350F;
+    }
+    .pal-emv-chip::after {
+      content: "";
+      position: absolute;
+      top: 0; bottom: 0; left: 50%; width: 1px;
+      background: #78350F;
+    }
+
+    .pal-back-meta-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 3px 10px;
+      font-size: 0.67rem;
+    }
+
+    .pal-back-meta-item {
+      line-height: 1.15;
+    }
+
+    .pal-back-meta-label {
+      color: #1E293B;
+      font-size: 0.60rem;
+      font-weight: 700;
+    }
+
+    .pal-back-meta-val {
+      font-weight: 800;
+      color: #0F172A;
+    }
+
+    .pal-mrz-box {
+      background: #09121D;
+      border: 1px solid #1E293B;
+      border-radius: 4px;
+      padding: 5px 8px;
+      font-family: 'OCR-A', 'JetBrains Mono', monospace;
+      font-size: 0.72rem;
+      letter-spacing: 2px;
+      color: #E2E8F0;
+      line-height: 1.3;
+      white-space: pre-line;
+      text-align: left;
+      direction: ltr;
+    }
+
+    .pal-back-disclaimer {
+      font-size: 0.58rem;
+      color: #475569;
+      text-align: center;
+      margin-top: 3px;
+      font-weight: 700;
+      line-height: 1.1;
+    }
+
+    /* --- THE OFFICIAL ANNEX CARD (ملحق بطاقة الهوية / ספח לתعודת זהות) --- */
     .pal-annex-card {
       width: 100%;
-      max-width: 600px;
+      max-width: 580px;
       background: #FFFFFF;
       border: 2px solid #0F172A;
       border-radius: 8px;
@@ -712,6 +929,7 @@
       box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
       box-sizing: border-box;
       position: relative;
+      margin: 0 auto;
     }
 
     .pal-annex-header {
@@ -795,17 +1013,36 @@
       padding: 5px 8px;
     }
 
-    /* --- BACK ID CARD (MRZ & SMART CHIP) --- */
-    .pal-back-card {
-      width: 100%;
-      max-width: 600px;
-      background: linear-gradient(135deg, #09192A 0%, #040D17 50%, #0A1B2D 100%);
-      border: 2px solid #2E7D32;
-      border-radius: 12px;
-      padding: 16px 20px;
-      color: #FFFFFF;
-      box-shadow: 0 25px 60px rgba(0, 0, 0, 0.8);
-      box-sizing: border-box;
+    /* Responsive scaling for mobile devices */
+    @media (max-width: 650px) {
+      .pal-flip-card-scene {
+        max-width: 100%;
+        height: 330px;
+      }
+      .pal-green-content-grid {
+        grid-template-columns: 100px 1fr;
+        gap: 5px;
+      }
+      .pal-photo-container {
+        width: 96px;
+        height: 125px;
+      }
+      .pal-green-table td {
+        padding: 1.5px 3px;
+        font-size: 0.64rem;
+      }
+      .pal-id-num-display {
+        font-size: 0.90rem;
+        letter-spacing: 1.5px;
+      }
+      .pal-field-label-ar { font-size: 0.62rem; }
+      .pal-field-label-he { font-size: 0.54rem; }
+      .pal-field-value-cell { font-size: 0.70rem; }
+      .pal-field-hebrew-val { font-size: 0.64rem; }
+      .pal-mrz-box {
+        font-size: 0.58rem;
+        letter-spacing: 1.2px;
+      }
     }
 
     /* Payment Gateway Mock Card Box */
@@ -1491,204 +1728,265 @@
     <div class="moi-panel" id="stepPanel5">
       <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap:wrap; gap:10px;">
         <div>
-          <h2 style="font-size: 1.4rem; color: #FFFFFF; font-weight: 800; display:flex; align-items:center; gap:10px;">
-            <i class="fas fa-id-card-clip" style="color: #10B981;"></i>
-            <span id="step5Title">Step 5: Digital Palestinian National ID Card & Official Annex</span>
-          </h2>
-          <p style="color: #94A3B8; font-size: 0.88rem; margin-top: 4px;" id="step5Desc">
-            Sovereign digital credentials cryptographically signed by the Ministry of Interior. Switch tabs to view the Official Green National ID Card or the Civil Status Annex (الملحق).
-          </p>
-        </div>
-        <span class="tag-badge" style="background: rgba(16, 185, 129, 0.15); color: #10B981; border: 1px solid rgba(16, 185, 129, 0.3);">
-          <i class="fas fa-circle-check"></i> Status: ISSUED & COMMITTED
-        </span>
-      </div>
-
-      <!-- VIEW SWITCHER TABS -->
+          <h2 style="font-size: 1.4r      <!-- VIEW SWITCHER TABS -->
       <div class="id-card-view-tabs">
         <button class="id-tab-btn active" id="tabBtnFront" onclick="switchCardView('front')">
-          <i class="fas fa-id-card"></i> <span>بطاقة الهوية الخضراء (الوجه) • Front ID</span>
+          <i class="fas fa-id-card"></i> <span>بطاقة الهوية الذكية (3D تفاعلي) • 3D National ID</span>
         </button>
         <button class="id-tab-btn" id="tabBtnAnnex" onclick="switchCardView('annex')">
           <i class="fas fa-file-contract"></i> <span>ملحق الهوية الرسمي (السفح) • Official Annex</span>
         </button>
-        <button class="id-tab-btn" id="tabBtnBack" onclick="switchCardView('back')">
-          <i class="fas fa-barcode"></i> <span>ظهر الهوية والشريحة • Back & MRZ</span>
+        <button class="id-tab-btn" id="tabBtnFlip" onclick="toggleCardFlip()">
+          <i class="fas fa-arrows-rotate"></i> <span>اقلب الهوية (Flip Card)</span>
         </button>
       </div>
 
       <!-- DISPLAY CONTAINER -->
       <div class="id-card-display-container">
 
-        <!-- 1. OFFICIAL GREEN PALESTINIAN NATIONAL ID CARD (TEMPLATE REPRODUCTION) -->
-        <div class="pal-green-card-wrapper" id="viewGreenFront">
-          <!-- Alignment notch indicators (Red triangles like official laminated pouch) -->
-          <div class="pal-card-notch-l-top"></div>
-          <div class="pal-card-notch-l"></div>
-          <div class="pal-card-notch-r-top"></div>
-          <div class="pal-card-notch-r"></div>
+        <!-- 1. 3D FLIPPABLE PALESTINIAN NATIONAL ID CARD (FRONT & BACK IN ONE SCENE) -->
+        <div id="viewIdCard3dScene" style="display:flex; flex-direction:column; align-items:center; width:100%;">
+          
+          <!-- Interactive Flip Prompt Pill -->
+          <div class="pal-flip-hint-pill" onclick="toggleCardFlip()" title="Click anywhere to flip the card">
+            <i class="fas fa-arrows-rotate"></i>
+            <span id="flipHintText">انقر على الهوية لقلبها (الوجه ⇄ الظهر) • Click Card to Flip</span>
+            <span class="pal-flip-badge" id="cardSideBadge">🟢 الوجه الأمامي (Front)</span>
+          </div>
 
-          <div class="pal-green-card">
-            <!-- Center Watermark of the Palestinian Eagle of Saladin -->
-            <svg class="pal-green-watermark" viewBox="0 0 100 100" fill="none">
-              <path d="M50 5 L55 20 L70 20 L58 30 L63 45 L50 35 L37 45 L42 30 L30 20 L45 20 Z" fill="#1B5E20"/>
-              <path d="M20 35 C20 35, 10 55, 30 75 C30 75, 25 88, 50 95 C75 88, 70 75, 70 75 C90 55, 80 35, 80 35 C70 45, 50 42, 50 42 C50 42, 30 45, 20 35 Z" fill="#1B5E20"/>
-              <path d="M38 45 L62 45 L62 65 C62 72, 50 80, 50 80 C50 80, 38 72, 38 65 Z" fill="#FFFFFF"/>
-              <path d="M38 45 L62 45 L62 51 L38 51 Z" fill="#000000"/>
-              <path d="M38 59 L62 59 L62 65 C62 72, 50 80, 50 80 C50 80, 38 72, 38 65 Z" fill="#007A3D"/>
-              <polygon points="38,45 50,55 38,65" fill="#C62828"/>
-            </svg>
+          <!-- The 3D Scene Wrapper (Fixed Proportions 580px x 366px) -->
+          <div class="pal-flip-card-scene" onclick="toggleCardFlip()" title="Click to flip between Front and Back">
+            <div class="pal-flip-card" id="palFlipCard">
 
-            <!-- Top Row: Title in Center, Authority on Right -->
-            <div class="pal-green-top-row">
-              <!-- Center Title -->
-              <div class="pal-green-top-center" style="margin-left: 20px;">
-                <div class="pal-green-title-ar">بطاقة هوية</div>
-                <div class="pal-green-title-he">תעודת זהות</div>
-              </div>
+              <!-- FRONT FACE: LAMINATED GREEN PALESTINIAN ID -->
+              <div class="pal-flip-face pal-flip-face-front">
+                <!-- Alignment notch indicators (Red triangles matching official laminated pouch) -->
+                <div class="pal-card-notch-l-top"></div>
+                <div class="pal-card-notch-l"></div>
+                <div class="pal-card-notch-r-top"></div>
+                <div class="pal-card-notch-r"></div>
 
-              <!-- Right Header (Red) -->
-              <div class="pal-green-top-right">
-                <div class="pal-green-authority-ar">السلطة الفلسطينية</div>
-                <div class="pal-green-authority-he">הרשות הפלסטינית</div>
-              </div>
-            </div>
-
-            <!-- Content Grid: Left Photo, Right Table -->
-            <div class="pal-green-content-grid">
-              
-              <!-- Left: Studio Photo with Ribbon & MoI Ink Stamp -->
-              <div class="pal-official-photo-wrap">
-                <div class="pal-photo-container">
-                  <img id="cardPhotoImg" src="assets/official_citizen_portrait.jpg" alt="Citizen Photo" onerror="this.src='assets/logo_icon.jpg'">
-                  <div class="pal-photo-top-ribbon">وزارة الداخلية</div>
-                  
-                  <!-- Overlapping Circular Blue Ink Stamp (Civil Status Directorate) -->
-                  <svg class="pal-official-ink-stamp" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="46" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-dasharray="3 2"/>
-                    <circle cx="50" cy="50" r="38" fill="none" stroke="#1D4ED8" stroke-width="1.5"/>
-                    <!-- Palestinian Eagle in Center of Stamp -->
-                    <path d="M50 24 L53 36 L64 36 L55 43 L58 55 L50 48 L42 55 L45 43 L36 36 L47 36 Z" fill="#1D4ED8"/>
-                    <!-- Text around stamp in Arabic and Hebrew -->
-                    <text x="50" y="74" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="900" fill="#1D4ED8">دائرة الأحوال المدنية</text>
-                    <text x="50" y="84" text-anchor="middle" font-size="6.5" font-weight="bold" fill="#1D4ED8">مديرية غزة / 21-2</text>
+                <div class="pal-green-card-inner">
+                  <!-- Center Watermark of the Palestinian Eagle of Saladin -->
+                  <svg class="pal-green-watermark" viewBox="0 0 100 100" fill="none">
+                    <path d="M50 5 L55 20 L70 20 L58 30 L63 45 L50 35 L37 45 L42 30 L30 20 L45 20 Z" fill="#1B5E20"/>
+                    <path d="M20 35 C20 35, 10 55, 30 75 C30 75, 25 88, 50 95 C75 88, 70 75, 70 75 C90 55, 80 35, 80 35 C70 45, 50 42, 50 42 C50 42, 30 45, 20 35 Z" fill="#1B5E20"/>
+                    <path d="M38 45 L62 45 L62 65 C62 72, 50 80, 50 80 C50 80, 38 72, 38 65 Z" fill="#FFFFFF"/>
+                    <path d="M38 45 L62 45 L62 51 L38 51 Z" fill="#000000"/>
+                    <path d="M38 59 L62 59 L62 65 C62 72, 50 80, 50 80 C50 80, 38 72, 38 65 Z" fill="#007A3D"/>
+                    <polygon points="38,45 50,55 38,65" fill="#C62828"/>
                   </svg>
+
+                  <!-- Top Row: Title in Center, Authority on Right -->
+                  <div class="pal-green-top-row">
+                    <!-- Center Title -->
+                    <div class="pal-green-top-center">
+                      <div class="pal-green-title-ar">بطاقة هوية</div>
+                      <div class="pal-green-title-he">תעודת זהות</div>
+                    </div>
+
+                    <!-- Right Header (Red) -->
+                    <div class="pal-green-top-right">
+                      <div class="pal-green-authority-ar">السلطة الفلسطينية</div>
+                      <div class="pal-green-authority-he">הרשות הפלסטינית</div>
+                    </div>
+                  </div>
+
+                  <!-- Content Grid: Left Photo, Right Table -->
+                  <div class="pal-green-content-grid">
+                    
+                    <!-- Left: Studio Photo with Ribbon & MoI Ink Stamp -->
+                    <div class="pal-official-photo-wrap">
+                      <div class="pal-photo-container">
+                        <img id="cardPhotoImg" src="assets/official_citizen_portrait.jpg" alt="Citizen Photo" onerror="this.src='assets/logo_icon.jpg'">
+                        <div class="pal-photo-top-ribbon">وزارة الداخلية</div>
+                        
+                        <!-- Overlapping Circular Blue Ink Stamp (Civil Status Directorate) -->
+                        <svg class="pal-official-ink-stamp" viewBox="0 0 100 100">
+                          <circle cx="50" cy="50" r="46" fill="none" stroke="#1D4ED8" stroke-width="2.5" stroke-dasharray="3 2"/>
+                          <circle cx="50" cy="50" r="38" fill="none" stroke="#1D4ED8" stroke-width="1.5"/>
+                          <!-- Palestinian Eagle in Center of Stamp -->
+                          <path d="M50 24 L53 36 L64 36 L55 43 L58 55 L50 48 L42 55 L45 43 L36 36 L47 36 Z" fill="#1D4ED8"/>
+                          <!-- Text around stamp in Arabic and Hebrew -->
+                          <text x="50" y="74" text-anchor="middle" font-family="Cairo, sans-serif" font-size="8.5" font-weight="900" fill="#1D4ED8">دائرة الأحوال المدنية</text>
+                          <text x="50" y="84" text-anchor="middle" font-size="6.5" font-weight="bold" fill="#1D4ED8">مديرية غزة / 21-2</text>
+                        </svg>
+                      </div>
+                      <div class="pal-photo-date-stamp" id="cardPhotoDateStamp">12/10/2026</div>
+                    </div>
+
+                    <!-- Right: 9-Row Structured Table (Exact Palestinian Green Card Template) -->
+                    <div>
+                      <table class="pal-green-table">
+                        <!-- Row 0: ID Number Box -->
+                        <tr class="pal-id-num-row">
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">رقم الهوية</span>
+                            <span class="pal-field-label-he">מספר הזהות</span>
+                          </td>
+                          <td colspan="2" class="pal-id-num-display" id="cardGreenIdBox">
+                            4 0892184 3
+                          </td>
+                        </tr>
+
+                        <!-- Row 1: Personal / First Name -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">الاسم الشخصي</span>
+                            <span class="pal-field-label-he">השם הפרטי</span>
+                          </td>
+                          <td class="pal-field-value-cell" id="cardValFirstAr">طارق</td>
+                          <td class="pal-field-hebrew-val" id="cardValFirstHe">טארק</td>
+                        </tr>
+
+                        <!-- Row 2: Father's Name -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">اسم الأب</span>
+                            <span class="pal-field-label-he">שם האב</span>
+                          </td>
+                          <td class="pal-field-value-cell" id="cardValFatherAr">إبراهيم</td>
+                          <td class="pal-field-hebrew-val" id="cardValFatherHe">אבראהים</td>
+                        </tr>
+
+                        <!-- Row 3: Grandfather's Name -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">اسم الجد</span>
+                            <span class="pal-field-label-he">שם הסב</span>
+                          </td>
+                          <td class="pal-field-value-cell" id="cardValGrandAr">خليل</td>
+                          <td class="pal-field-hebrew-val" id="cardValGrandHe">ח'ליל</td>
+                        </tr>
+
+                        <!-- Row 4: Family Name -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">اسم العائلة</span>
+                            <span class="pal-field-label-he">שם המשפחה</span>
+                          </td>
+                          <td class="pal-field-value-cell" id="cardValFamilyAr">القدومي</td>
+                          <td class="pal-field-hebrew-val" id="cardValFamilyHe">אל קדומי</td>
+                        </tr>
+
+                        <!-- Row 5: Mother's Name -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">اسم الأم</span>
+                            <span class="pal-field-label-he">שם האם</span>
+                          </td>
+                          <td class="pal-field-value-cell" id="cardValMotherAr">مريم</td>
+                          <td class="pal-field-hebrew-val" id="cardValMotherHe">מרים</td>
+                        </tr>
+
+                        <!-- Row 6: Date of Birth -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">تاريخ الولادة</span>
+                            <span class="pal-field-label-he">תאריך הלידה</span>
+                          </td>
+                          <td colspan="2" class="pal-field-value-cell" style="text-align:center; font-family:'JetBrains Mono', monospace;" id="cardValDob">
+                            14/04/2010
+                          </td>
+                        </tr>
+
+                        <!-- Row 7: Place of Birth -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">مكان الولادة</span>
+                            <span class="pal-field-label-he">מקום הלידה</span>
+                          </td>
+                          <td class="pal-field-value-cell" id="cardValPobAr">القدس الشريف</td>
+                          <td class="pal-field-hebrew-val" id="cardValPobHe">ירושלים</td>
+                        </tr>
+
+                        <!-- Row 8: Gender & Religion -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">الجنس • الديانة</span>
+                            <span class="pal-field-label-he">המין • הדת</span>
+                          </td>
+                          <td class="pal-field-value-cell" id="cardValGenderRelAr">ذكر • مسلم</td>
+                          <td class="pal-field-hebrew-val" id="cardValGenderRelHe">זכר • מוסלמי</td>
+                        </tr>
+
+                        <!-- Row 9: Issue Office & Date -->
+                        <tr>
+                          <td class="pal-field-label-cell">
+                            <span class="pal-field-label-ar">صدرت في • بتاريخ</span>
+                            <span class="pal-field-label-he">נשפט ב • בתאריך</span>
+                          </td>
+                          <td class="pal-field-value-cell" id="cardValIssueAr">القدس • 12/10/2026</td>
+                          <td class="pal-field-hebrew-val" id="cardValIssueHe">ירושלים</td>
+                        </tr>
+                      </table>
+                    </div>
+
+                  </div>
                 </div>
-                <div class="pal-photo-date-stamp" id="cardPhotoDateStamp">12/10/2026</div>
               </div>
 
-              <!-- Right: 9-Row Structured Table (Exact Palestinian Green Card Template) -->
-              <div>
-                <table class="pal-green-table">
-                  <!-- Row 0: ID Number Box -->
-                  <tr class="pal-id-num-row">
-                    <td class="pal-field-label-cell" style="width:28%;">
-                      <span class="pal-field-label-ar">رقم الهوية</span>
-                      <span class="pal-field-label-he">מספר הזהות</span>
-                    </td>
-                    <td colspan="2" class="pal-id-num-display" id="cardGreenIdBox">
-                      4 0892184 3
-                    </td>
-                  </tr>
+              <!-- BACK FACE: LAMINATED GREEN/DARK MRZ & CHIP PALESTINIAN ID -->
+              <div class="pal-flip-face pal-flip-face-back">
+                <!-- Alignment notch indicators (Red triangles matching front side) -->
+                <div class="pal-card-notch-l-top"></div>
+                <div class="pal-card-notch-l"></div>
+                <div class="pal-card-notch-r-top"></div>
+                <div class="pal-card-notch-r"></div>
 
-                  <!-- Row 1: Personal / First Name -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">الاسم الشخصي</span>
-                      <span class="pal-field-label-he">השם הפרטי</span>
-                    </td>
-                    <td class="pal-field-value-cell" id="cardValFirstAr">طارق</td>
-                    <td class="pal-field-hebrew-val" id="cardValFirstHe">טארק</td>
-                  </tr>
+                <div class="pal-back-card-inner">
+                  <!-- Magnetic Stripe -->
+                  <div class="pal-back-magstripe"></div>
 
-                  <!-- Row 2: Father's Name -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">اسم الأب</span>
-                      <span class="pal-field-label-he">שם האב</span>
-                    </td>
-                    <td class="pal-field-value-cell" id="cardValFatherAr">إبراهيم</td>
-                    <td class="pal-field-hebrew-val" id="cardValFatherHe">אבראהים</td>
-                  </tr>
+                  <!-- Middle Section -->
+                  <div class="pal-back-middle-grid">
+                    <!-- Gold Smart Chip Graphic -->
+                    <div class="pal-emv-chip" title="EMV Smart Cryptographic Chip"></div>
 
-                  <!-- Row 3: Grandfather's Name -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">اسم الجد</span>
-                      <span class="pal-field-label-he">שם הסב</span>
-                    </td>
-                    <td class="pal-field-value-cell" id="cardValGrandAr">خليل</td>
-                    <td class="pal-field-hebrew-val" id="cardValGrandHe">ח'ליל</td>
-                  </tr>
+                    <!-- Metadata grid -->
+                    <div class="pal-back-meta-grid">
+                      <div class="pal-back-meta-item">
+                        <div class="pal-back-meta-label">المحافظة / العنوان:</div>
+                        <div class="pal-back-meta-val" id="backAddress">القدس الشريف — دولة فلسطين</div>
+                      </div>
+                      <div class="pal-back-meta-item">
+                        <div class="pal-back-meta-label">W3C Decentralized ID:</div>
+                        <div class="pal-back-meta-val" id="backDid" style="font-family:'JetBrains Mono', monospace; font-size:0.60rem; color:#0369A1;">did:paldi:moi:408921843</div>
+                      </div>
+                      <div class="pal-back-meta-item">
+                        <div class="pal-back-meta-label">رقم سجل الأسرة:</div>
+                        <div class="pal-back-meta-val" style="color:#B45309;">PAL-FAM-2010-994</div>
+                      </div>
+                      <div class="pal-back-meta-item">
+                        <div class="pal-back-meta-label">Hyperledger Fabric Block:</div>
+                        <div class="pal-back-meta-val" id="backFabricBlock" style="font-family:'JetBrains Mono', monospace; font-size:0.60rem; color:#15803D;">Block #4812 (Tx: fab7a912)</div>
+                      </div>
+                    </div>
 
-                  <!-- Row 4: Family Name -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">اسم العائلة</span>
-                      <span class="pal-field-label-he">שם המשפחה</span>
-                    </td>
-                    <td class="pal-field-value-cell" id="cardValFamilyAr">القدومي</td>
-                    <td class="pal-field-hebrew-val" id="cardValFamilyHe">אל קדומי</td>
-                  </tr>
+                    <!-- Biometric Fingerprint & Authority Token -->
+                    <div style="display:flex; flex-direction:column; align-items:center; gap:2px;">
+                      <i class="fas fa-fingerprint" style="font-size:1.6rem; color:#1B5E20;"></i>
+                      <span style="font-size:0.55rem; font-weight:800; color:#1B5E20;">BIO-TOKEN</span>
+                    </div>
+                  </div>
 
-                  <!-- Row 5: Mother's Name -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">اسم الأم</span>
-                      <span class="pal-field-label-he">שם האם</span>
-                    </td>
-                    <td class="pal-field-value-cell" id="cardValMotherAr">مريم</td>
-                    <td class="pal-field-hebrew-val" id="cardValMotherHe">מרים</td>
-                  </tr>
+                  <!-- Machine Readable Zone (MRZ) -->
+                  <div class="pal-mrz-box" id="backMrzBox">IDPSE4089218433<<<<<<<<<<<<<<<
+1004147M3610126PSE<<<<<<<<<<<4
+AL<<QADDOUMI<<TARIQ<IBRAHIM<<<</div>
 
-                  <!-- Row 6: Date of Birth -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">تاريخ الولادة</span>
-                      <span class="pal-field-label-he">תאריך הלידה</span>
-                    </td>
-                    <td colspan="2" class="pal-field-value-cell" style="text-align:center; font-family:'JetBrains Mono', monospace;" id="cardValDob">
-                      14/04/2010
-                    </td>
-                  </tr>
-
-                  <!-- Row 7: Place of Birth -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">مكان الولادة</span>
-                      <span class="pal-field-label-he">מקום הלידה</span>
-                    </td>
-                    <td class="pal-field-value-cell" id="cardValPobAr">القدس الشريف</td>
-                    <td class="pal-field-hebrew-val" id="cardValPobHe">ירושלים</td>
-                  </tr>
-
-                  <!-- Row 8: Gender & Religion -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">الجنس • الديانة</span>
-                      <span class="pal-field-label-he">המין • הדת</span>
-                    </td>
-                    <td class="pal-field-value-cell" id="cardValGenderRelAr">ذكر • مسلم</td>
-                    <td class="pal-field-hebrew-val" id="cardValGenderRelHe">זכר • מוסלמי</td>
-                  </tr>
-
-                  <!-- Row 9: Issue Office & Date -->
-                  <tr>
-                    <td class="pal-field-label-cell">
-                      <span class="pal-field-label-ar">صدرت في • بتاريخ</span>
-                      <span class="pal-field-label-he">נשפט ב • בתאריך</span>
-                    </td>
-                    <td class="pal-field-value-cell" id="cardValIssueAr">القدس • 12/10/2026</td>
-                    <td class="pal-field-hebrew-val" id="cardValIssueHe">ירושלים</td>
-                  </tr>
-                </table>
+                  <!-- Official Legal Disclaimer -->
+                  <div class="pal-back-disclaimer">
+                    هذه البطاقة وثيقة رسمية صادرة عن السلطة الفلسطينية • وزارة الداخلية • תעודה זו הינה מסמך רשמי
+                  </div>
+                </div>
               </div>
 
             </div>
           </div>
         </div>
 
-        <!-- 2. OFFICIAL CIVIL STATUS ANNEX CARD (ملحق بطاقة الهوية / ספח לתעודת זהות) -->
+        <!-- 2. OFFICIAL CIVIL STATUS ANNEX CARD (ملحق بطاقة الهوية / ספح לתעודת זהות) -->
         <div class="pal-annex-card" id="viewAnnex" style="display:none;">
           <div class="pal-annex-header">
             <!-- Left: Title -->
@@ -1702,7 +2000,7 @@
             <div class="pal-annex-qr-box">
               <img id="annexQrImg" class="pal-annex-qr-img" src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=did:paldi:moi:408921843" alt="QR">
               <div style="font-size:0.65rem; color:#475569; margin-top:2px;">رقم الهوية / מספר הזהות</div>
-              <div style="font-size:0.8rem; font-weight:800; color:#0F172A; direction:rtl;" id="annexHebrewHeader">אל קדוمي • טארק</div>
+              <div style="font-size:0.8rem; font-weight:800; color:#0F172A; direction:rtl;" id="annexHebrewHeader">אל קדומי • טארק</div>
             </div>
 
             <!-- Right: Authority (Red) -->
@@ -1798,52 +2096,24 @@
           </div>
         </div>
 
-        <!-- 3. BACK ID CARD (MRZ & SMART CHIP) -->
-        <div class="pal-back-card" id="viewBack" style="display:none;">
-          <div style="height:32px; background:#000; border-radius:4px; margin-bottom:12px; border:1px solid rgba(255,255,255,0.15);"></div>
-
-          <div style="display:grid; grid-template-columns:1fr 1fr; gap:10px; font-size:0.72rem; margin-bottom:12px;">
-            <div>
-              <span style="color:#94A3B8;">المحافظة / العنوان:</span><br>
-              <span id="backAddress" style="font-weight:700; color:#FFF;">محافظة القدس الشريف — فلسطين</span>
-            </div>
-            <div>
-              <span style="color:#94A3B8;">W3C Decentralized ID:</span><br>
-              <span id="backDid" style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:#38BDF8;">did:paldi:moi:408921843</span>
-            </div>
-            <div>
-              <span style="color:#94A3B8;">رقم سجل الأسرة:</span><br>
-              <span style="font-weight:700; color:#F9E79F;">PAL-FAM-2010-994</span>
-            </div>
-            <div>
-              <span style="color:#94A3B8;">Hyperledger Fabric Block:</span><br>
-              <span id="backFabricBlock" style="font-family:'JetBrains Mono', monospace; font-size:0.65rem; color:#10B981;">Block #4812 (Tx: fab7a912)</span>
-            </div>
-          </div>
-
-          <!-- Machine Readable Zone (MRZ) -->
-          <div style="background:rgba(0,0,0,0.9); border:1px solid rgba(255,255,255,0.2); border-radius:6px; padding:8px 12px; font-family:'OCR-A', 'JetBrains Mono', monospace; font-size:0.75rem; letter-spacing:2px; color:#CBD5E1; line-height:1.4; white-space:pre-line;" id="backMrzBox">
-IDPSE4089218433<<<<<<<<<<<<<<<
-1004147M3610126PSE<<<<<<<<<<<4
-AL<<QADDOUMI<<TARIQ<IBRAHIM<<<
-          </div>
-        </div>
-
       </div>
 
       <!-- Action Buttons Bar -->
       <div style="display:flex; justify-content:center; gap:12px; flex-wrap:wrap; margin-top:20px;">
+        <button class="btn btn-outline" onclick="toggleCardFlip()" style="border-color:#10B981; color:#10B981;">
+          <i class="fas fa-arrows-rotate"></i> <span>اقلب الهوية (Flip Card)</span>
+        </button>
         <button class="btn btn-gold" onclick="downloadGreenIdCard()">
           <i class="fas fa-download"></i> <span>Download Front Green ID (PNG)</span>
         </button>
+        <button class="btn btn-outline" onclick="downloadBackIdCard()" style="border-color:#38BDF8; color:#38BDF8;">
+          <i class="fas fa-download"></i> <span>Download Back ID (PNG)</span>
+        </button>
         <button class="btn btn-outline" onclick="downloadAnnexCard()">
-          <i class="fas fa-file-arrow-down" style="color:#38BDF8;"></i> <span>Download Official Annex (PNG)</span>
+          <i class="fas fa-file-arrow-down" style="color:#A78BFA;"></i> <span>Download Official Annex (PNG)</span>
         </button>
         <button class="btn btn-outline" onclick="exportVerifiableCredentialJson()">
           <i class="fas fa-file-code" style="color: #FDE047;"></i> <span>Export W3C VC (JSON-LD)</span>
-        </button>
-        <button class="btn btn-outline" onclick="openCsvDbModal()">
-          <i class="fas fa-database" style="color: #4ADE80;"></i> <span>View in CSV Registry</span>
         </button>
       </div>
     </div>
