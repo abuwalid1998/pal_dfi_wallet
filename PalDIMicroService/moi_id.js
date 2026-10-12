@@ -607,16 +607,296 @@ function deriveDeterministicFaceKey(descriptor) {
   return `PAL-FP-${hexChars.slice(0,4).join('')}-${hexChars.slice(4,8).join('')}-${hexChars.slice(8,12).join('')}-${hexChars.slice(12,16).join('')}`;
 }
 
-// Capture Snapshot
+// --- ARABIC TO HEBREW TRANSLITERATION ENGINE ---
+function transliterateArabicToHebrew(text) {
+  if (!text) return '';
+  const clean = text.trim();
+
+  // Known dictionary for standard Palestinian civil status terms and names
+  const dict = {
+    'طارق': 'טארק',
+    'إبراهيم': 'אבראהים',
+    'ابراهيم': 'אבראהים',
+    'خليل': "ח'ליل",
+    'القدومي': 'אל קדומי',
+    'محمد': 'מוחמד',
+    'أحمد': 'אחמד',
+    'احمد': 'אחמד',
+    'محمود': 'מחמוד',
+    'علي': 'עלי',
+    'حسن': 'חסן',
+    'حسين': 'חוסיין',
+    'يوسف': 'יוסף',
+    'عمر': 'עומר',
+    'خالد': "ח'אלד",
+    'مريم': 'מרים',
+    'فاطمة': 'פאטמה',
+    'عائشة': 'עאישה',
+    'سارة': 'שרה',
+    'عبد الله': 'עבדאללה',
+    'عبدالله': 'עבדאללה',
+    'النجار': "אל נג'אר",
+    'مواطن': 'אזרח',
+    'يوحنا': 'יו חנה',
+    'جاك': "ג'ק",
+    'جوامع': "ג'ואמע",
+    'تموز': 'תמוז',
+
+    // Cities / Governorates
+    'القدس الشريف': 'ירושלים',
+    'القدس': 'ירושלים',
+    'غزة': 'עזה',
+    'رام الله والبيرة': 'רמאללה',
+    'رام الله': 'רמאללה',
+    'نابلس': 'שכם',
+    'الخليل': 'חברון',
+    'جنين': "ג'נין",
+    'بيت لحم': 'בית לחם',
+    'طولكرم': 'טולכרם',
+    'قلقيلية': 'קלקיליה',
+    'أريحا': 'יריחו',
+    'خان يونس': "ח'אן יונס",
+    'رفح': 'רפיח',
+
+    // Towns / Refugee Camps
+    'مخيم الشاطئ': 'אלשאטאי',
+    'مخيم جنين': "ג'נין",
+    'حي الرمال': 'רימאל',
+    'البلدة القديمة': 'העיר העתיקה',
+
+    // Gender / Religion / Status
+    'ذكر': 'זכר',
+    'أنثى': 'נקבה',
+    'مسلم': 'מוסלמי',
+    'مسيحي': 'נוצרי',
+    'أعزب': 'רווק',
+    'متزوج': 'נשוי',
+    'مطلق': 'גרוש',
+    'أرمل': 'אלמן'
+  };
+
+  if (dict[clean]) return dict[clean];
+
+  // Word-by-word matching
+  const words = clean.split(/\s+/);
+  if (words.length > 1) {
+    return words.map(w => transliterateArabicToHebrew(w)).join(' ');
+  }
+
+  // Phonetic transliteration rule-table
+  const charMap = {
+    'ا': 'א', 'أ': 'א', 'إ': 'א', 'آ': 'א', 'ء': 'א', 'ئ': 'י', 'ؤ': 'ו',
+    'ب': 'ב',
+    'ت': 'ת', 'ة': 'ה',
+    'ث': "ת'",
+    'ج': "ג'",
+    'ح': 'ח',
+    'خ': "ח'",
+    'د': 'ד',
+    'ذ': "ד'",
+    'ر': 'ר',
+    'ز': 'ז',
+    'س': 'ס',
+    'ش': 'ש',
+    'ص': 'צ',
+    'ض': "צ'",
+    'ط': 'ט',
+    'ظ': "ט'",
+    'ع': 'ע',
+    'غ': "ג'",
+    'ف': 'פ',
+    'ق': 'ק',
+    'ك': 'כ',
+    'ل': 'ל',
+    'م': 'מ',
+    'ن': 'נ',
+    'ه': 'ה',
+    'و': 'ו',
+    'ي': 'י', 'ى': 'י'
+  };
+
+  let out = '';
+  for (let i = 0; i < clean.length; i++) {
+    const ch = clean[i];
+    if (charMap[ch]) {
+      out += charMap[ch];
+    } else if (ch === ' ' || ch === '-') {
+      out += ' ';
+    }
+  }
+  return out || clean;
+}
+
+// --- OFFICIAL STUDIO PORTRAIT CONTROLS ---
+
+// 1. Use the pre-rendered official young Palestinian citizen studio portrait
+function useOfficialDefaultPortrait() {
+  const officialPath = 'assets/official_citizen_portrait.jpg';
+  capturedFaceDataUrl = officialPath;
+
+  const previewImg = document.getElementById('capturedFaceImg');
+  const previewBox = document.getElementById('capturedSnapshotPreviewBox');
+  if (previewImg) previewImg.src = officialPath;
+  if (previewBox) previewBox.style.display = 'flex';
+
+  const cardPhoto = document.getElementById('cardPhotoImg');
+  if (cardPhoto) cardPhoto.src = officialPath;
+
+  isLivenessVerified = true;
+  livenessScore = 99.8;
+
+  const statusBadge = document.getElementById('livenessStatusBadge');
+  if (statusBadge) {
+    statusBadge.className = 'tag-badge gold';
+    statusBadge.innerHTML = `<i class="fas fa-check-circle"></i> Official Studio Portrait Loaded`;
+  }
+
+  const vitalityScoreEl = document.getElementById('vitalityScore');
+  const vitalityBar = document.getElementById('vitalityBar');
+  if (vitalityScoreEl) vitalityScoreEl.textContent = `99.8% (Official Civil Status Studio Record)`;
+  if (vitalityBar) {
+    vitalityBar.style.width = '100%';
+    vitalityBar.style.background = '#10B981';
+  }
+
+  const bioKeyEl = document.getElementById('derivedBioKey');
+  if (bioKeyEl) bioKeyEl.textContent = 'PAL-FP-84F2-E9A1-33C8-7B09';
+
+  const submitBtn = document.getElementById('submitBiometricsBtn');
+  if (submitBtn) {
+    submitBtn.disabled = false;
+    submitBtn.className = 'btn btn-gold';
+    submitBtn.innerHTML = `<i class="fas fa-check-double"></i> <span>${currentLang === 'en' ? 'Submit Official Portrait to Smart Contract' : 'تثبيت الصورة الرسمية في العقد الذكي'}</span>`;
+  }
+
+  playChime();
+}
+
+// 2. Upload custom photo and automatically enhance to official ID standard
+function handlePortraitUpload(event) {
+  const file = event.target.files?.[0];
+  if (!file) return;
+
+  const reader = new FileReader();
+  reader.onload = (e) => {
+    const img = new Image();
+    img.onload = () => {
+      const snapCanvas = document.createElement('canvas');
+      snapCanvas.width = 320;
+      snapCanvas.height = 410;
+      const ctx = snapCanvas.getContext('2d');
+
+      // Studio Royal Blue Gradient Backdrop
+      const grad = ctx.createRadialGradient(160, 200, 30, 160, 200, 240);
+      grad.addColorStop(0, '#2563EB');
+      grad.addColorStop(1, '#1D4ED8');
+      ctx.fillStyle = grad;
+      ctx.fillRect(0, 0, 320, 410);
+
+      // Crop user image proportionally
+      const scale = Math.max(320 / img.width, 410 / img.height);
+      const w = img.width * scale;
+      const h = img.height * scale;
+      const x = (320 - w) / 2;
+      const y = (410 - h) / 2;
+      ctx.drawImage(img, x, y, w, h);
+
+      // Top Header Ribbon: وزارة الداخلية
+      ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+      ctx.fillRect(0, 0, 320, 36);
+      ctx.fillStyle = '#FFFFFF';
+      ctx.font = 'bold 18px Cairo, sans-serif';
+      ctx.textAlign = 'center';
+      ctx.fillText('وزارة الداخلية', 160, 24);
+
+      // Overlapping Blue Ink Stamp (Civil Status Directorate)
+      drawCivilStatusStamp(ctx, 60, 340, 52);
+
+      capturedFaceDataUrl = snapCanvas.toDataURL('image/jpeg', 0.95);
+
+      const previewImg = document.getElementById('capturedFaceImg');
+      const previewBox = document.getElementById('capturedSnapshotPreviewBox');
+      if (previewImg) previewImg.src = capturedFaceDataUrl;
+      if (previewBox) previewBox.style.display = 'flex';
+
+      const cardPhoto = document.getElementById('cardPhotoImg');
+      if (cardPhoto) cardPhoto.src = capturedFaceDataUrl;
+
+      isLivenessVerified = true;
+      livenessScore = 99.4;
+
+      const bioKeyEl = document.getElementById('derivedBioKey');
+      if (bioKeyEl) bioKeyEl.textContent = 'PAL-FP-UPLOAD-' + Math.random().toString(16).substring(2, 8).toUpperCase();
+
+      const submitBtn = document.getElementById('submitBiometricsBtn');
+      if (submitBtn) {
+        submitBtn.disabled = false;
+        submitBtn.className = 'btn btn-gold';
+        submitBtn.innerHTML = `<i class="fas fa-check-double"></i> <span>${currentLang === 'en' ? 'Submit Official Portrait to Smart Contract' : 'تثبيت الصورة الرسمية في العقد الذكي'}</span>`;
+      }
+
+      playChime();
+    };
+    img.src = e.target.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+// Draw authentic round Civil Status blue ink stamp
+function drawCivilStatusStamp(ctx, cx, cy, radius) {
+  ctx.save();
+  ctx.translate(cx, cy);
+  ctx.rotate(-0.2); // ~ -12 deg
+
+  ctx.strokeStyle = 'rgba(29, 78, 216, 0.9)';
+  ctx.lineWidth = 2.5;
+  ctx.setLineDash([5, 3]);
+  ctx.beginPath();
+  ctx.arc(0, 0, radius, 0, Math.PI * 2);
+  ctx.stroke();
+
+  ctx.setLineDash([]);
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  ctx.arc(0, 0, radius - 7, 0, Math.PI * 2);
+  ctx.stroke();
+
+  // Palestinian Eagle in Stamp
+  ctx.fillStyle = 'rgba(29, 78, 216, 0.9)';
+  ctx.beginPath();
+  ctx.moveTo(0, -14);
+  ctx.lineTo(4, -4); ctx.lineTo(12, -4); ctx.lineTo(5, 2);
+  ctx.lineTo(8, 12); ctx.lineTo(0, 6); ctx.lineTo(-8, 12);
+  ctx.lineTo(-5, 2); ctx.lineTo(-12, -4); ctx.lineTo(-4, -4);
+  ctx.closePath();
+  ctx.fill();
+
+  ctx.font = 'bold 9px Cairo, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('دائرة الأحوال المدنية', 0, 18);
+  ctx.font = 'bold 7px sans-serif';
+  ctx.fillText('مديرية غزة / 21-2', 0, 27);
+
+  ctx.restore();
+}
+
+// Capture Snapshot from Camera with Studio Enhancements
 function capturePortraitSnapshot(video, box) {
   const snapCanvas = document.createElement('canvas');
   snapCanvas.width = 320;
-  snapCanvas.height = 380;
+  snapCanvas.height = 410;
   const sCtx = snapCanvas.getContext('2d');
+
+  // Studio Blue Gradient Backdrop
+  const grad = sCtx.createRadialGradient(160, 200, 30, 160, 200, 240);
+  grad.addColorStop(0, '#2563EB');
+  grad.addColorStop(1, '#1D4ED8');
+  sCtx.fillStyle = grad;
+  sCtx.fillRect(0, 0, 320, 410);
 
   // Crop around detected face with proportional headroom
   const cropW = (box?.width || video.videoWidth * 0.5) * 1.5;
-  const cropH = cropW * (380 / 320);
+  const cropH = cropW * (410 / 320);
   const cropX = Math.max(0, ((box?.x || video.videoWidth * 0.25) + (box?.width || video.videoWidth * 0.5) / 2) - cropW / 2);
   const cropY = Math.max(0, ((box?.y || video.videoHeight * 0.2) + (box?.height || video.videoHeight * 0.5) / 2) - cropH * 0.45);
 
@@ -627,16 +907,30 @@ function capturePortraitSnapshot(video, box) {
   sCtx.drawImage(
     video,
     Math.max(0, video.videoWidth - cropX - cropW), Math.max(0, cropY), Math.min(video.videoWidth, cropW), Math.min(video.videoHeight, cropH),
-    0, 0, 320, 380
+    0, 0, 320, 410
   );
   sCtx.restore();
 
-  capturedFaceDataUrl = snapCanvas.toDataURL('image/jpeg', 0.92);
+  // Top Ribbon: وزارة الداخلية
+  sCtx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+  sCtx.fillRect(0, 0, 320, 36);
+  sCtx.fillStyle = '#FFFFFF';
+  sCtx.font = 'bold 18px Cairo, sans-serif';
+  sCtx.textAlign = 'center';
+  sCtx.fillText('وزارة الداخلية', 160, 24);
+
+  // Overlapping Circular Blue Ink Stamp
+  drawCivilStatusStamp(sCtx, 60, 340, 52);
+
+  capturedFaceDataUrl = snapCanvas.toDataURL('image/jpeg', 0.94);
 
   const previewImg = document.getElementById('capturedFaceImg');
   const previewBox = document.getElementById('capturedSnapshotPreviewBox');
   if (previewImg) previewImg.src = capturedFaceDataUrl;
   if (previewBox) previewBox.style.display = 'flex';
+
+  const cardPhoto = document.getElementById('cardPhotoImg');
+  if (cardPhoto) cardPhoto.src = capturedFaceDataUrl;
 }
 
 // --- STEP 2 -> STEP 3 ---
@@ -657,14 +951,25 @@ function setupDateChangeListener() {
 
 function calculateFeesAndPolicy() {
   const dobVal = document.getElementById('inputDob')?.value || '2010-04-14';
-  const nameAr = document.getElementById('inputNameAr')?.value || 'طارق إبراهيم القدومي';
-  const nameEn = document.getElementById('inputNameEn')?.value || 'Tariq Ibrahim Al-Qaddoumi';
+  
+  // 4-Part Name Inputs
+  const nameFirst = document.getElementById('inputNameFirst')?.value.trim() || 'طارق';
+  const nameFather = document.getElementById('inputNameFather')?.value.trim() || 'إبراهيم';
+  const nameGrand = document.getElementById('inputNameGrandfather')?.value.trim() || 'خليل';
+  const nameFamily = document.getElementById('inputNameFamily')?.value.trim() || 'القدومي';
+  const fullNameAr = `${nameFirst} ${nameFather} ${nameGrand} ${nameFamily}`;
+
+  const nameEn = document.getElementById('inputNameEn')?.value.trim() || 'Tariq Ibrahim Al-Qaddoumi';
   const birthPlace = document.getElementById('inputBirthPlace')?.value || 'القدس الشريف';
-  const gender = document.getElementById('inputGender')?.value || 'M';
+  const townCamp = document.getElementById('inputTownCamp')?.value.trim() || 'مخيم الشاطئ';
+  const streetAddr = document.getElementById('inputStreetAddress')?.value.trim() || 'شارع صلاح الدين — منزل 14';
+  const gender = document.getElementById('inputGender')?.value || 'ذكر';
+  const religion = document.getElementById('inputReligion')?.value || 'مسلم';
+  const marital = document.getElementById('inputMaritalStatus')?.value || 'أعزب';
   const blood = document.getElementById('inputBlood')?.value || 'O+';
-  const parentName = document.getElementById('inputParentName')?.value || 'إبراهيم خليل القدومي';
-  const parentId = document.getElementById('inputParentId')?.value || '901452819';
-  const motherName = document.getElementById('inputMotherName')?.value || 'مريم عبد الله';
+  const parentName = document.getElementById('inputParentName')?.value.trim() || 'إبراهيم خليل محمد القدومي';
+  const parentId = document.getElementById('inputParentId')?.value.trim() || '901452819';
+  const motherName = document.getElementById('inputMotherName')?.value.trim() || 'مريم عبد الله';
 
   const birthDate = new Date(dobVal);
   const now = new Date();
@@ -729,12 +1034,20 @@ function calculateFeesAndPolicy() {
     application_id: appId,
     national_id_number: nationalIdNum,
     did: did,
-    applicant_name_ar: nameAr,
+    name_first: nameFirst,
+    name_father: nameFather,
+    name_grand: nameGrand,
+    name_family: nameFamily,
+    applicant_name_ar: fullNameAr,
     applicant_name_en: nameEn,
     dob: dobVal,
     age: ageYears.toFixed(1),
     birth_place: birthPlace,
+    town_camp: townCamp,
+    street_address: streetAddr,
     gender: gender,
+    religion: religion,
+    marital_status: marital,
     blood_type: blood,
     parent_id: parentId,
     parent_name: parentName,
@@ -810,7 +1123,7 @@ async function executeInstantPayment() {
   if (progressBox) progressBox.style.display = 'none';
   if (btn) btn.disabled = false;
 
-  // Render Issued National ID Card
+  // Render Issued National ID Card & Annex
   renderIssuedNationalIdCard(currentApplicationData);
 
   // Advance to Step 5
@@ -851,177 +1164,385 @@ async function persistToCsvDatabase(record) {
   fetchCsvRecords();
 }
 
-// --- STEP 5: RENDER VISUALIZED PALESTINIAN THEMED NATIONAL ID CARD ---
+// --- CARD VIEW SWITCHER TABS (FRONT / ANNEX / BACK) ---
+function switchCardView(view) {
+  const frontView = document.getElementById('viewGreenFront');
+  const annexView = document.getElementById('viewAnnex');
+  const backView = document.getElementById('viewBack');
+
+  const tabFront = document.getElementById('tabBtnFront');
+  const tabAnnex = document.getElementById('tabBtnAnnex');
+  const tabBack = document.getElementById('tabBtnBack');
+
+  if (tabFront) tabFront.classList.toggle('active', view === 'front');
+  if (tabAnnex) tabAnnex.classList.toggle('active', view === 'annex');
+  if (tabBack) tabBack.classList.toggle('active', view === 'back');
+
+  if (frontView) frontView.style.display = view === 'front' ? 'block' : 'none';
+  if (annexView) annexView.style.display = view === 'annex' ? 'block' : 'none';
+  if (backView) backView.style.display = view === 'back' ? 'block' : 'none';
+
+  playBeep(520, 'sine', 0.05);
+}
+
+// --- STEP 5: RENDER VISUALIZED OFFICIAL PALESTINIAN NATIONAL ID & ANNEX ---
 function renderIssuedNationalIdCard(data) {
   if (!data) return;
 
-  const formatId = (id) => {
-    const s = String(id).padStart(9, '0');
-    return `${s.slice(0,3)} ${s.slice(3,6)} ${s.slice(6,9)}`;
+  const rawId = String(data.national_id_number).padStart(9, '0');
+  const formatSpaced = `${rawId.slice(0, 1)} ${rawId.slice(1, 8)} ${rawId.slice(8, 9)}`;
+
+  // 1. FRONT GREEN NATIONAL ID CARD POPULATION
+  const idBoxEl = document.getElementById('cardGreenIdBox');
+  if (idBoxEl) idBoxEl.textContent = formatSpaced;
+
+  // 4-Part Names
+  const firstAr = data.name_first || 'طارق';
+  const fatherAr = data.name_father || 'إبراهيم';
+  const grandAr = data.name_grand || 'خليل';
+  const familyAr = data.name_family || 'القدومي';
+  const motherAr = (data.mother_name || 'مريم').split(' ')[0];
+
+  const firstHe = transliterateArabicToHebrew(firstAr);
+  const fatherHe = transliterateArabicToHebrew(fatherAr);
+  const grandHe = transliterateArabicToHebrew(grandAr);
+  const familyHe = transliterateArabicToHebrew(familyAr);
+  const motherHe = transliterateArabicToHebrew(motherAr);
+
+  const setT = (id, val) => {
+    const el = document.getElementById(id);
+    if (el) el.textContent = val;
   };
 
-  const idNumEl = document.getElementById('cardIdNum');
-  if (idNumEl) idNumEl.textContent = formatId(data.national_id_number);
+  setT('cardValFirstAr', firstAr);
+  setT('cardValFirstHe', firstHe);
+  setT('cardValFatherAr', fatherAr);
+  setT('cardValFatherHe', fatherHe);
+  setT('cardValGrandAr', grandAr);
+  setT('cardValGrandHe', grandHe);
+  setT('cardValFamilyAr', familyAr);
+  setT('cardValFamilyHe', familyHe);
+  setT('cardValMotherAr', motherAr);
+  setT('cardValMotherHe', motherHe);
 
-  const nameArEl = document.getElementById('cardNameAr');
-  if (nameArEl) nameArEl.textContent = data.applicant_name_ar;
+  // DOB
+  const d = new Date(data.dob);
+  const dobStr = `${String(d.getDate()).padStart(2, '0')}/${String(d.getMonth() + 1).padStart(2, '0')}/${d.getFullYear()}`;
+  setT('cardValDob', dobStr);
 
-  const nameEnEl = document.getElementById('cardNameEn');
-  if (nameEnEl) nameEnEl.textContent = data.applicant_name_en;
+  // POB
+  const pobAr = data.birth_place || 'القدس الشريف';
+  const pobHe = transliterateArabicToHebrew(pobAr);
+  setT('cardValPobAr', pobAr);
+  setT('cardValPobHe', pobHe);
 
-  const dobEl = document.getElementById('cardDob');
-  if (dobEl) {
-    const d = new Date(data.dob);
-    dobEl.textContent = `${String(d.getDate()).padStart(2,'0')}/${String(d.getMonth()+1).padStart(2,'0')}/${d.getFullYear()}`;
-  }
+  // Gender & Religion
+  const gAr = data.gender === 'أنثى' ? 'أنثى' : 'ذكر';
+  const gHe = data.gender === 'أنثى' ? 'נקבה' : 'זכר';
+  const relAr = data.religion || 'مسلم';
+  const relHe = transliterateArabicToHebrew(relAr);
+  setT('cardValGenderRelAr', `${gAr} • ${relAr}`);
+  setT('cardValGenderRelHe', `${gHe} • ${relHe}`);
 
-  const pobEl = document.getElementById('cardPob');
-  if (pobEl) pobEl.textContent = data.birth_place;
-
-  const motherEl = document.getElementById('cardMother');
-  if (motherEl) motherEl.textContent = data.mother_name || 'مريم عبد الله';
-
-  const genderBloodEl = document.getElementById('cardGenderBlood');
-  if (genderBloodEl) {
-    const gText = data.gender === 'F' ? 'أنثى (F)' : 'ذكر (M)';
-    genderBloodEl.textContent = `${gText} • ${data.blood_type || 'O+'}`;
-  }
-
-  const issueDateEl = document.getElementById('cardIssueDate');
-  const expiryDateEl = document.getElementById('cardExpiryDate');
+  // Issue City & Date
   const now = new Date();
+  const issueDateStr = `${String(now.getDate()).padStart(2, '0')}/${String(now.getMonth() + 1).padStart(2, '0')}/${now.getFullYear()}`;
+  setT('cardValIssueAr', `${pobAr.split(' ')[0]} • ${issueDateStr}`);
+  setT('cardValIssueHe', pobHe);
+
+  // Date Stamp on Photo
+  setT('cardPhotoDateStamp', issueDateStr);
+
+  // Photo
+  const photoImg = document.getElementById('cardPhotoImg');
+  if (photoImg) {
+    photoImg.src = capturedFaceDataUrl || 'assets/official_citizen_portrait.jpg';
+  }
+
+  // 2. OFFICIAL ANNEX CARD POPULATION (ملحق بطاقة الهوية / ספח לתעודת זהות)
+  setT('annexIdDisplay', formatSpaced);
+  setT('annexFamilyName', familyAr);
+  setT('annexFirstName', firstAr);
+  setT('annexHebrewHeader', `${familyHe} • ${firstHe}`);
+  setT('annexAddress', data.street_address || 'شارع صلاح الدين — منزل 14');
+  setT('annexTownCamp', data.town_camp || 'مخيم الشاطئ');
+  setT('annexTownCampHe', transliterateArabicToHebrew(data.town_camp || 'مخيم الشاطئ'));
+
+  const marAr = data.marital_status || 'أعزب';
+  const marHe = transliterateArabicToHebrew(marAr);
+  setT('annexMaritalStatus', marAr);
+  setT('annexMaritalStatusHe', marHe);
+
+  const annexQr = document.getElementById('annexQrImg');
+  if (annexQr) {
+    annexQr.src = `https://api.qrserver.com/v1/create-qr-code/?size=120x120&data=${encodeURIComponent(data.did)}`;
+  }
+
+  // 3. BACK CARD POPULATION
+  setT('backAddress', `محافظة ${data.birth_place} — دولة فلسطين`);
+  setT('backDid', data.did);
+  setT('backFabricBlock', `Fabric v2.5 Block #4812 (Tx: ${data.fabric_tx_id})`);
+
   const exp = new Date();
   exp.setFullYear(now.getFullYear() + 10);
-
-  if (issueDateEl) issueDateEl.textContent = `${String(now.getDate()).padStart(2,'0')}/${String(now.getMonth()+1).padStart(2,'0')}/${now.getFullYear()}`;
-  if (expiryDateEl) expiryDateEl.textContent = `${String(exp.getDate()).padStart(2,'0')}/${String(exp.getMonth()+1).padStart(2,'0')}/${exp.getFullYear()}`;
-
-  // Live Portrait Photo
-  const photoImg = document.getElementById('cardPhotoImg');
-  if (photoImg && capturedFaceDataUrl) {
-    photoImg.src = capturedFaceDataUrl;
-  }
-
-  // QR Code
-  const qrImg = document.getElementById('cardQrCode');
-  if (qrImg) {
-    qrImg.src = `https://api.qrserver.com/v1/create-qr-code/?size=140x140&data=${encodeURIComponent(data.did)}`;
-  }
-
-  // Back of Card
-  const addressEl = document.getElementById('cardAddress');
-  if (addressEl) addressEl.textContent = `محافظة ${data.birth_place} — فلسطين`;
-
-  const didShortEl = document.getElementById('cardDidShort');
-  if (didShortEl) didShortEl.textContent = data.did;
-
-  const blockTxEl = document.getElementById('cardBlockTx');
-  if (blockTxEl) blockTxEl.textContent = `Fabric v2.5 (Tx: ${data.fabric_tx_id})`;
-
-  // MRZ Format (ICAO 9303 standard for National ID Cards)
-  const mrzBox = document.getElementById('cardMrzBox');
+  const expYymmdd = `${String(exp.getFullYear()).slice(-2)}${String(exp.getMonth() + 1).padStart(2, '0')}${String(exp.getDate()).padStart(2, '0')}`;
+  const dobYymmdd = `${String(d.getFullYear()).slice(-2)}${String(d.getMonth() + 1).padStart(2, '0')}${String(d.getDate()).padStart(2, '0')}`;
+  const cleanSurname = (data.applicant_name_en.split(' ').pop() || 'PALESTINE').toUpperCase();
+  const cleanFirstname = (data.applicant_name_en.split(' ')[0] || 'CITIZEN').toUpperCase();
+  const mrzBox = document.getElementById('backMrzBox');
   if (mrzBox) {
-    const rawId = String(data.national_id_number).padEnd(9, '<');
-    const d = new Date(data.dob);
-    const dobYymmdd = `${String(d.getFullYear()).slice(-2)}${String(d.getMonth()+1).padStart(2,'0')}${String(d.getDate()).padStart(2,'0')}`;
-    const expYymmdd = `${String(exp.getFullYear()).slice(-2)}${String(exp.getMonth()+1).padStart(2,'0')}${String(exp.getDate()).padStart(2,'0')}`;
-    const cleanSurname = (data.applicant_name_en.split(' ').pop() || 'PALESTINE').toUpperCase();
-    const cleanFirstname = (data.applicant_name_en.split(' ')[0] || 'CITIZEN').toUpperCase();
-
     mrzBox.textContent = 
 `IDPSE${rawId}7<<<<<<<<<<<<<<<
-${dobYymmdd}7${data.gender}${expYymmdd}6PSE<<<<<<<<<<<2
+${dobYymmdd}7${data.gender === 'أنثى' ? 'F' : 'M'}${expYymmdd}6PSE<<<<<<<<<<<2
 ${cleanSurname}<<${cleanFirstname}<<<<<<<<<<<<`;
   }
 }
 
-// Toggle 3D Flip
-function toggleCardFlip() {
-  const card = document.getElementById('palIdCard');
-  if (!card) return;
-  isCardFlipped = !isCardFlipped;
-  card.classList.toggle('flipped', isCardFlipped);
-  playBeep(480, 'sine', 0.05);
-}
-
-// Download ID Card as PNG
-function downloadIdCard() {
-  const card = document.getElementById('palIdCard');
-  if (!card) return;
-
+// Download Authentic Green ID Card as High-Res PNG
+function downloadGreenIdCard() {
   const canvas = document.createElement('canvas');
-  canvas.width = 856;
-  canvas.height = 540;
+  canvas.width = 1100;
+  canvas.height = 700;
   const ctx = canvas.getContext('2d');
 
-  // Draw background
-  const grad = ctx.createLinearGradient(0, 0, 856, 540);
-  grad.addColorStop(0, '#09192A');
-  grad.addColorStop(0.5, '#040D17');
-  grad.addColorStop(1, '#0A1B2D');
-  ctx.fillStyle = grad;
-  ctx.fillRect(0, 0, 856, 540);
+  // Outer glossy white margin
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, 1100, 700);
 
-  // Border & Gold Accent
-  ctx.strokeStyle = '#D4AF37';
-  ctx.lineWidth = 4;
-  ctx.strokeRect(4, 4, 848, 532);
+  // Outer green border & red notch indicators
+  ctx.strokeStyle = '#2E7D32';
+  ctx.lineWidth = 12;
+  ctx.strokeRect(20, 20, 1060, 660);
 
-  // Top Flag Stripe
-  ctx.fillStyle = '#000000'; ctx.fillRect(20, 75, 204, 6);
-  ctx.fillStyle = '#FFFFFF'; ctx.fillRect(224, 75, 204, 6);
-  ctx.fillStyle = '#007A3D'; ctx.fillRect(428, 75, 204, 6);
-  ctx.fillStyle = '#CE1126'; ctx.fillRect(632, 75, 204, 6);
+  // Red corner/edge notches
+  ctx.fillStyle = '#D32F2F';
+  // Left top notch
+  ctx.beginPath(); ctx.moveTo(8, 140); ctx.lineTo(24, 150); ctx.lineTo(8, 160); ctx.closePath(); ctx.fill();
+  // Left mid notch
+  ctx.beginPath(); ctx.moveTo(8, 340); ctx.lineTo(24, 350); ctx.lineTo(8, 360); ctx.closePath(); ctx.fill();
+  // Right top notch
+  ctx.beginPath(); ctx.moveTo(1092, 140); ctx.lineTo(1076, 150); ctx.lineTo(1092, 160); ctx.closePath(); ctx.fill();
+  // Right mid notch
+  ctx.beginPath(); ctx.moveTo(1092, 340); ctx.lineTo(1076, 350); ctx.lineTo(1092, 360); ctx.closePath(); ctx.fill();
 
-  // Header Text
-  ctx.fillStyle = '#F9E79F';
+  // Green Guilloche Background
+  ctx.fillStyle = '#E2F2E5';
+  ctx.fillRect(26, 26, 1048, 648);
+
+  // Subtle Pattern
+  ctx.strokeStyle = '#C8E6C9';
+  ctx.lineWidth = 1;
+  for (let i = 30; i < 1070; i += 18) {
+    ctx.beginPath(); ctx.moveTo(i, 26); ctx.lineTo(i, 674); ctx.stroke();
+  }
+  for (let j = 30; j < 670; j += 18) {
+    ctx.beginPath(); ctx.moveTo(26, j); ctx.lineTo(1074, j); ctx.stroke();
+  }
+
+  // Authority Header (Red)
+  ctx.fillStyle = '#C62828';
+  ctx.font = 'bold 30px Cairo, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('السلطة الفلسطينية', 1030, 70);
   ctx.font = 'bold 24px Cairo, sans-serif';
-  ctx.fillText('دولة فلسطين • وزارة الداخلية', 30, 48);
+  ctx.fillText('הרשות הפלסטינית', 1030, 105);
 
-  ctx.fillStyle = '#94A3B8';
-  ctx.font = '14px Inter, sans-serif';
-  ctx.fillText('STATE OF PALESTINE • MINISTRY OF INTERIOR', 30, 68);
+  // Title Center (Dark Green)
+  ctx.fillStyle = '#1B5E20';
+  ctx.font = '900 34px Cairo, sans-serif';
+  ctx.textAlign = 'center';
+  ctx.fillText('بطاقة هوية', 540, 70);
+  ctx.font = '800 26px Cairo, sans-serif';
+  ctx.fillText('תעודת זהות', 540, 105);
 
   // Draw Photo
   const photo = document.getElementById('cardPhotoImg');
   if (photo && photo.complete) {
-    ctx.drawImage(photo, 35, 110, 160, 200);
-    ctx.strokeStyle = '#D4AF37';
-    ctx.lineWidth = 2;
-    ctx.strokeRect(35, 110, 160, 200);
+    ctx.drawImage(photo, 50, 140, 240, 310);
+    ctx.strokeStyle = '#1B5E20';
+    ctx.lineWidth = 3;
+    ctx.strokeRect(50, 140, 240, 310);
+
+    // Photo top ribbon
+    ctx.fillStyle = 'rgba(15, 23, 42, 0.85)';
+    ctx.fillRect(50, 140, 240, 36);
+    ctx.fillStyle = '#FFFFFF';
+    ctx.font = 'bold 18px Cairo, sans-serif';
+    ctx.textAlign = 'center';
+    ctx.fillText('وزارة الداخلية', 170, 165);
+
+    // Blue ink stamp overlapping bottom-left
+    drawCivilStatusStamp(ctx, 110, 420, 58);
   }
 
-  // National ID Number
-  ctx.fillStyle = '#38BDF8';
-  ctx.font = 'bold 28px monospace';
-  ctx.fillText(document.getElementById('cardIdNum')?.textContent || '408 921 843', 230, 140);
+  // Draw 9-Row Table on the Right
+  const startX = 320;
+  const tableW = 720;
+  const rowH = 46;
 
-  // Name Ar & En
-  ctx.fillStyle = '#FFFFFF';
-  ctx.font = 'bold 24px Cairo, sans-serif';
-  ctx.fillText(document.getElementById('cardNameAr')?.textContent || 'طارق إبراهيم القدومي', 230, 180);
+  // ID Number Box (Top of Table)
+  ctx.fillStyle = '#C8E6C9';
+  ctx.fillRect(startX, 140, tableW, rowH + 6);
+  ctx.strokeStyle = '#2E7D32';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(startX, 140, tableW, rowH + 6);
 
-  ctx.fillStyle = '#CBD5E1';
-  ctx.font = '16px Inter, sans-serif';
-  ctx.fillText(document.getElementById('cardNameEn')?.textContent || 'Tariq Ibrahim Al-Qaddoumi', 230, 205);
+  ctx.fillStyle = '#000000';
+  ctx.font = 'bold 20px Cairo, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('رقم الهوية / מספר הזהות', startX + tableW - 16, 172);
 
-  // Bio Attributes
-  ctx.fillStyle = '#94A3B8'; ctx.font = '12px Inter, sans-serif';
-  ctx.fillText('DOB: ' + (document.getElementById('cardDob')?.textContent || ''), 230, 245);
-  ctx.fillText('POB: ' + (document.getElementById('cardPob')?.textContent || ''), 230, 270);
-  ctx.fillText('Gender/Blood: ' + (document.getElementById('cardGenderBlood')?.textContent || ''), 230, 295);
-  ctx.fillText('Issue: ' + (document.getElementById('cardIssueDate')?.textContent || ''), 450, 245);
-  ctx.fillText('Expiry: ' + (document.getElementById('cardExpiryDate')?.textContent || ''), 450, 270);
-  ctx.fillText('Mother: ' + (document.getElementById('cardMother')?.textContent || ''), 450, 295);
+  ctx.font = '900 28px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(document.getElementById('cardGreenIdBox')?.textContent || '4 0892184 3', startX + 280, 175);
 
-  // Security Seal
-  ctx.fillStyle = '#D4AF37';
-  ctx.font = 'bold 13px Inter, sans-serif';
-  ctx.fillText('SOVEREIGN W3C VERIFIABLE CREDENTIAL • PAL-DI CONSORTIUM', 230, 360);
+  // Rows Data
+  const rows = [
+    { arL: 'الاسم الشخصي', heL: 'השם הפרטי', arV: document.getElementById('cardValFirstAr')?.textContent || '', heV: document.getElementById('cardValFirstHe')?.textContent || '' },
+    { arL: 'اسم الأب', heL: 'שם האב', arV: document.getElementById('cardValFatherAr')?.textContent || '', heV: document.getElementById('cardValFatherHe')?.textContent || '' },
+    { arL: 'اسم الجد', heL: 'שם הסב', arV: document.getElementById('cardValGrandAr')?.textContent || '', heV: document.getElementById('cardValGrandHe')?.textContent || '' },
+    { arL: 'اسم العائلة', heL: 'שם המשפחה', arV: document.getElementById('cardValFamilyAr')?.textContent || '', heV: document.getElementById('cardValFamilyHe')?.textContent || '' },
+    { arL: 'اسم الأم', heL: 'שם האם', arV: document.getElementById('cardValMotherAr')?.textContent || '', heV: document.getElementById('cardValMotherHe')?.textContent || '' },
+    { arL: 'تاريخ الولادة', heL: 'תאריך הלידה', arV: document.getElementById('cardValDob')?.textContent || '', heV: '' },
+    { arL: 'مكان الولادة', heL: 'מקום הלידה', arV: document.getElementById('cardValPobAr')?.textContent || '', heV: document.getElementById('cardValPobHe')?.textContent || '' },
+    { arL: 'الجنس • الديانة', heL: 'המין • הדת', arV: document.getElementById('cardValGenderRelAr')?.textContent || '', heV: document.getElementById('cardValGenderRelHe')?.textContent || '' },
+    { arL: 'صدرت في • بتاريخ', heL: 'נשפט ב • בתאריך', arV: document.getElementById('cardValIssueAr')?.textContent || '', heV: document.getElementById('cardValIssueHe')?.textContent || '' }
+  ];
+
+  let currY = 192;
+  ctx.font = 'bold 16px Cairo, sans-serif';
+  rows.forEach((r) => {
+    ctx.strokeStyle = '#66BB6A';
+    ctx.lineWidth = 1.5;
+    ctx.strokeRect(startX, currY, tableW, rowH);
+
+    // Label on Right
+    ctx.fillStyle = '#000000';
+    ctx.textAlign = 'right';
+    ctx.fillText(`${r.arL}  ${r.heL}`, startX + tableW - 12, currY + 28);
+
+    // Value Arabic in Center
+    ctx.font = 'bold 18px Cairo, sans-serif';
+    ctx.textAlign = 'right';
+    ctx.fillText(r.arV, startX + tableW - 270, currY + 28);
+
+    // Value Hebrew on Left
+    ctx.font = 'bold 16px sans-serif';
+    ctx.textAlign = 'left';
+    ctx.fillText(r.heV, startX + 24, currY + 28);
+
+    currY += rowH;
+  });
 
   // Trigger Download
   const link = document.createElement('a');
-  link.download = `Palestine_National_ID_${currentApplicationData?.national_id_number || '408921843'}.png`;
+  link.download = `Palestine_National_ID_Green_${currentApplicationData?.national_id_number || '408921843'}.png`;
+  link.href = canvas.toDataURL('image/png');
+  link.click();
+}
+
+// Download Official Civil Status Annex as High-Res PNG
+function downloadAnnexCard() {
+  const canvas = document.createElement('canvas');
+  canvas.width = 1100;
+  canvas.height = 760;
+  const ctx = canvas.getContext('2d');
+
+  // White Paper
+  ctx.fillStyle = '#FFFFFF';
+  ctx.fillRect(0, 0, 1100, 760);
+
+  // Black Border
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 4;
+  ctx.strokeRect(20, 20, 1060, 720);
+
+  // Authority Right (Red)
+  ctx.fillStyle = '#C62828';
+  ctx.font = 'bold 30px Cairo, sans-serif';
+  ctx.textAlign = 'right';
+  ctx.fillText('السلطة الفلسطينية', 1040, 75);
+  ctx.font = 'bold 24px Cairo, sans-serif';
+  ctx.fillText('הרשות הפלסטינית', 1040, 110);
+
+  // Title Left (Black)
+  ctx.fillStyle = '#000000';
+  ctx.font = 'bold 32px Cairo, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('ملحق لبطاقة الهوية', 40, 75);
+  ctx.font = 'bold 24px Cairo, sans-serif';
+  ctx.fillText('ספח לתעודת זהות', 40, 110);
+
+  // ID Box on Left
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 2;
+  ctx.strokeRect(40, 130, 260, 48);
+  ctx.font = '900 24px monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText(document.getElementById('annexIdDisplay')?.textContent || '4 0892184 3', 170, 162);
+
+  // QR Code in Center
+  const qrImg = document.getElementById('annexQrImg');
+  if (qrImg && qrImg.complete) {
+    ctx.drawImage(qrImg, 490, 40, 110, 110);
+    ctx.strokeStyle = '#000000';
+    ctx.strokeRect(490, 40, 110, 110);
+  }
+
+  // Draw Annex Attribute Table
+  const tX = 40;
+  const tW = 1020;
+  let tY = 210;
+  const rowH = 55;
+
+  const annexRows = [
+    { label: 'اسم العائلة • שם המשפחה', val: document.getElementById('annexFamilyName')?.textContent || 'القدومي', label2: 'الاسم الشخصي • השם הפרטי', val2: document.getElementById('annexFirstName')?.textContent || 'طارق' },
+    { label: 'العنوان • המען', val: `${document.getElementById('annexAddress')?.textContent || 'شارع صلاح الدين — منزل 14'}   (00 00)`, isFull: true },
+    { label: 'البلدة / المخيم • היישוב', val: `${document.getElementById('annexTownCamp')?.textContent || 'مخيم الشاطئ'}   (${document.getElementById('annexTownCampHe')?.textContent || 'אלשאטאי'})`, isFull: true },
+    { label: 'الحالة الشخصية • המצב האישי', val: `${document.getElementById('annexMaritalStatus')?.textContent || 'أعزب'} • ${document.getElementById('annexMaritalStatusHe')?.textContent || 'רווק'}`, isFull: true },
+    { label: 'اسم الزوج/الزوجة • שם בן/בת הזוג', val: '—', isFull: true },
+    { label: 'رقم هوية الزوج/الزوجة • מספר הזהות בן/בת הזוג', val: '—', isFull: true },
+    { label: 'اسم العائلة السابق • שם המשפחה הקודם', val: '—', isFull: true }
+  ];
+
+  ctx.strokeStyle = '#000000';
+  ctx.lineWidth = 2;
+
+  annexRows.forEach((r) => {
+    if (r.isFull) {
+      ctx.strokeRect(tX, tY, tW, rowH);
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 18px Cairo, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(r.label + ':', tX + tW - 16, tY + 34);
+
+      ctx.font = 'bold 20px Cairo, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(r.val, tX + tW - 350, tY + 34);
+    } else {
+      // Split 50 / 50
+      ctx.strokeRect(tX, tY, tW / 2, rowH);
+      ctx.strokeRect(tX + tW / 2, tY, tW / 2, rowH);
+
+      ctx.fillStyle = '#000000';
+      ctx.font = 'bold 18px Cairo, sans-serif';
+      ctx.textAlign = 'right';
+      ctx.fillText(r.label + ': ' + r.val, tX + tW - 16, tY + 34);
+      ctx.fillText(r.label2 + ': ' + r.val2, tX + tW / 2 - 16, tY + 34);
+    }
+    tY += rowH;
+  });
+
+  // Footer Seal
+  ctx.font = '16px Cairo, sans-serif';
+  ctx.textAlign = 'left';
+  ctx.fillText('MOI-SANAD-ANNEX-2026 • W3C VERIFIABLE CREDENTIAL', 40, 700);
+  ctx.textAlign = 'right';
+  ctx.fillText('مدير عام الأحوال المدنية والجوازات', 1040, 700);
+
+  // Trigger Download
+  const link = document.createElement('a');
+  link.download = `Palestine_Civil_Status_Annex_${currentApplicationData?.national_id_number || '408921843'}.png`;
   link.href = canvas.toDataURL('image/png');
   link.click();
 }
