@@ -14,6 +14,7 @@ const i18n = {
     nav_sectors: "5 Sectors & Cases",
     nav_blockchain: "Blockchain Studio",
     nav_chaincodes: "Smart Contract Studio",
+    nav_moi_id: "MoI National ID",
     nav_auth_sim: "Biometric Auth Sim",
     btn_launch_demo: "Try FaceReader",
     
@@ -253,6 +254,7 @@ const i18n = {
     nav_sectors: "القطاعات الخمسة والحالات",
     nav_blockchain: "استوديو البلوكشين",
     nav_chaincodes: "استوديو العقود الذكية",
+    nav_moi_id: "الهوية الوطنية (الداخلية)",
     nav_auth_sim: "محاكاة التحقق الحيوي",
     btn_launch_demo: "تجربة قارئ الوجه",
     

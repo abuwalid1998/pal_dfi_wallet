@@ -115,6 +115,161 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // --- API: MoI National ID CSV Database Endpoints ---
+  const csvFilePath = path.join(__dirname, 'data', 'moi_national_ids.csv');
+
+  function parseMoiCsv() {
+    if (!fs.existsSync(csvFilePath)) return [];
+    const content = fs.readFileSync(csvFilePath, 'utf8');
+    const lines = content.trim().split('\n').map(l => l.trim()).filter(Boolean);
+    if (lines.length < 2) return [];
+    const headers = lines[0].split(',').map(h => h.trim());
+    return lines.slice(1).map(line => {
+      const vals = line.split(',').map(v => v.trim());
+      const obj = {};
+      headers.forEach((h, idx) => {
+        obj[h] = vals[idx] !== undefined ? vals[idx] : '';
+      });
+      return obj;
+    });
+  }
+
+  function serializeMoiCsv(records) {
+    const headers = [
+      'application_id', 'national_id_number', 'did', 'applicant_name_ar', 'applicant_name_en',
+      'dob', 'age', 'birth_place', 'gender', 'blood_type', 'parent_id', 'parent_name',
+      'status', 'base_fee_jod', 'penalty_fee_jod', 'total_fee_jod', 'payment_status',
+      'payment_tx_id', 'biometric_hash', 'liveness_score', 'issued_at', 'fabric_tx_id', 'qr_signature'
+    ];
+    const rows = [headers.join(',')];
+    records.forEach(r => {
+      const row = headers.map(h => (r[h] !== undefined ? String(r[h]).replace(/,/g, ' ') : ''));
+      rows.push(row.join(','));
+    });
+    return rows.join('\n') + '\n';
+  }
+
+  // GET: Read all MoI records from CSV
+  if (req.method === 'GET' && req.url === '/api/v1/moi/records') {
+    try {
+      const records = parseMoiCsv();
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ success: true, count: records.length, records }));
+    } catch (e) {
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ success: false, error: e.message }));
+    }
+    return;
+  }
+
+  // GET: Raw CSV file download
+  if (req.method === 'GET' && req.url === '/api/v1/moi/export-csv') {
+    try {
+      if (!fs.existsSync(csvFilePath)) {
+        res.writeHead(404, { 'Content-Type': 'text/plain; charset=utf-8' });
+        res.end('CSV database file not found');
+        return;
+      }
+      const csvData = fs.readFileSync(csvFilePath, 'utf8');
+      res.writeHead(200, {
+        'Content-Type': 'text/csv; charset=utf-8',
+        'Content-Disposition': 'attachment; filename="moi_national_ids.csv"'
+      });
+      res.end(csvData);
+    } catch (e) {
+      res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
+      res.end('Error reading CSV: ' + e.message);
+    }
+    return;
+  }
+
+  // POST: Create / Append new MoI Application Record to CSV
+  if (req.method === 'POST' && req.url === '/api/v1/moi/apply') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const dataDir = path.join(__dirname, 'data');
+        if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
+
+        const records = parseMoiCsv();
+        const existingIdx = records.findIndex(r => r.application_id === payload.application_id);
+        if (existingIdx >= 0) {
+          records[existingIdx] = { ...records[existingIdx], ...payload };
+        } else {
+          records.push(payload);
+        }
+
+        fs.writeFileSync(csvFilePath, serializeMoiCsv(records), 'utf8');
+
+        // Also sync to PalDIMicroService/data/
+        const microDataDir = path.join(__dirname, 'PalDIMicroService', 'data');
+        if (fs.existsSync(path.join(__dirname, 'PalDIMicroService'))) {
+          if (!fs.existsSync(microDataDir)) fs.mkdirSync(microDataDir, { recursive: true });
+          fs.writeFileSync(path.join(microDataDir, 'moi_national_ids.csv'), serializeMoiCsv(records), 'utf8');
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({
+          success: true,
+          message: `Application ${payload.application_id} saved to CSV database`,
+          record: payload
+        }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
+  // POST: Settle fee & Issue National ID (transitions to PAID & ISSUED in CSV)
+  if (req.method === 'POST' && req.url === '/api/v1/moi/settle') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', () => {
+      try {
+        const payload = JSON.parse(body);
+        const records = parseMoiCsv();
+        const idx = records.findIndex(r => r.application_id === payload.application_id);
+
+        if (idx === -1) {
+          // If not existing, append as completed
+          records.push(payload);
+        } else {
+          records[idx] = {
+            ...records[idx],
+            ...payload,
+            status: 'ISSUED',
+            payment_status: 'SETTLED',
+            issued_at: new Date().toISOString()
+          };
+        }
+
+        fs.writeFileSync(csvFilePath, serializeMoiCsv(records), 'utf8');
+
+        // Sync to PalDIMicroService/data/
+        const microDataDir = path.join(__dirname, 'PalDIMicroService', 'data');
+        if (fs.existsSync(path.join(__dirname, 'PalDIMicroService'))) {
+          if (!fs.existsSync(microDataDir)) fs.mkdirSync(microDataDir, { recursive: true });
+          fs.writeFileSync(path.join(microDataDir, 'moi_national_ids.csv'), serializeMoiCsv(records), 'utf8');
+        }
+
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({
+          success: true,
+          message: `National ID successfully issued and recorded in CSV registry`,
+          record: records[idx >= 0 ? idx : records.length - 1]
+        }));
+      } catch (err) {
+        res.writeHead(400, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, error: err.message }));
+      }
+    });
+    return;
+  }
+
   // --- Static File Serving ---
   let reqPath = decodeURI(req.url.split('?')[0]);
   if (reqPath === '/' || reqPath === '') reqPath = '/index.html';
