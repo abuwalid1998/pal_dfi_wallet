@@ -30,6 +30,18 @@ const server = http.createServer((req, res) => {
     return;
   }
 
+  // --- Healthcheck Endpoint ---
+  if (req.method === 'GET' && req.url === '/health') {
+    res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+    res.end(JSON.stringify({
+      status: 'UP',
+      service: 'moi-national-id-pilot',
+      uptime_seconds: Math.floor(process.uptime()),
+      timestamp: new Date().toISOString()
+    }));
+    return;
+  }
+
   // --- API: Save & Deploy Smart Contract to smart_contracts/ folder ---
   if (req.method === 'POST' && req.url === '/api/v1/chaincodes/save') {
     let body = '';
@@ -179,6 +191,53 @@ const server = http.createServer((req, res) => {
     } catch (e) {
       res.writeHead(500, { 'Content-Type': 'text/plain; charset=utf-8' });
       res.end('Error reading CSV: ' + e.message);
+    }
+    return;
+  }
+
+  // GET: Pilot Statistics Analytics
+  if (req.method === 'GET' && req.url === '/api/v1/moi/stats') {
+    try {
+      const records = parseMoiCsv();
+      let totalIssued = 0, totalPending = 0, totalRevenue = 0;
+      records.forEach(r => {
+        if (r.status === 'ISSUED') totalIssued++;
+        else totalPending++;
+        totalRevenue += (parseFloat(r.total_fee_jod) || 0);
+      });
+      res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({
+        success: true,
+        stats: {
+          total_applications: records.length,
+          issued_count: totalIssued,
+          pending_count: totalPending,
+          total_revenue_jod: totalRevenue.toFixed(2)
+        }
+      }));
+    } catch (e) {
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ success: false, error: e.message }));
+    }
+    return;
+  }
+
+  // GET: Verify National ID
+  if (req.method === 'GET' && req.url.startsWith('/api/v1/moi/verify/')) {
+    try {
+      const queryId = req.url.replace('/api/v1/moi/verify/', '').split('?')[0].trim();
+      const records = parseMoiCsv();
+      const found = records.find(r => r.national_id_number === queryId || r.application_id === queryId);
+      if (found) {
+        res.writeHead(200, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: true, verified: true, record: found }));
+      } else {
+        res.writeHead(404, { 'Content-Type': 'application/json; charset=utf-8' });
+        res.end(JSON.stringify({ success: false, verified: false, message: 'Record not found' }));
+      }
+    } catch (e) {
+      res.writeHead(500, { 'Content-Type': 'application/json; charset=utf-8' });
+      res.end(JSON.stringify({ success: false, error: e.message }));
     }
     return;
   }

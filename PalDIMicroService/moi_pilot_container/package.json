@@ -1,0 +1,25 @@
+{
+  "name": "moi-national-id-service",
+  "version": "1.0.0-pilot",
+  "description": "Ministry of Interior (MoI) - Palestinian Digital National ID Issuance & Civil Registry Service",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "test": "node -e \"console.log('MoI Service Package Ready')\""
+  },
+  "keywords": [
+    "palestine",
+    "moi",
+    "national-id",
+    "civil-registry",
+    "pal-di",
+    "sanad",
+    "docker",
+    "pilot"
+  ],
+  "author": "Pal-DI & Sanad Consortium for the Palestinian Ministry of Interior",
+  "license": "Proprietary - Government of Palestine",
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
