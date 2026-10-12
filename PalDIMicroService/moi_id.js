@@ -197,17 +197,20 @@ function isValidPalestinianId(idStr) {
 }
 
 // Real-time Step 1 Form Field Validation
-function validateStep1Fields() {
+function validateStep1Fields(showBanner = false) {
   const isAr = currentLang === 'ar';
   let allValid = true;
+  const invalidFields = [];
 
   // 1. First Name (Arabic only, min 2 chars)
   const fName = document.getElementById('inputNameFirst')?.value.trim() || '';
   if (!fName) {
     setFieldHint('inputNameFirst', 'valHintNameFirst', 'invalid', isAr ? 'يرجى إدخال الاسم الأول' : 'First name is required');
+    invalidFields.push(isAr ? 'الاسم الشخصي' : 'First Name');
     allValid = false;
   } else if (!/^[\u0600-\u06FF\s]+$/.test(fName) || fName.length < 2) {
     setFieldHint('inputNameFirst', 'valHintNameFirst', 'invalid', isAr ? 'يجب أن يكون باللغة العربية (حرفان فأكثر)' : 'Must be Arabic letters (min 2)');
+    invalidFields.push(isAr ? 'الاسم الشخصي (بالعربية)' : 'First Name (Arabic)');
     allValid = false;
   } else {
     setFieldHint('inputNameFirst', 'valHintNameFirst', 'valid', isAr ? '✓ الاسم الأول معتمد' : '✓ Valid given name');
@@ -217,9 +220,11 @@ function validateStep1Fields() {
   const faName = document.getElementById('inputNameFather')?.value.trim() || '';
   if (!faName) {
     setFieldHint('inputNameFather', 'valHintNameFather', 'invalid', isAr ? 'يرجى إدخال اسم الأب' : 'Father name is required');
+    invalidFields.push(isAr ? 'اسم الأب' : 'Father Name');
     allValid = false;
   } else if (!/^[\u0600-\u06FF\s]+$/.test(faName) || faName.length < 2) {
     setFieldHint('inputNameFather', 'valHintNameFather', 'invalid', isAr ? 'يجب أن يكون باللغة العربية' : 'Must be Arabic letters');
+    invalidFields.push(isAr ? 'اسم الأب (بالعربية)' : 'Father Name (Arabic)');
     allValid = false;
   } else {
     setFieldHint('inputNameFather', 'valHintNameFather', 'valid', isAr ? '✓ اسم الأب معتمد' : '✓ Valid father name');
@@ -229,9 +234,11 @@ function validateStep1Fields() {
   const gName = document.getElementById('inputNameGrandfather')?.value.trim() || '';
   if (!gName) {
     setFieldHint('inputNameGrandfather', 'valHintNameGrandfather', 'invalid', isAr ? 'يرجى إدخال اسم الجد' : 'Grandfather name required');
+    invalidFields.push(isAr ? 'اسم الجد' : 'Grandfather Name');
     allValid = false;
   } else if (!/^[\u0600-\u06FF\s]+$/.test(gName) || gName.length < 2) {
     setFieldHint('inputNameGrandfather', 'valHintNameGrandfather', 'invalid', isAr ? 'يجب أن يكون باللغة العربية' : 'Must be Arabic letters');
+    invalidFields.push(isAr ? 'اسم الجد (بالعربية)' : 'Grandfather Name (Arabic)');
     allValid = false;
   } else {
     setFieldHint('inputNameGrandfather', 'valHintNameGrandfather', 'valid', isAr ? '✓ اسم الجد معتمد' : '✓ Valid grandfather name');
@@ -241,9 +248,11 @@ function validateStep1Fields() {
   const famName = document.getElementById('inputNameFamily')?.value.trim() || '';
   if (!famName) {
     setFieldHint('inputNameFamily', 'valHintNameFamily', 'invalid', isAr ? 'يرجى إدخال اسم العائلة' : 'Family name is required');
+    invalidFields.push(isAr ? 'اسم العائلة' : 'Family Name');
     allValid = false;
   } else if (!/^[\u0600-\u06FF\s]+$/.test(famName) || famName.length < 2) {
     setFieldHint('inputNameFamily', 'valHintNameFamily', 'invalid', isAr ? 'يجب أن يكون باللغة العربية' : 'Must be Arabic letters');
+    invalidFields.push(isAr ? 'اسم العائلة (بالعربية)' : 'Family Name (Arabic)');
     allValid = false;
   } else {
     setFieldHint('inputNameFamily', 'valHintNameFamily', 'valid', isAr ? '✓ اسم العائلة معتمد' : '✓ Valid family name');
@@ -253,9 +262,11 @@ function validateStep1Fields() {
   const enName = document.getElementById('inputNameEn')?.value.trim() || '';
   if (!enName) {
     setFieldHint('inputNameEn', 'valHintNameEn', 'invalid', isAr ? 'يرجى إدخال الاسم بالإنجليزية' : 'English transliteration required');
+    invalidFields.push(isAr ? 'الاسم بالإنجليزية' : 'English Name');
     allValid = false;
   } else if (!/^[A-Za-z\s\-\']+$/.test(enName) || enName.split(/\s+/).length < 2) {
     setFieldHint('inputNameEn', 'valHintNameEn', 'invalid', isAr ? 'حروف لاتينية فقط (اسمان على الأقل: الأول والعائلة)' : 'Latin letters only (min 2 words)');
+    invalidFields.push(isAr ? 'صيغة الاسم بالإنجليزية' : 'English Name format');
     allValid = false;
   } else {
     setFieldHint('inputNameEn', 'valHintNameEn', 'valid', isAr ? '✓ الاسم اللاتيني مطابق للمواصفات الدولية' : '✓ Valid ICAO transliteration');
@@ -265,9 +276,11 @@ function validateStep1Fields() {
   const mName = document.getElementById('inputMotherName')?.value.trim() || '';
   if (!mName) {
     setFieldHint('inputMotherName', 'valHintMotherName', 'invalid', isAr ? 'يرجى إدخال اسم الأم' : 'Mother name is required');
+    invalidFields.push(isAr ? 'اسم الأم' : 'Mother Name');
     allValid = false;
   } else if (!/^[\u0600-\u06FF\s]+$/.test(mName) || mName.split(/\s+/).length < 2) {
     setFieldHint('inputMotherName', 'valHintMotherName', 'invalid', isAr ? 'اسم الأم ثنائي بالعربية على الأقل' : 'Mother name must be at least 2 Arabic words');
+    invalidFields.push(isAr ? 'اسم الأم ثنائي بالعربية' : 'Mother Name (2 words)');
     allValid = false;
   } else {
     setFieldHint('inputMotherName', 'valHintMotherName', 'valid', isAr ? '✓ اسم الأم معتمد بسجل الولادات' : '✓ Valid mother registry record');
@@ -277,6 +290,7 @@ function validateStep1Fields() {
   const dobVal = document.getElementById('inputDob')?.value || '';
   if (!dobVal) {
     setFieldHint('inputDob', 'valHintDob', 'invalid', isAr ? 'يرجى تحديد تاريخ الميلاد' : 'Date of birth is required');
+    invalidFields.push(isAr ? 'تاريخ الميلاد' : 'Date of Birth');
     allValid = false;
   } else {
     const bDate = new Date(dobVal);
@@ -285,6 +299,7 @@ function validateStep1Fields() {
       setFieldHint('inputDob', 'valHintDob', 'invalid', isAr 
         ? `العمر ${age.toFixed(1)} سنة — يتطلب القانون بلوغ 16.0 سنة لإصدار الهوية لأول مرة` 
         : `Age ${age.toFixed(1)} — MoI statutory age is 16.0+ years for first-time ID`);
+      invalidFields.push(isAr ? 'السن القانوني (16 سنة فأكثر)' : 'Statutory Age (16+)');
       allValid = false;
     } else if (age > 16.5) {
       setFieldHint('inputDob', 'valHintDob', 'warn', isAr 
@@ -301,6 +316,7 @@ function validateStep1Fields() {
   const townVal = document.getElementById('inputTownCamp')?.value.trim() || '';
   if (!townVal || townVal.length < 2) {
     setFieldHint('inputTownCamp', 'valHintTownCamp', 'invalid', isAr ? 'يرجى إدخال اسم البلدة أو المخيم' : 'Town or camp is required');
+    invalidFields.push(isAr ? 'البلدة / المخيم' : 'Town/Camp');
     allValid = false;
   } else {
     setFieldHint('inputTownCamp', 'valHintTownCamp', 'valid', isAr ? '✓ المدينة / المخيم معتمد' : '✓ Valid locality');
@@ -310,38 +326,55 @@ function validateStep1Fields() {
   const addrVal = document.getElementById('inputStreetAddress')?.value.trim() || '';
   if (!addrVal || addrVal.length < 4) {
     setFieldHint('inputStreetAddress', 'valHintAddress', 'invalid', isAr ? 'يرجى إدخال العنوان التفصيلي (الشارع / رقم المنزل)' : 'Street address is required');
+    invalidFields.push(isAr ? 'العنوان ورقم المنزل' : 'Residential Address');
     allValid = false;
   } else {
     setFieldHint('inputStreetAddress', 'valHintAddress', 'valid', isAr ? '✓ العنوان التفصيلي معتمد' : '✓ Valid residence address');
   }
 
-  // 10. Parent National ID (9 Digits with Official Palestinian Luhn Checksum)
+  // 10. Parent National ID (Accepts 9 Digits, provides friendly info for manual entries)
   const pIdVal = document.getElementById('inputParentId')?.value.trim() || '';
   if (!pIdVal) {
     setFieldHint('inputParentId', 'valHintParentId', 'invalid', isAr ? 'يرجى إدخال رقم هوية ولي الأمر' : 'Parent National ID required');
+    invalidFields.push(isAr ? 'رقم هوية ولي الأمر' : 'Parent National ID');
     allValid = false;
   } else if (!/^\d{9}$/.test(pIdVal)) {
     setFieldHint('inputParentId', 'valHintParentId', 'invalid', isAr ? `يجب أن يتكون رقم الهوية من 9 أرقام (الحالي ${pIdVal.length})` : `National ID must be exactly 9 digits (current ${pIdVal.length})`);
+    invalidFields.push(isAr ? 'رقم هوية ولي الأمر (9 أرقام)' : 'Parent ID (9 digits)');
     allValid = false;
-  } else if (!isValidPalestinianId(pIdVal)) {
-    setFieldHint('inputParentId', 'valHintParentId', 'invalid', isAr ? 'رقم هوية غير مطابق لخوارزمية التحقق الرسمية للأحوال المدنية' : 'Checksum validation failed for Palestinian ID');
-    allValid = false;
+  } else if (isValidPalestinianId(pIdVal)) {
+    setFieldHint('inputParentId', 'valHintParentId', 'valid', isAr ? '✓ رقم هوية وطنية معتمد ومطابق لسجل الأحوال المدنية (Luhn Passed)' : '✓ Verified Palestinian Civil ID (Luhn Passed)');
   } else {
-    setFieldHint('inputParentId', 'valHintParentId', 'valid', isAr ? '✓ رقم هوية وطنية معتمد ومطابق لسجل الأحوال المدنية' : '✓ Verified Palestinian Civil ID (Luhn Passed)');
+    // Friendly non-blocking acceptance for legacy paper records
+    setFieldHint('inputParentId', 'valHintParentId', 'warn', isAr ? 'ℹ️ رقم هوية 9 أرقام معتمد (سجل مدني محلي — مقبول للمتابعة)' : 'ℹ️ 9-digit civil entry accepted');
   }
 
   // 11. Parent Full Name
   const pNameVal = document.getElementById('inputParentName')?.value.trim() || '';
   if (!pNameVal || pNameVal.split(/\s+/).length < 2) {
     setFieldHint('inputParentName', 'valHintParentName', 'invalid', isAr ? 'يرجى إدخال اسم ولي الأمر ثلاثي على الأقل' : 'Parent full name required (min 2 words)');
+    invalidFields.push(isAr ? 'اسم ولي الأمر' : 'Parent Full Name');
     allValid = false;
   } else {
     setFieldHint('inputParentName', 'valHintParentName', 'valid', isAr ? '✓ اسم ولي الأمر معتمد' : '✓ Valid parent guardian name');
   }
 
+  // Friendly Banner Display
   const banner = document.getElementById('step1ValidationBanner');
+  const bannerText = document.getElementById('step1ValidationBannerText');
   if (banner) {
-    banner.style.display = allValid ? 'none' : 'flex';
+    if (allValid) {
+      banner.style.display = 'none';
+    } else if (showBanner) {
+      banner.style.display = 'flex';
+      if (bannerText && invalidFields.length > 0) {
+        bannerText.textContent = isAr 
+          ? `يرجى استكمال الحقول التالية للمتابعة: ${invalidFields.join('، ')}`
+          : `Please check the following required fields: ${invalidFields.join(', ')}`;
+      }
+    } else {
+      banner.style.display = 'none';
+    }
   }
 
   return allValid;
@@ -359,11 +392,11 @@ function setupValidationListeners() {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('input', () => {
-        validateStep1Fields();
+        validateStep1Fields(false);
         calculateFeesAndPolicy();
       });
       el.addEventListener('change', () => {
-        validateStep1Fields();
+        validateStep1Fields(false);
         calculateFeesAndPolicy();
       });
     }
@@ -373,15 +406,15 @@ function setupValidationListeners() {
   payInputs.forEach(id => {
     const el = document.getElementById(id);
     if (el) {
-      el.addEventListener('input', (e) => validatePaymentFields(e));
-      el.addEventListener('change', (e) => validatePaymentFields(e));
+      el.addEventListener('input', (e) => validatePaymentFields(e, false));
+      el.addEventListener('change', (e) => validatePaymentFields(e, false));
     }
   });
 }
 
 // --- STEP 1 -> STEP 2 ---
 function proceedToBiometrics() {
-  const isValid = validateStep1Fields();
+  const isValid = validateStep1Fields(true);
   if (!isValid) {
     const banner = document.getElementById('step1ValidationBanner');
     if (banner) {
@@ -1488,7 +1521,7 @@ function isValidLuhnCard(numStr) {
 }
 
 // Real-time Payment Field Validation
-function validatePaymentFields(event) {
+function validatePaymentFields(event, showAlert = false) {
   const isAr = currentLang === 'ar';
   let allValid = true;
 
@@ -1585,7 +1618,13 @@ function validatePaymentFields(event) {
 
   const alertBox = document.getElementById('payValidationAlert');
   if (alertBox) {
-    alertBox.style.display = allValid ? 'none' : 'flex';
+    if (allValid) {
+      alertBox.style.display = 'none';
+    } else if (showAlert) {
+      alertBox.style.display = 'flex';
+    } else {
+      alertBox.style.display = 'none';
+    }
   }
 
   return allValid;
@@ -1602,12 +1641,12 @@ function fillTestCardData() {
   if (cardCvc) cardCvc.value = "888";
   if (cardHolder) cardHolder.value = currentApplicationData?.parent_name ? `${currentApplicationData.parent_name} (Sanad Pay)` : "Ibrahim Kh. Al-Qaddoumi";
 
-  validatePaymentFields();
+  validatePaymentFields(null, false);
   playBeep(640, 'sine', 0.08);
 }
 
 async function executeInstantPayment() {
-  const isValid = validatePaymentFields();
+  const isValid = validatePaymentFields(null, true);
   if (!isValid) {
     const alertBox = document.getElementById('payValidationAlert');
     if (alertBox) {
